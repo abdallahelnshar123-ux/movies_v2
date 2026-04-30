@@ -1,0 +1,87 @@
+{
+  "onboarding_title1": "اعثر على فيلمك المفضل القادم هنا",
+  "onboarding_description1": "احصل على إمكانية الوصول إلى مكتبة ضخمة من الأفلام تناسب جميع الأذواق. بالتأكيد ستجد ما يعجبك",
+
+  "onboarding_title2": "اكتشف الأفلام",
+  "onboarding_description2": "استكشف مجموعة واسعة من الأفلام بجميع الجودات والتصنيفات. اعثر بسهولة على فيلمك المفضل القادم.",
+
+  "onboarding_title3": "استكشف جميع الأنواع",
+  "onboarding_description3": "اكتشف أفلامًا من كل الأنواع وبجميع الجودات المتاحة. ستجد شيئًا جديدًا وممتعًا لمشاهدته كل يوم.",
+
+  "onboarding_title4": "أنشئ قوائم مشاهدة",
+  "onboarding_description4": "احفظ الأفلام في قائمة المشاهدة لتتبع ما تريد مشاهدته لاحقًا. استمتع بالأفلام بجودات وأنواع مختلفة.",
+
+  "onboarding_title5": "قيّم وراجع وتعلّم",
+  "onboarding_description5": "شارك آراءك حول الأفلام التي شاهدتها. تعرّف على تفاصيل الأفلام بعمق وساعد الآخرين على اكتشاف أفلام رائعة من خلال مراجعاتك.",
+
+  "onboarding_title6": "ابدأ المشاهدة الآن",
+  "explore_now": "استكشف الآن",
+  "next": "التالي",
+  "back": "رجوع",
+  "finish": "إنهاء",
+
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "forget_password": "نسيت كلمة المرور",
+  "login": "تسجيل الدخول",
+  "don't_have_account": " ليس لديك حساب ؟",
+  "create_one": "أنشئ حسابًا",
+  "or": "أو",
+  "login_with_google": "تسجيل الدخول باستخدام جوجل",
+  "continue_with_google": "الأستمرار من خلال جوجل",
+
+  "register": "إنشاء حساب",
+  "name": "الاسم",
+  "confirm_password": "تأكيد كلمة المرور",
+  "phone_number": "رقم الهاتف",
+  "create_account": "إنشاء حساب",
+
+  "already_have_account": "لديك حساب بالفعل؟",
+  "verify_email": "تأكيد البريد الإلكتروني",
+  "reset_password": "إعادة تعيين كلمة المرور",
+  "delete_account": "حذف الحساب",
+  "update_data": "تحديث البيانات",
+
+  "screen_shots": "لقطات الشاشة",
+  "avatar": "الصورة الرمزية",
+  "pick_avatar": "اختر صورة رمزية",
+  "watch": "مشاهدة",
+  "login_successfully": "تم تسجيل الدخول بنجاح",
+  "success": "نجاح !",
+  "error": "خطأ !",
+  "ok": "حسناً",
+
+  "Register": "إنشاء حساب",
+  "Avatar": "الصورة الرمزية",
+  "Please Enter your name": "يرجى إدخال الاسم",
+  "Name": "الاسم",
+  "please Enter Email": "يرجى إدخال البريد الإلكتروني",
+  "please enter valid email": "يرجى إدخال بريد إلكتروني صحيح",
+  "Email": "البريد الإلكتروني",
+  "Password": "كلمة المرور",
+  "please Enter Re-Password": "يرجى إعادة إدخال كلمة المرور",
+  "Re-password doesn't match password": "كلمتا المرور غير متطابقتين",
+  "Confirm Password": "تأكيد كلمة المرور",
+  "please Enter password": "يرجى إدخال كلمة المرور",
+  "Password should be at least 6 char": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل",
+  "please Enter your phone number": "يرجى إدخال رقم الهاتف",
+  "Phone Number": "رقم الهاتف",
+  "Create Account": "إنشاء الحساب",
+  "Already Have Account? ": "هل لديك حساب بالفعل؟ ",
+  "Login": "تسجيل الدخول",
+  "character": "الشخصية : ",
+  "name:": "الاسم : ",
+  "similar": "مشابه",
+  "summary": "الملخص",
+  "cast": "طاقم التمثيل",
+  "genres": "الفئات",
+  "sorry_we_were_unable_to_upload_similar_movies": "عذراً, لم نتمكن من تحميل أفلام مشابهة . ",
+  "sorry_no_summary_found": "عذراُ , لا يوجد ملخص ! ",
+  "search": "إبحث"
+
+
+
+
+
+
+}
