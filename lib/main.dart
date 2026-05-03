@@ -1,5 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/core/cache/local_storage.dart';
+import 'package:movies/core/utils/app_theme.dart';
 import 'package:movies/features/ui/auth/register_screen/view/register_screen.dart';
 import 'package:movies/features/ui/onboarding_screen/provider/onboarding_view_model.dart';
 import 'package:movies/features/ui/onboarding_screen/view/onboarding_screen.dart';
@@ -7,16 +10,23 @@ import 'package:provider/provider.dart';
 
 import 'core/cache/shared_prefs_utils.dart';
 import 'core/utils/app_routes.dart';
+import 'features/ui/auth/cubit/auth_view_model.dart';
 import 'features/ui/auth/login_screen/view/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   await SharedPrefsUtils.init();
   final bool showOnboarding = LocalStorage.instance.onboarding;
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => OnboardingViewModel(),
-      child: MyApp(showOnboarding: showOnboarding),
+    MultiBlocProvider(
+      providers: [BlocProvider(create: (context) => AuthCubit())],
+      child: EasyLocalization(
+        supportedLocales: const [Locale('en'), Locale('ar')],
+        path: 'assets/translations',
+        fallbackLocale: const Locale('en'),
+        child: MyApp(showOnboarding: showOnboarding),
+      ),
     ),
   );
 }
@@ -34,10 +44,18 @@ class MyApp extends StatelessWidget {
           ? AppRoutes.onboardingRouteName
           : AppRoutes.loginRouteName,
       routes: {
-        AppRoutes.onboardingRouteName: (context) => OnboardingScreen(),
+        AppRoutes.onboardingRouteName: (context) => ChangeNotifierProvider(
+          create: (context) => OnboardingViewModel(),
+          child: OnboardingScreen(),
+        ),
         AppRoutes.loginRouteName: (context) => LoginScreen(),
         AppRoutes.registerRouteName: (context) => RegisterScreen(),
       },
+      themeMode: ThemeMode.dark,
+      darkTheme: AppTheme.darkTheme,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
     );
   }
 }
