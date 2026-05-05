@@ -2,12 +2,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:movies/model/my_user.dart';
+import 'package:injectable/injectable.dart';
+import 'package:movies/domain/use_cases/signin_with_gogole_use_cases.dart';
 
+import '../../../../domain/entities/response/auth/my_user.dart';
+import '../../../../firebase/firebase_utils.dart';
 import '../auth_state.dart';
 
+@injectable
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit() : super(AuthInitial());
+  final SignInWithGoogleUseCases _signInWithGoogleUseCases;
+
+  AuthCubit(this._signInWithGoogleUseCases) : super(AuthInitial());
 
   MyUser? currentUser;
 
@@ -126,49 +132,20 @@ class AuthCubit extends Cubit<AuthState> {
   // }
   //
   // ///   auth with google
-  // Future<void> loginWithGoogle() async {
-  //   try {
-  //     emit(AuthLoginLoading());
-  //     final googleUserData = await FirebaseUtils.signInWithGoogle();
-  //
-  //     if (googleUserData == null) return;
-  //
-  //     final firestoreUserData = await FirebaseUtils.readUserFromFireStore(
-  //       googleUserData.user?.uid ?? '',
-  //     );
-  //
-  //     if (firestoreUserData == null) {
-  //       // emit(AuthLoginError('Email not found'));
-  //       // return;
-  //       final user = MyUser(
-  //         id: googleUserData.user?.uid ?? '',
-  //         name: googleUserData.user?.displayName ?? '',
-  //         email: googleUserData.user?.email ?? '',
-  //         avatarIndex: -1,
-  //         phone: googleUserData.user?.phoneNumber ?? '',
-  //         provider: AuthProviders.google,
-  //       );
-  //       await FirebaseUtils.addUserToFireStore(user);
-  //       currentUser = user;
-  //       emit(AuthAuthenticated());
-  //     } else {
-  //       final user = MyUser(
-  //         id: firestoreUserData.id,
-  //         name: firestoreUserData.name,
-  //         email: firestoreUserData.email,
-  //         avatarIndex: firestoreUserData.avatarIndex,
-  //         phone: firestoreUserData.phone,
-  //         provider: firestoreUserData.provider,
-  //       );
-  //       currentUser = user;
-  //       emit(AuthAuthenticated());
-  //     }
-  //   } catch (e) {
-  //     debugPrint(e.toString());
-  //
-  //     emit(AuthLoginError(e.toString()));
-  //   }
-  // }
+  Future<void> signInWithGoogle() async {
+    try {
+      emit(AuthLoginLoading());
+      final result = await _signInWithGoogleUseCases.invoke();
+
+      result.fold((failure) => emit(AuthLoginError(failure.message)), (user) {
+        currentUser = user;
+        emit(AuthAuthenticated());
+      });
+    } catch (e) {
+      emit(AuthLoginError('Unexpected Error'));
+    }
+  }
+
   //
   // Future<void> deleteUserAccountWithGoogle() async {
   //   try {

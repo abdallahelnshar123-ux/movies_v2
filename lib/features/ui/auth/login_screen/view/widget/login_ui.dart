@@ -8,7 +8,7 @@ import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/app_routes.dart';
 import '../../../../../../core/utils/app_styles.dart';
 import '../../../../../../core/utils/screen_size.dart';
-import '../../../../../../model/my_user.dart';
+import '../../../../../../domain/entities/response/auth/my_user.dart';
 import '../../../../../../widgets/change_language_item.dart';
 import '../../../../../../widgets/custom_elevated_button.dart';
 import '../../../../../../widgets/custom_text_form_field.dart';
@@ -217,6 +217,7 @@ class _LoginUiState extends State<LoginUi> {
                   CustomElevatedButton(
                     onPressed: () {
                       //todo login with google
+                      context.read<AuthCubit>().signInWithGoogle();
                     },
                     backgroundColor: AppColors.yellowColor,
                     child: Row(

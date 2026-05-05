@@ -1,29 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
-import '../../model/my_user.dart';
+import 'package:injectable/injectable.dart';
+import 'package:movies/data/model/response/my_user_dto.dart';
 
 
 class FirebaseUtils {
-  // static CollectionReference<MyUser> getUsersCollection() {
-  //   return FirebaseFirestore.instance
-  //       .collection(MyUser.collectionName)
-  //       .withConverter<MyUser>(
-  //         fromFirestore: (snapshot, options) =>
-  //             MyUser.fromFireStore(snapshot.data()!),
-  //         toFirestore: (user, options) => user.toFireStore(),
-  //       );
-  // }
-  //
-  // static Future<void> addUserToFireStore(MyUser myUser) {
-  //   return getUsersCollection().doc(myUser.id).set(myUser);
-  // }
-  //
-  // static Future<MyUser?> readUserFromFireStore(String uId) async {
-  //   var querySnapshot = await getUsersCollection().doc(uId).get();
-  //   return querySnapshot.data();
-  // }
+
   //
   // static Future<void> updateUserDataToFirestore(MyUser user) async {
   //   var querySnapshot = getUsersCollection().doc(user.id);
@@ -87,26 +70,7 @@ class FirebaseUtils {
   //
   // /// sign in ==============================================================
   //
-  // static Future<UserCredential?> signInWithGoogle() async {
-  //   final GoogleSignIn signIn = GoogleSignIn.instance;
-  //   await signIn.initialize(
-  //     clientId:
-  //         '503224830946-tm277q3ec3la0j61i5ds6dc222jhn6sf.apps.googleusercontent.com',
-  //   );
-  //
-  //   final GoogleSignInAccount? googleUser = await signIn.authenticate();
-  //   if (googleUser != null) {
-  //     final GoogleSignInAuthentication googleAuth = googleUser.authentication;
-  //
-  //     final credential = GoogleAuthProvider.credential(
-  //       idToken: googleAuth.idToken,
-  //     );
-  //
-  //     return await FirebaseAuth.instance.signInWithCredential(credential);
-  //   }
-  //
-  //   return null;
-  // }
+
   //
   // static Future<UserCredential?> reSignInWithGoogle() async {
   //   final GoogleSignIn signIn = GoogleSignIn.instance;
