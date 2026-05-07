@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
+import 'package:movies/domain/use_cases/register_with_email_and_password_use_cases.dart';
 import 'package:movies/domain/use_cases/signin_with_gogole_use_cases.dart';
 
 import '../../../../domain/entities/response/auth/my_user.dart';
@@ -12,8 +15,13 @@ import '../auth_state.dart';
 @injectable
 class AuthCubit extends Cubit<AuthState> {
   final SignInWithGoogleUseCases _signInWithGoogleUseCases;
+  final RegisterWithEmailAndPasswordUseCases
+  _registerWithEmailAndPasswordUseCases;
 
-  AuthCubit(this._signInWithGoogleUseCases) : super(AuthInitial());
+  AuthCubit(
+    this._signInWithGoogleUseCases,
+    this._registerWithEmailAndPasswordUseCases,
+  ) : super(AuthInitial());
 
   MyUser? currentUser;
   int _selectedAvatarIndex = 0;
@@ -152,6 +160,34 @@ class AuthCubit extends Cubit<AuthState> {
       });
     } catch (e) {
       emit(AuthLoginError('Unexpected Error'));
+    }
+  }
+
+  Future<void> RegisterWithEmailAndPassword({
+    required String email,
+    required String password,
+    required String name,
+    required String phone,
+    required int avatarIndex,
+  }) async {
+    try {
+      emit(AuthRegisterLoading());
+      final result = await _registerWithEmailAndPasswordUseCases.invoke(
+        name: name,
+        phone: phone,
+        avatarIndex: avatarIndex,
+        password: password,
+        email: email,
+      );
+
+      result.fold((failure) => emit(AuthRegisterError(failure.message)), (
+        user,
+      ) {
+        currentUser = user;
+        emit(AuthAuthenticated());
+      });
+    } catch (e) {
+      emit(AuthRegisterError('Unexpected Error'));
     }
   }
 

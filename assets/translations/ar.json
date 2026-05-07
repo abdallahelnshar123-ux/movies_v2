@@ -86,5 +86,6 @@
   "confirm_password_is_required": "يجب ان  تأكد كلمة السر",
   "passwords_do_not_match": "كلمة السر غير متطابقة",
   "phone_is_required": "رقم الهاتف مطلوب",
-  "invalid_phone_number": "رقم الهاتف غير صالح"
+  "invalid_phone_number": "رقم الهاتف غير صالح",
+  "register_successfully": "تم التسجيل بنجاح"
 }

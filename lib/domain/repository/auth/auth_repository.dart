@@ -5,5 +5,12 @@ import '../../failure/failure.dart';
 
 abstract class AuthRepository {
   Future<Either<Failure, MyUser>> signInWithGoogle();
+  Future<Either<Failure, MyUser>> registerWithEmailAndPassword({
+    required String email,
+    required String password,
+    required String name,
+    required String phone,
+    required int avatarIndex,
+  });
 
 }

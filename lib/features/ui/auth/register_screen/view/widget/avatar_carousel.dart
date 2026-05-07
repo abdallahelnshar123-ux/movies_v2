@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/features/ui/auth/cubit/auth_view_model.dart';
 
@@ -28,17 +29,18 @@ class AvatarCarousel extends StatelessWidget {
       options: CarouselOptions(
         onPageChanged: (index, reason) =>
             context.read<AuthCubit>().changeSelectedIndex = index,
-        height: context.height * 0.180,
+        height: context.height * 0.13,
         initialPage: 0,
-        enlargeCenterPage: true,
+        enlargeCenterPage:true,
         enableInfiniteScroll: true,
-        enlargeFactor: .25,
+        enlargeFactor: .3,
+    viewportFraction: 0.35
       ),
       items: avatars
           .map(
             (avatar) => Container(
-              width: context.width * 0.395,
-              height: context.height * 0.14,
+    width: context.height * 0.13,
+              height: context.height * 0.13,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(

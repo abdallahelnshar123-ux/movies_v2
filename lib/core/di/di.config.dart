@@ -24,6 +24,8 @@ import '../../data/repository/auth/auth_repository_impl.dart' as _i392;
 import '../../data/services/firebase_auth_service.dart' as _i734;
 import '../../data/services/firestore_service.dart' as _i367;
 import '../../domain/repository/auth/auth_repository.dart' as _i912;
+import '../../domain/use_cases/register_with_email_and_password_use_cases.dart'
+    as _i199;
 import '../../domain/use_cases/signin_with_gogole_use_cases.dart' as _i614;
 import '../../features/ui/auth/cubit/auth_view_model.dart' as _i303;
 
@@ -50,11 +52,19 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i632.UserRemoteDataSource>(),
       ),
     );
+    gh.factory<_i199.RegisterWithEmailAndPasswordUseCases>(
+      () => _i199.RegisterWithEmailAndPasswordUseCases(
+        gh<_i912.AuthRepository>(),
+      ),
+    );
     gh.factory<_i614.SignInWithGoogleUseCases>(
       () => _i614.SignInWithGoogleUseCases(gh<_i912.AuthRepository>()),
     );
     gh.factory<_i303.AuthCubit>(
-      () => _i303.AuthCubit(gh<_i614.SignInWithGoogleUseCases>()),
+      () => _i303.AuthCubit(
+        gh<_i614.SignInWithGoogleUseCases>(),
+        gh<_i199.RegisterWithEmailAndPasswordUseCases>(),
+      ),
     );
     return this;
   }

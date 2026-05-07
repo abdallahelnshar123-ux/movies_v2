@@ -4,14 +4,24 @@ class AuthInitial extends AuthState {}
 
 // todo : login states
 class AuthLoginLoading extends AuthState {}
-
-class AuthAuthenticated extends AuthState {}
-
 class AuthLoginError extends AuthState {
   final String message;
 
   AuthLoginError(this.message);
 }
+
+
+// todo : login states
+
+
+class AuthRegisterLoading extends AuthState {}
+
+class AuthRegisterError extends AuthState {
+  final String message;
+
+  AuthRegisterError(this.message);
+}
+class AuthAuthenticated extends AuthState {}
 
 class AuthUnauthenticated extends AuthState {}
 

@@ -87,4 +87,5 @@
   "passwords_do_not_match": "Passwords do not match",
   "phone_is_required": "Phone is required",
   "invalid_phone_number": "Invalid phone number",
+  "register_successfully": "Register successfully"
 }

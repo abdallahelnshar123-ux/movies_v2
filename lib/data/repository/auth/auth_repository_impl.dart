@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movies/data/data_sources/remote/auth/auth_remote_data_source.dart';
 import 'package:movies/data/data_sources/remote/user/user_remote_data_source.dart';
@@ -49,6 +48,66 @@ class AuthRepositoryImpl extends AuthRepository {
       }
 
       return Right(firestoreUser.toUser());
+    } on AppException catch (e) {
+      return Left(e.toFailure());
+    } catch (e) {
+      return Left(UnexpectedFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, MyUser>> registerWithEmailAndPassword({
+    required String email,
+    required String password,
+    required String name,
+    required String phone,
+    required int avatarIndex,
+  }) async {
+    try {
+      final AuthUserDto authUser = await _authRemoteDataSource
+          .registerWithEmailAndPassword(password: password, email: email);
+
+      // if (authUser == null) {
+      //   return Left(AuthFailure("User cancelled"));
+      // }
+
+      final MyUserDto? firestoreUser = await _userRemoteDataSource.getUser(
+        authUser.id,
+      );
+
+      if (firestoreUser == null) {
+        final newUser = MyUserDto(
+          provider: AuthProviders.emailPassword,
+          id: authUser.id,
+          name: name,
+          phone: phone,
+          email: authUser.email,
+          avatarIndex: avatarIndex,
+        );
+        await _userRemoteDataSource.createUser(newUser);
+        return Right(newUser.toUser());
+      }
+
+      if (firestoreUser.provider == AuthProviders.google) {
+        return Left(
+          AuthFailure(
+            'This Email Already exists , Please login through Google ',
+          ),
+        );
+      }
+      // if (firestoreUser.provider == AuthProviders.emailPassword) {
+      //   return Left(
+      //     AuthFailure(
+      //       'This Email Already exists , Please login through email and password ',
+      //     ),
+      //   );
+      // }
+      return Left(
+          AuthFailure(
+            'This Email Already exists , Please login through email and password ',
+          ));
+
+      // return Right(firestoreUser.toUser());
     } on AppException catch (e) {
       return Left(e.toFailure());
     } catch (e) {
