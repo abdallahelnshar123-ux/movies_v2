@@ -77,11 +77,14 @@
   "genres": "الفئات",
   "sorry_we_were_unable_to_upload_similar_movies": "عذراً, لم نتمكن من تحميل أفلام مشابهة . ",
   "sorry_no_summary_found": "عذراُ , لا يوجد ملخص ! ",
-  "search": "إبحث"
-
-
-
-
-
-
+  "search": "إبحث",
+  "this_field_is_required": "هذا الحقل مطلوب",
+  "email_is_required": "البريد الالكتروني مطلوب",
+  "invalid_email_format": "البريد الالكتروني غير صالح",
+  "password_is_required": ";كلمه السر مطلوبه",
+  "password_must_be_at_least_6_characters": "يجب ان تكون كلمه السر 6 احرف علي الاقل",
+  "confirm_password_is_required": "يجب ان  تأكد كلمة السر",
+  "passwords_do_not_match": "كلمة السر غير متطابقة",
+  "phone_is_required": "رقم الهاتف مطلوب",
+  "invalid_phone_number": "رقم الهاتف غير صالح"
 }

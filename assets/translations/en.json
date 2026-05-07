@@ -69,7 +69,6 @@
   "Phone Number": "Phone Number",
   "Create Account": "Create Account",
   "Already Have Account? ": "Already Have Account? ",
-  "Login": "Login",
   "character": "Character : ",
   "name:": "Name : ",
   "similar": "Similar",
@@ -78,8 +77,14 @@
   "genres": "Genres",
   "sorry_we_were_unable_to_upload_similar_movies": "Sorry, we were unable to upload similar movies.",
   "sorry_no_summary_found": "Sorry, no summary found !",
-  "search": "Search"
-
-
-
+  "search": "Search",
+  "this_field_is_required": "This field is required",
+  "email_is_required": "Email is required",
+  "invalid_email_format": "Invalid email Format",
+  "password_is_required": "Password is required",
+  "password_must_be_at_least_6_characters": "Password must be at least 6 characters",
+  "confirm_password_is_required": "Confirm password is required",
+  "passwords_do_not_match": "Passwords do not match",
+  "phone_is_required": "Phone is required",
+  "invalid_phone_number": "Invalid phone number",
 }

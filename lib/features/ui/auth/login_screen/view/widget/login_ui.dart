@@ -177,7 +177,6 @@ class _LoginUiState extends State<LoginUi> {
                           padding: EdgeInsets.zero,
                         ),
                         onPressed: () {
-                          //todo Navigate to Register Screen
                           FocusManager.instance.primaryFocus?.unfocus();
 
                           Navigator.pushReplacementNamed(
@@ -235,7 +234,7 @@ class _LoginUiState extends State<LoginUi> {
                       ],
                     ),
                   ),
-                  // ChangeLanguageItem(),
+                  ChangeLanguageItem(),
                 ],
               ),
             ),

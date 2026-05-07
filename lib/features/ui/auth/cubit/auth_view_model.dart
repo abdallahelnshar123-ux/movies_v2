@@ -16,6 +16,15 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit(this._signInWithGoogleUseCases) : super(AuthInitial());
 
   MyUser? currentUser;
+  int _selectedAvatarIndex = 0;
+
+  set changeSelectedIndex(int newIndex) {
+    _selectedAvatarIndex = newIndex;
+  }
+
+  int get selectedAvatarIndex {
+    return _selectedAvatarIndex;
+  }
 
   // Future<void> loginWithEmailAndPassword(String email, String password) async {
   //   try {
@@ -146,6 +155,77 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  // Future<void> register() async {
+  //   if (formKey.currentState?.validate() == true) {
+  //     //todo: register
+  //     //todo: show loading
+  //     DialogUtils.showLoading(context: context);
+  //     try {
+  //       final credential = await FirebaseAuth.instance
+  //           .createUserWithEmailAndPassword(
+  //         email: emailController.text,
+  //         password: passwordController.text,
+  //       );
+  //       //todo: hide loading
+  //
+  //       //todo: add user to firebase firestore
+  //       // MyUser myUser = MyUser(
+  //       //   id: credential.user!.uid,
+  //       //   email: emailController.text,
+  //       //   name: nameController.text,
+  //       //   phone: phoneController.text,
+  //       //   avatarIndex: selectedIndexAvatar,
+  //       //   provider: AuthProviders.emailPassword,
+  //       // );
+  //
+  //       // await FirebaseUtils.addUserToFireStore(myUser);
+  //       // DialogUtils.hideLoading(context: context);
+  //
+  //       //todo: show message
+  //       DialogUtils.showMessage(
+  //         context: context,
+  //         title: 'success',
+  //         message: 'Register Successfully',
+  //         posActionText: 'ok',
+  //         posAction: () {
+  //           Navigator.of(context).pushNamed(AppRoutes.loginRouteName);
+  //         },
+  //       );
+  //     } on FirebaseAuthException catch (e) {
+  //       if (e.code == 'weak-password') {
+  //         //todo: hide loading
+  //         DialogUtils.hideLoading(context: context);
+  //         //todo: show message
+  //         DialogUtils.showMessage(
+  //           context: context,
+  //           message: 'The password provided is too weak.',
+  //           title: 'error',
+  //           posActionText: 'ok',
+  //         );
+  //       } else if (e.code == 'email-already-in-use') {
+  //         //todo: hide loading
+  //         DialogUtils.hideLoading(context: context);
+  //         //todo: show message
+  //         DialogUtils.showMessage(
+  //           context: context,
+  //           message: 'The account already exists for that email.',
+  //           title: 'error',
+  //           posActionText: 'ok',
+  //         );
+  //       }
+  //     } catch (e) {
+  //       //todo: hide loading
+  //       DialogUtils.hideLoading(context: context);
+  //       //todo: show message
+  //       DialogUtils.showMessage(
+  //         context: context,
+  //         message: '$e',
+  //         title: 'error',
+  //         posActionText: 'ok',
+  //       );
+  //     }
+  //   }
+  // }
   //
   // Future<void> deleteUserAccountWithGoogle() async {
   //   try {
