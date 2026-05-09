@@ -1,21 +1,32 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
+import 'package:movies/domain/use_cases/register_with_email_and_password_use_case.dart';
 import 'package:movies/domain/use_cases/signin_with_gogole_use_cases.dart';
 
-import '../../../../domain/entities/response/auth/my_user.dart';
-import '../../../../firebase/firebase_utils.dart';
+import '../../../../domain/entities/response/user/my_user.dart';
 import '../auth_state.dart';
 
 @injectable
 class AuthCubit extends Cubit<AuthState> {
   final SignInWithGoogleUseCases _signInWithGoogleUseCases;
+  final RegisterWithEmailAndPasswordUseCase
+  _registerWithEmailAndPasswordUseCases;
 
-  AuthCubit(this._signInWithGoogleUseCases) : super(AuthInitial());
+  AuthCubit(
+    this._signInWithGoogleUseCases,
+    this._registerWithEmailAndPasswordUseCases,
+  ) : super(AuthInitial());
 
   MyUser? currentUser;
+  int _selectedAvatarIndex = 0;
+
+  set changeSelectedIndex(int newIndex) {
+    _selectedAvatarIndex = newIndex;
+  }
+
+  int get selectedAvatarIndex {
+    return _selectedAvatarIndex;
+  }
 
   // Future<void> loginWithEmailAndPassword(String email, String password) async {
   //   try {
@@ -132,9 +143,9 @@ class AuthCubit extends Cubit<AuthState> {
   // }
   //
   // ///   auth with google
-  Future<void> signInWithGoogle() async {
+  Future<void> continueWithGoogle() async {
     try {
-      emit(AuthLoginLoading());
+      emit(AuthContinueWithGoogleLoading());
       final result = await _signInWithGoogleUseCases.invoke();
 
       result.fold((failure) => emit(AuthLoginError(failure.message)), (user) {
@@ -142,43 +153,35 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AuthAuthenticated());
       });
     } catch (e) {
-      emit(AuthLoginError('Unexpected Error'));
+      emit(AuthContinueWithGoogleError('Unexpected Error'));
     }
   }
 
-  //
-  // Future<void> deleteUserAccountWithGoogle() async {
-  //   try {
-  //     emit(AuthDeleteLoading());
-  //     final user = FirebaseAuth.instance.currentUser;
-  //
-  //     if (user == null) {
-  //       emit(AuthDeleteError('No logged user'));
-  //       return;
-  //     }
-  //
-  //     final googleUserData = await FirebaseUtils.reSignInWithGoogle();
-  //
-  //     if (googleUserData == null) return;
-  //
-  //     await FirebaseUtils.deleteUserFromFirestore(user.uid);
-  //
-  //     await user.delete();
-  //
-  //     await GoogleSignIn.instance.signOut();
-  //     currentUser = null;
-  //
-  //     emit(AuthDeleteSuccess());
-  //   } on FirebaseAuthException catch (e) {
-  //     if (e.code == 'wrong-password') {
-  //       emit(AuthDeleteError("Wrong password"));
-  //     } else if (e.code == 'requires-recent-login') {
-  //       emit(AuthDeleteError("Please login again"));
-  //     } else {
-  //       emit(AuthDeleteError(e.message ?? "Delete failed"));
-  //     }
-  //   } catch (e) {
-  //     emit(AuthDeleteError("Something went wrong"));
-  //   }
-  // }
+  Future<void> registerWithEmailAndPassword({
+    required String email,
+    required String password,
+    required String name,
+    required String phone,
+    required int avatarIndex,
+  }) async {
+    try {
+      emit(AuthRegisterLoading());
+      final result = await _registerWithEmailAndPasswordUseCases.invoke(
+        name: name,
+        phone: phone,
+        avatarIndex: avatarIndex,
+        password: password,
+        email: email,
+      );
+
+      result.fold((failure) => emit(AuthRegisterError(failure.message)), (
+        user,
+      ) {
+        currentUser = user;
+        emit(AuthAuthenticated());
+      });
+    } catch (e) {
+      emit(AuthRegisterError('Unexpected Error'));
+    }
+  }
 }

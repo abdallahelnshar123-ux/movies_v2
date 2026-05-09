@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:movies/domain/entities/response/auth/my_user.dart';
+import 'package:movies/domain/entities/response/user/my_user.dart';
 import 'package:movies/domain/repository/auth/auth_repository.dart';
 
 import '../failure/failure.dart';
@@ -12,6 +12,6 @@ class SignInWithGoogleUseCases {
   SignInWithGoogleUseCases(this._authRepository);
 
   Future<Either<Failure, MyUser>> invoke() {
-    return _authRepository.signInWithGoogle();
+    return _authRepository.continueWithGoogle();
   }
 }

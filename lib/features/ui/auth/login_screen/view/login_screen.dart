@@ -26,7 +26,7 @@ class LoginScreen extends StatelessWidget {
               Navigator.pushNamedAndRemoveUntil(
                 context,
                 AppRoutes.homeRouteName,
-                    (route) => false,
+                (route) => false,
               );
             }
           });
@@ -42,7 +42,17 @@ class LoginScreen extends StatelessWidget {
             message: state.message,
           );
         }
-        if (state is AuthLoginLoading) {
+        if (state is AuthContinueWithGoogleError) {
+          DialogUtils.hideLoading(context: context);
+          DialogUtils.showMessage(
+            posActionText: 'ok',
+            title: 'error',
+            context: context,
+            message: state.message,
+          );
+        }
+        if (state is AuthRegisterLoading ||
+            state is AuthContinueWithGoogleLoading) {
           DialogUtils.showLoading(context: context);
         }
       },

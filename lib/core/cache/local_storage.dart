@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:movies/core/cache/shared_prefs_keys.dart';
 import 'package:movies/core/cache/shared_prefs_utils.dart';
