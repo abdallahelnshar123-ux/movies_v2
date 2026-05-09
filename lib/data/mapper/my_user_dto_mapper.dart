@@ -1,9 +1,9 @@
 import 'package:movies/data/model/response/my_user_dto.dart';
 import 'package:movies/domain/entities/response/user/my_user.dart';
 
-extension UserMapper on MyUserDto {
-  MyUser toUser() {
-    return MyUser(
+extension MyUserDtoMapper on MyUser {
+  MyUserDto toMyUserDto() {
+    return MyUserDto(
       id: id,
       email: email,
       name: name,

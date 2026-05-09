@@ -1,10 +1,14 @@
+import 'dart:io';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movies/data/data_sources/remote/auth/auth_remote_data_source.dart';
-import 'package:movies/data/model/response/auth_user_dto.dart';
+import 'package:movies/data/mapper/auth_user_dto_mapper.dart';
 import 'package:movies/data/services/firebase_auth_service.dart';
 
 import '../../../../exceptions/app_exceptions.dart';
+import '../../../../model/response/auth_user_dto.dart';
 
 @Injectable(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
@@ -13,20 +17,17 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   AuthRemoteDataSourceImpl(this._firebaseAuthService);
 
   @override
-  Future<AuthUserDto?> signInWithGoogle() async {
+  Future<AuthUserDto> signInWithGoogle() async {
     try {
       final userCredential = await _firebaseAuthService.signInWithGoogle();
-      if (userCredential == null) return null;
-
-      final AuthUserDto user = AuthUserDto(
-        id: userCredential.user?.uid ?? '',
-        email: userCredential.user?.email ?? '',
-        name: userCredential.user?.displayName ?? '',
-        phone: userCredential.user?.phoneNumber ?? '',
-      );
-      return user;
+      if (userCredential == null) throw CancelledByUserException();
+      return userCredential.toAuthUserDto();
+    } on FirebaseAuthException catch (e) {
+      throw ServerException(message: e.message ?? 'Firebase Auth Error');
+    } on SocketException {
+      throw NetworkException(message: 'No Internet');
     } catch (e) {
-      throw ServerException(message: e.toString());
+      throw UnexpectedException(message: e.toString());
     }
   }
 
@@ -38,15 +39,20 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     try {
       final UserCredential userCredential = await _firebaseAuthService
           .registerWithEmailAndPassword(email: email, password: password);
-      final AuthUserDto user = AuthUserDto(
-        id: userCredential.user?.uid ?? '',
-        email: userCredential.user?.email ?? '',
-        name: userCredential.user?.displayName ?? '',
-        phone: userCredential.user?.phoneNumber ?? '',
-      );
-      return user;
+      return userCredential.toAuthUserDto();
+    } on FirebaseAuthException catch (e) {
+      if (e.message ==
+          'The email address is already in use by another account.') {
+        throw ServerException(
+          message: 'the_email_address_is_already_in_use_by_another_account'
+              .tr(),
+        );
+      }
+      throw ServerException(message: e.message ?? 'Firebase Auth Error');
+    } on SocketException {
+      throw NetworkException(message: 'No Internet');
     } catch (e) {
-      throw ServerException(message: e.toString());
+      throw UnexpectedException(message: e.toString());
     }
   }
 }

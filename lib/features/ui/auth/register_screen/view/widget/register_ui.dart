@@ -225,7 +225,7 @@ class _RegisterUiState extends State<RegisterUi> {
                           if (formKey.currentState!.validate()) {
                             context
                                 .read<AuthCubit>()
-                                .RegisterWithEmailAndPassword(
+                                .registerWithEmailAndPassword(
                                   email: emailController.text,
                                   password: passwordController.text,
                                   name: nameController.text,

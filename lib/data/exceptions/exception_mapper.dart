@@ -3,13 +3,17 @@ import 'app_exceptions.dart';
 
 extension ExceptionMapper on AppException {
   Failure toFailure() {
-    switch (runtimeType) {
-      case NetworkException _:
-        return NetworkFailure(message);
-      case ServerException _:
-        return ServerFailure(message);
-      default:
-        return UnexpectedFailure(message);
+    if (this is NetworkException) {
+      return NetworkFailure(message);
     }
+
+    if (this is ServerException) {
+      return ServerFailure(message);
+    }
+    if (this is CancelledByUserException) {
+      return AuthFailure(message);
+    }
+
+    return UnexpectedFailure(message);
   }
 }

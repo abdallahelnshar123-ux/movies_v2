@@ -21,11 +21,13 @@ import '../../data/data_sources/remote/user/impl/user_remote_data_source_impl.da
 import '../../data/data_sources/remote/user/user_remote_data_source.dart'
     as _i632;
 import '../../data/repository/auth/auth_repository_impl.dart' as _i392;
+import '../../data/repository/user/user_repository_impl.dart' as _i1053;
 import '../../data/services/firebase_auth_service.dart' as _i734;
 import '../../data/services/firestore_service.dart' as _i367;
 import '../../domain/repository/auth/auth_repository.dart' as _i912;
-import '../../domain/use_cases/register_with_email_and_password_use_cases.dart'
-    as _i199;
+import '../../domain/repository/user/user_repository.dart' as _i183;
+import '../../domain/use_cases/register_with_email_and_password_use_case.dart'
+    as _i904;
 import '../../domain/use_cases/signin_with_gogole_use_cases.dart' as _i614;
 import '../../features/ui/auth/cubit/auth_view_model.dart' as _i303;
 
@@ -43,6 +45,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i632.UserRemoteDataSource>(
       () => _i22.UserRemoteDataSourceImpl(gh<_i367.FirestoreService>()),
     );
+    gh.factory<_i183.UserRepository>(
+      () => _i1053.UserRepositoryImpl(gh<_i632.UserRemoteDataSource>()),
+    );
     gh.factory<_i202.AuthRemoteDataSource>(
       () => _i646.AuthRemoteDataSourceImpl(gh<_i734.FirebaseAuthService>()),
     );
@@ -52,10 +57,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i632.UserRemoteDataSource>(),
       ),
     );
-    gh.factory<_i199.RegisterWithEmailAndPasswordUseCases>(
-      () => _i199.RegisterWithEmailAndPasswordUseCases(
-        gh<_i912.AuthRepository>(),
-      ),
+    gh.factory<_i904.RegisterWithEmailAndPasswordUseCase>(
+      () =>
+          _i904.RegisterWithEmailAndPasswordUseCase(gh<_i912.AuthRepository>()),
     );
     gh.factory<_i614.SignInWithGoogleUseCases>(
       () => _i614.SignInWithGoogleUseCases(gh<_i912.AuthRepository>()),
@@ -63,7 +67,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i303.AuthCubit>(
       () => _i303.AuthCubit(
         gh<_i614.SignInWithGoogleUseCases>(),
-        gh<_i199.RegisterWithEmailAndPasswordUseCases>(),
+        gh<_i904.RegisterWithEmailAndPasswordUseCase>(),
       ),
     );
     return this;
