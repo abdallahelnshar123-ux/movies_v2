@@ -143,9 +143,9 @@ class AuthCubit extends Cubit<AuthState> {
   // }
   //
   // ///   auth with google
-  Future<void> signInWithGoogle() async {
+  Future<void> continueWithGoogle() async {
     try {
-      emit(AuthLoginLoading());
+      emit(AuthContinueWithGoogleLoading());
       final result = await _signInWithGoogleUseCases.invoke();
 
       result.fold((failure) => emit(AuthLoginError(failure.message)), (user) {
@@ -153,7 +153,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AuthAuthenticated());
       });
     } catch (e) {
-      emit(AuthLoginError('Unexpected Error'));
+      emit(AuthContinueWithGoogleError('Unexpected Error'));
     }
   }
 

@@ -2,17 +2,14 @@ abstract class AuthState {}
 
 class AuthInitial extends AuthState {}
 
-// todo : login states
 class AuthLoginLoading extends AuthState {}
+
 class AuthLoginError extends AuthState {
+
   final String message;
 
   AuthLoginError(this.message);
 }
-
-
-// todo : login states
-
 
 class AuthRegisterLoading extends AuthState {}
 
@@ -21,6 +18,15 @@ class AuthRegisterError extends AuthState {
 
   AuthRegisterError(this.message);
 }
+
+class AuthContinueWithGoogleLoading extends AuthState {}
+
+class AuthContinueWithGoogleError extends AuthState {
+  final String message;
+
+  AuthContinueWithGoogleError(this.message);
+}
+
 class AuthAuthenticated extends AuthState {}
 
 class AuthUnauthenticated extends AuthState {}

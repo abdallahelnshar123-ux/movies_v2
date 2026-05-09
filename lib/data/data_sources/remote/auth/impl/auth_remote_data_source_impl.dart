@@ -17,10 +17,9 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   AuthRemoteDataSourceImpl(this._firebaseAuthService);
 
   @override
-  Future<AuthUserDto> signInWithGoogle() async {
+  Future<AuthUserDto> continueWithGoogle() async {
     try {
       final userCredential = await _firebaseAuthService.signInWithGoogle();
-      if (userCredential == null) throw CancelledByUserException();
       return userCredential.toAuthUserDto();
     } on FirebaseAuthException catch (e) {
       throw ServerException(message: e.message ?? 'Firebase Auth Error');
@@ -41,7 +40,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
           .registerWithEmailAndPassword(email: email, password: password);
       return userCredential.toAuthUserDto();
     } on FirebaseAuthException catch (e) {
-      if (e.message ==
+      if (e.code ==
           'The email address is already in use by another account.') {
         throw ServerException(
           message: 'the_email_address_is_already_in_use_by_another_account'

@@ -12,6 +12,6 @@ class SignInWithGoogleUseCases {
   SignInWithGoogleUseCases(this._authRepository);
 
   Future<Either<Failure, MyUser>> invoke() {
-    return _authRepository.signInWithGoogle();
+    return _authRepository.continueWithGoogle();
   }
 }

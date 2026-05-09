@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:movies/core/cache/local_storage.dart';
-import 'package:movies/core/utils/app_routes.dart';
 import 'package:movies/core/utils/screen_size.dart';
 import 'package:movies/features/ui/onboarding_screen/provider/onboarding_view_model.dart';
 import 'package:movies/widgets/custom_elevated_button.dart';

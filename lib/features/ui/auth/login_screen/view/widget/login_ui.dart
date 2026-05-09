@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:movies/features/ui/auth/widget/continue_with_google_button.dart';
 
 import '../../../../../../core/utils/app_assets.dart';
 import '../../../../../../core/utils/app_colors.dart';
@@ -61,9 +62,7 @@ class _LoginUiState extends State<LoginUi> {
                   CustomTextFormField(
                     keyboardType: TextInputType.emailAddress,
                     validator: (text) {
-                      if (text
-                          ?.trim()
-                          .isEmpty ?? true) {
+                      if (text?.trim().isEmpty ?? true) {
                         return context.tr('please_enter_email');
                       }
                       final bool emailValid = RegExp(
@@ -86,45 +85,42 @@ class _LoginUiState extends State<LoginUi> {
                   ),
                   ValueListenableBuilder<bool>(
                     valueListenable: isObscure,
-                    builder: (context, value, child) =>
-                        CustomTextFormField(
-                          keyboardType: TextInputType.visiblePassword,
-                          validator: (text) {
-                            if (text
-                                ?.trim()
-                                .isEmpty ?? true) {
-                              return context.tr('please_enter_password');
-                            }
-                            if (text!.length < 6) {
-                              return context.tr('password_must_be_at_least');
-                            }
-                            return null;
-                          },
-                          controller: passwordController,
-                          prefixIcon: SvgPicture.asset(
-                            "assets/icons/password_icon.svg",
-                            fit: BoxFit.none,
-                          ),
-                          hintText: "password".tr(),
-                          hintStyle: AppStyles.robotoRegular16White,
-                          obscureText: value,
-                          filled: true,
-                          fillColor: AppColors.darkGrayColor,
-                          suffixIcon: IconButton(
-                            isSelected: !value,
-                            selectedIcon: Icon(
-                              Icons.visibility_rounded,
-                              color: AppColors.whiteColor,
-                            ),
-                            onPressed: () {
-                              isObscure.value = !isObscure.value;
-                            },
-                            icon: Icon(
-                              Icons.visibility_off_rounded,
-                              color: AppColors.whiteColor,
-                            ),
-                          ),
+                    builder: (context, value, child) => CustomTextFormField(
+                      keyboardType: TextInputType.visiblePassword,
+                      validator: (text) {
+                        if (text?.trim().isEmpty ?? true) {
+                          return context.tr('please_enter_password');
+                        }
+                        if (text!.length < 6) {
+                          return context.tr('password_must_be_at_least');
+                        }
+                        return null;
+                      },
+                      controller: passwordController,
+                      prefixIcon: SvgPicture.asset(
+                        "assets/icons/password_icon.svg",
+                        fit: BoxFit.none,
+                      ),
+                      hintText: "password".tr(),
+                      hintStyle: AppStyles.robotoRegular16White,
+                      obscureText: value,
+                      filled: true,
+                      fillColor: AppColors.darkGrayColor,
+                      suffixIcon: IconButton(
+                        isSelected: !value,
+                        selectedIcon: Icon(
+                          Icons.visibility_rounded,
+                          color: AppColors.whiteColor,
                         ),
+                        onPressed: () {
+                          isObscure.value = !isObscure.value;
+                        },
+                        icon: Icon(
+                          Icons.visibility_off_rounded,
+                          color: AppColors.whiteColor,
+                        ),
+                      ),
+                    ),
                   ),
 
                   Row(
@@ -138,11 +134,10 @@ class _LoginUiState extends State<LoginUi> {
                           ),
                         ),
                         onPressed: () {
-                          //todo Navigate to Forget Password Screen
                           FocusManager.instance.primaryFocus?.unfocus();
                           Navigator.pushNamed(
-                          context,
-                          AppRoutes.forgetPasswordRouteName,
+                            context,
+                            AppRoutes.forgetPasswordRouteName,
                           );
                         },
                         child: Text(
@@ -180,8 +175,8 @@ class _LoginUiState extends State<LoginUi> {
                           FocusManager.instance.primaryFocus?.unfocus();
 
                           Navigator.pushReplacementNamed(
-                          context,
-                          AppRoutes.registerRouteName,
+                            context,
+                            AppRoutes.registerRouteName,
                           );
                         },
                         child: Text(
@@ -212,28 +207,12 @@ class _LoginUiState extends State<LoginUi> {
                       ),
                     ],
                   ),
-
-                  CustomElevatedButton(
+                  ContinueWithGoogleButton(
                     onPressed: () {
-                      //todo login with google
-                      context.read<AuthCubit>().signInWithGoogle();
+                      context.read<AuthCubit>().continueWithGoogle();
                     },
-                    backgroundColor: AppColors.yellowColor,
-                    child: Row(
-                      spacing: context.width * 0.02,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          "assets/icons/google_icon.svg",
-                          fit: BoxFit.none,
-                        ),
-                        Text(
-                          "continue_with_google".tr(),
-                          style: AppStyles.robotoRegular20Black,
-                        ),
-                      ],
-                    ),
                   ),
+
                   ChangeLanguageItem(),
                 ],
               ),

@@ -37,10 +37,7 @@ class AppAssets {
   static const String cardTwo = 'assets/images/cardTwo.png';
   static const String cardThree= 'assets/images/cardThree.png';
   static const String cardFour = 'assets/images/cardFour.png';
-  static const String HayleyAtwell = 'assets/images/captainCarter.png';
-  static const String ElizabethOlsen = 'assets/images/ElizabethOlsen.png';
-  static const String RachelMcAdams = 'assets/images/RachelMcAdams.png';
-  static const String CharlizeTheron = 'assets/images/CharlizeTheron.png';
+
 
   /// icons ===================================================================
   static const String emailIcon = 'assets/icons/email-icon.svg';

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:movies/features/ui/auth/cubit/auth_view_model.dart';
+import 'package:movies/features/ui/auth/widget/continue_with_google_button.dart';
 
 import '../../../../../../core/utils/app_assets.dart';
 import '../../../../../../core/utils/app_colors.dart';
@@ -211,69 +212,79 @@ class _RegisterUiState extends State<RegisterUi> {
                   filled: true,
                   fillColor: AppColors.darkGrayColor,
                 ),
-
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: context.height * 0.02,
-                  ),
-                  child: Column(
-                    spacing: context.height * 0.02,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      CustomElevatedButton(
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            context
-                                .read<AuthCubit>()
-                                .registerWithEmailAndPassword(
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                  name: nameController.text,
-                                  phone: phoneController.text,
-                                  avatarIndex: context
-                                      .read<AuthCubit>()
-                                      .selectedAvatarIndex,
-                                );
-                          }
-                        },
-                        backgroundColor: AppColors.yellowColor,
-                        child: Text(
-                          'Create Account'.tr(),
-                          style: AppStyles.robotoRegular20Black,
-                        ),
-                      ),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "already_have_account".tr(),
-                            style: AppStyles.robotoRegular14White,
-                          ),
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              padding: EdgeInsets.zero,
-                            ),
-                            onPressed: () {
-                              FocusManager.instance.primaryFocus?.unfocus();
-
-                              Navigator.pushReplacementNamed(
-                                context,
-                                AppRoutes.loginRouteName,
-                              );
-                            },
-                            child: Text(
-                              "login".tr(),
-                              style: AppStyles.robotoRegular14Yellow,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                SizedBox(height: context.height * 0.01),
+                CustomElevatedButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      context.read<AuthCubit>().registerWithEmailAndPassword(
+                        email: emailController.text,
+                        password: passwordController.text,
+                        name: nameController.text,
+                        phone: phoneController.text,
+                        avatarIndex: context
+                            .read<AuthCubit>()
+                            .selectedAvatarIndex,
+                      );
+                    }
+                  },
+                  backgroundColor: AppColors.yellowColor,
+                  child: Text(
+                    'Create Account'.tr(),
+                    style: AppStyles.robotoRegular20Black,
                   ),
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "already_have_account".tr(),
+                      style: AppStyles.robotoRegular14White,
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        padding: EdgeInsets.zero,
+                      ),
+                      onPressed: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
 
+                        Navigator.pushReplacementNamed(
+                          context,
+                          AppRoutes.loginRouteName,
+                        );
+                      },
+                      child: Text(
+                        "login".tr(),
+                        style: AppStyles.robotoRegular14Yellow,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        color: AppColors.yellowColor,
+                        indent: context.width * 0.09,
+                        endIndent: context.width * 0.03,
+                      ),
+                    ),
+                    Text("or".tr(), style: AppStyles.robotoRegular15Yellow),
+                    Expanded(
+                      child: Divider(
+                        color: AppColors.yellowColor,
+                        indent: context.width * 0.03,
+                        endIndent: context.width * 0.09,
+                      ),
+                    ),
+                  ],
+                ),
+                ContinueWithGoogleButton(
+                  onPressed: () {
+                    context.read<AuthCubit>().continueWithGoogle();
+                  },
+                ),
                 ChangeLanguageItem(),
               ],
             ),

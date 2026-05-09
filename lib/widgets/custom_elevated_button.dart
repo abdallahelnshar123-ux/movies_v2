@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../core/utils/app_colors.dart';
+import '../core/utils/screen_size.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   final Color backgroundColor;
@@ -18,15 +19,13 @@ class CustomElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         minimumSize: Size(double.infinity, 0),
         side: BorderSide(color: borderSideColor ?? AppColors.transparentColor),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         backgroundColor: backgroundColor,
-        padding: EdgeInsets.symmetric(vertical: height * 0.015),
+        padding: EdgeInsets.symmetric(vertical: context.height * 0.015),
       ),
       onPressed: onPressed,
       child: child,

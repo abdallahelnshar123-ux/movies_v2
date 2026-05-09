@@ -33,7 +33,6 @@ class RegisterScreen extends StatelessWidget {
         }
 
         if (state is AuthRegisterError) {
-          debugPrint(state.message);
           DialogUtils.hideLoading(context: context);
           DialogUtils.showMessage(
             posActionText: 'ok',
@@ -42,7 +41,17 @@ class RegisterScreen extends StatelessWidget {
             message: state.message,
           );
         }
-        if (state is AuthRegisterLoading) {
+        if (state is AuthContinueWithGoogleError) {
+          DialogUtils.hideLoading(context: context);
+          DialogUtils.showMessage(
+            posActionText: 'ok',
+            title: 'error',
+            context: context,
+            message: state.message,
+          );
+        }
+        if (state is AuthRegisterLoading ||
+            state is AuthContinueWithGoogleLoading) {
           DialogUtils.showLoading(context: context);
         }
       },
