@@ -23,7 +23,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await SharedPrefsUtils.init();
   configureDependencies();
-  final bool showOnboarding = LocalStorage.instance.onboarding;
+  final bool showOnboarding = false ;
   runApp(
     MultiBlocProvider(
       providers: [BlocProvider(create: (context) => getIt<AuthCubit>())],

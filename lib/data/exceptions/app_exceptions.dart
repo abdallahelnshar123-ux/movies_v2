@@ -18,7 +18,12 @@ class CancelledByUserException extends AppException {
   const CancelledByUserException()
     : super(message: 'Cancelled by user', statusCode: null);
 }
-
+class CacheException extends AppException {
+  const CacheException({
+    required super.message,
+    super.statusCode,
+  });
+}
 class UnexpectedException extends AppException {
   const UnexpectedException({required super.message, super.statusCode});
 }

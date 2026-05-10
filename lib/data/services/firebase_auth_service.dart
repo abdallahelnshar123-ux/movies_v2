@@ -32,6 +32,16 @@ class FirebaseAuthService {
     }
   }
 
+  Future<UserCredential> loginWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    return await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
+
   Future<UserCredential> registerWithEmailAndPassword({
     required String email,
     required String password,

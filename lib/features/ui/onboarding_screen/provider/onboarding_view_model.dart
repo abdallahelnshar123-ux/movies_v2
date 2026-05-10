@@ -3,6 +3,8 @@ import 'package:movies/core/cache/local_storage.dart';
 import 'package:movies/core/utils/app_routes.dart';
 
 class OnboardingViewModel extends ChangeNotifier {
+  // final LocalStorage _localStorage;
+  // OnboardingViewModel(this._localStorage);
 
   int currentIndex = 0;
 
@@ -27,9 +29,10 @@ class OnboardingViewModel extends ChangeNotifier {
     }
   }
 
-  void finishOnboarding(BuildContext context) async {
-    await LocalStorage.instance.setOnboardingDone();
-    if (!context.mounted) return;
-    Navigator.pushReplacementNamed(context, AppRoutes.loginRouteName);
-  }
+  // void finishOnboarding(BuildContext context) async {
+  //   await _localStorage.setOnboardingDone();
+  //
+  //   if (!context.mounted) return;
+  //   Navigator.pushReplacementNamed(context, AppRoutes.loginRouteName);
+  // }
 }

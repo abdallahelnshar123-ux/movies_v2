@@ -51,7 +51,7 @@ class LoginScreen extends StatelessWidget {
             message: state.message,
           );
         }
-        if (state is AuthRegisterLoading ||
+        if (state is AuthLoginLoading ||
             state is AuthContinueWithGoogleLoading) {
           DialogUtils.showLoading(context: context);
         }

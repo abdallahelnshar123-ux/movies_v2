@@ -40,13 +40,29 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
           .registerWithEmailAndPassword(email: email, password: password);
       return userCredential.toAuthUserDto();
     } on FirebaseAuthException catch (e) {
-      if (e.code ==
-          'The email address is already in use by another account.') {
+      if (e.code == 'email-already-in-use') {
         throw ServerException(
-          message: 'the_email_address_is_already_in_use_by_another_account'
-              .tr(),
+          message: 'the_email_address_is_already_in_use_by_another_account',
         );
       }
+      throw ServerException(message: e.message ?? 'Firebase Auth Error');
+    } on SocketException {
+      throw NetworkException(message: 'No Internet');
+    } catch (e) {
+      throw UnexpectedException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<AuthUserDto> loginWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final UserCredential userCredential = await _firebaseAuthService
+          .loginWithEmailAndPassword(email: email, password: password);
+      return userCredential.toAuthUserDto();
+    } on FirebaseAuthException catch (e) {
       throw ServerException(message: e.message ?? 'Firebase Auth Error');
     } on SocketException {
       throw NetworkException(message: 'No Internet');
