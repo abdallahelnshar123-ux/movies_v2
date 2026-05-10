@@ -36,6 +36,7 @@ import '../../domain/use_cases/register_with_email_and_password_use_case.dart'
     as _i904;
 import '../../domain/use_cases/signin_with_gogole_use_cases.dart' as _i614;
 import '../../features/ui/auth/cubit/auth_view_model.dart' as _i303;
+import '../cache/local_storage.dart' as _i1029;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -44,6 +45,7 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.lazySingleton<_i1029.LocalStorage>(() => _i1029.LocalStorage());
     gh.lazySingleton<_i734.FirebaseAuthService>(
       () => _i734.FirebaseAuthService(),
     );
@@ -51,14 +53,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i632.UserRemoteDataSource>(
       () => _i22.UserRemoteDataSourceImpl(gh<_i367.FirestoreService>()),
     );
-    gh.factory<_i996.UserLocalDataSource>(
-      () => _i111.UserLocalDataSourceImpl(),
-    );
     gh.factory<_i183.UserRepository>(
       () => _i1053.UserRepositoryImpl(gh<_i632.UserRemoteDataSource>()),
     );
     gh.factory<_i202.AuthRemoteDataSource>(
       () => _i646.AuthRemoteDataSourceImpl(gh<_i734.FirebaseAuthService>()),
+    );
+    gh.factory<_i996.UserLocalDataSource>(
+      () => _i111.UserLocalDataSourceImpl(gh<_i1029.LocalStorage>()),
     );
     gh.factory<_i912.AuthRepository>(
       () => _i392.AuthRepositoryImpl(

@@ -1,19 +1,20 @@
 
 import 'dart:convert';
 
+import 'package:injectable/injectable.dart';
 import 'package:movies/core/cache/shared_prefs_keys.dart';
 import 'package:movies/core/cache/shared_prefs_utils.dart';
 
 import '../../data/model/response/my_user_dto.dart';
-import '../../domain/entities/response/user/my_user.dart';
 
-
+@lazySingleton
 class LocalStorage {
-  LocalStorage._();
+  // LocalStorage._();
+  LocalStorage();
 
-  static final LocalStorage _instance = LocalStorage._();
+  // static final LocalStorage _instance = LocalStorage._();
 
-  static LocalStorage get instance => _instance;
+  // static LocalStorage get instance => _instance;
 
   bool get onboarding =>
       SharedPrefsUtils.getData<bool>(key: SharedPrefsKeys.onBoardingKey) ??

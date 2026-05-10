@@ -40,10 +40,9 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
           .registerWithEmailAndPassword(email: email, password: password);
       return userCredential.toAuthUserDto();
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'The email address is already in use by another account.') {
+      if (e.code == 'email-already-in-use') {
         throw ServerException(
-          message: 'the_email_address_is_already_in_use_by_another_account'
-              .tr(),
+          message: 'the_email_address_is_already_in_use_by_another_account',
         );
       }
       throw ServerException(message: e.message ?? 'Firebase Auth Error');

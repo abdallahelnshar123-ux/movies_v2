@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefsUtils {
   static late SharedPreferences sharedPreferences;
+
   static Future<SharedPreferences> init() async {
     return sharedPreferences = await SharedPreferences.getInstance();
   }
@@ -19,8 +20,10 @@ class SharedPrefsUtils {
         return await sharedPreferences.setDouble(key, value);
       case List<String> _:
         return await sharedPreferences.setStringList(key, value);
-      default:
+      case bool _:
         return await sharedPreferences.setBool(key, value);
+      default:
+        throw UnsupportedError('Unsupported type ${value.runtimeType}');
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movies/domain/use_cases/login_with_email_and_password_use_case.dart';
@@ -151,7 +152,9 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthContinueWithGoogleLoading());
       final result = await _signInWithGoogleUseCases.invoke();
 
-      result.fold((failure) => emit(AuthLoginError(failure.message)), (user) {
+      result.fold((failure) => emit(AuthLoginError(failure.message.tr())), (
+        user,
+      ) {
         currentUser = user;
         emit(AuthAuthenticated());
       });
@@ -167,7 +170,9 @@ class AuthCubit extends Cubit<AuthState> {
         email: email,
         password: password,
       );
-      result.fold((failure) => emit(AuthLoginError(failure.message)), (user) {
+      result.fold((failure) => emit(AuthLoginError(failure.message.tr())), (
+        user,
+      ) {
         currentUser = user;
         emit(AuthAuthenticated());
       });
@@ -193,7 +198,7 @@ class AuthCubit extends Cubit<AuthState> {
         email: email,
       );
 
-      result.fold((failure) => emit(AuthRegisterError(failure.message)), (
+      result.fold((failure) => emit(AuthRegisterError(failure.message.tr())), (
         user,
       ) {
         currentUser = user;
