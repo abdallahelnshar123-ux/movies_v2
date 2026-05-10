@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:movies/core/utils/validators.dart';
 import 'package:movies/features/ui/auth/widget/continue_with_google_button.dart';
 
 import '../../../../../../core/utils/app_assets.dart';
@@ -61,18 +62,7 @@ class _LoginUiState extends State<LoginUi> {
                   Image.asset(AppAssets.appLogo, height: context.height * 0.3),
                   CustomTextFormField(
                     keyboardType: TextInputType.emailAddress,
-                    validator: (text) {
-                      if (text?.trim().isEmpty ?? true) {
-                        return context.tr('please_enter_email');
-                      }
-                      final bool emailValid = RegExp(
-                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-                      ).hasMatch(text!);
-                      if (!emailValid) {
-                        return context.tr('please_enter_valid_email');
-                      }
-                      return null;
-                    },
+                    validator: (value) => Validators.email(value),
                     controller: emailController,
                     prefixIcon: SvgPicture.asset(
                       "assets/icons/email-icon.svg",
@@ -87,15 +77,7 @@ class _LoginUiState extends State<LoginUi> {
                     valueListenable: isObscure,
                     builder: (context, value, child) => CustomTextFormField(
                       keyboardType: TextInputType.visiblePassword,
-                      validator: (text) {
-                        if (text?.trim().isEmpty ?? true) {
-                          return context.tr('please_enter_password');
-                        }
-                        if (text!.length < 6) {
-                          return context.tr('password_must_be_at_least');
-                        }
-                        return null;
-                      },
+                      validator: (value) => Validators.password(value),
                       controller: passwordController,
                       prefixIcon: SvgPicture.asset(
                         "assets/icons/password_icon.svg",
@@ -150,7 +132,12 @@ class _LoginUiState extends State<LoginUi> {
 
                   CustomElevatedButton(
                     onPressed: () {
-                      //todo login
+                      if (formKey.currentState!.validate()) {
+                        context.read<AuthCubit>().loginWithEmailAndPassword(
+                          emailController.text,
+                          passwordController.text,
+                        );
+                      }
                     },
                     backgroundColor: AppColors.yellowColor,
                     child: Text(

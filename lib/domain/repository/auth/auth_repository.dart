@@ -6,6 +6,11 @@ import '../../failure/failure.dart';
 abstract class AuthRepository {
   Future<Either<Failure, MyUser>> continueWithGoogle();
 
+  Future<Either<Failure, MyUser>> loginWithEmailAndPassword({
+    required String email,
+    required String password,
+  });
+
   Future<Either<Failure, MyUser>> registerWithEmailAndPassword({
     required String email,
     required String password,

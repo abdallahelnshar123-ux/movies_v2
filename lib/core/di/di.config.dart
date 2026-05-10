@@ -12,6 +12,10 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import '../../data/data_sources/local/user/impl/user_local_data_source_impl.dart'
+    as _i111;
+import '../../data/data_sources/local/user/user_local_data_source.dart'
+    as _i996;
 import '../../data/data_sources/remote/auth/auth_remote_data_source.dart'
     as _i202;
 import '../../data/data_sources/remote/auth/impl/auth_remote_data_source_impl.dart'
@@ -26,6 +30,8 @@ import '../../data/services/firebase_auth_service.dart' as _i734;
 import '../../data/services/firestore_service.dart' as _i367;
 import '../../domain/repository/auth/auth_repository.dart' as _i912;
 import '../../domain/repository/user/user_repository.dart' as _i183;
+import '../../domain/use_cases/login_with_email_and_password_use_case.dart'
+    as _i1065;
 import '../../domain/use_cases/register_with_email_and_password_use_case.dart'
     as _i904;
 import '../../domain/use_cases/signin_with_gogole_use_cases.dart' as _i614;
@@ -45,6 +51,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i632.UserRemoteDataSource>(
       () => _i22.UserRemoteDataSourceImpl(gh<_i367.FirestoreService>()),
     );
+    gh.factory<_i996.UserLocalDataSource>(
+      () => _i111.UserLocalDataSourceImpl(),
+    );
     gh.factory<_i183.UserRepository>(
       () => _i1053.UserRepositoryImpl(gh<_i632.UserRemoteDataSource>()),
     );
@@ -55,7 +64,11 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i392.AuthRepositoryImpl(
         gh<_i202.AuthRemoteDataSource>(),
         gh<_i632.UserRemoteDataSource>(),
+        gh<_i996.UserLocalDataSource>(),
       ),
+    );
+    gh.factory<_i1065.LoginWithEmailAndPasswordUseCase>(
+      () => _i1065.LoginWithEmailAndPasswordUseCase(gh<_i912.AuthRepository>()),
     );
     gh.factory<_i904.RegisterWithEmailAndPasswordUseCase>(
       () =>
@@ -68,6 +81,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i303.AuthCubit(
         gh<_i614.SignInWithGoogleUseCases>(),
         gh<_i904.RegisterWithEmailAndPasswordUseCase>(),
+        gh<_i1065.LoginWithEmailAndPasswordUseCase>(),
       ),
     );
     return this;
