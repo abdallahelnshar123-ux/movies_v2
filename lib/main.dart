@@ -5,6 +5,7 @@ import 'package:movies/core/cache/local_storage.dart';
 import 'package:movies/core/utils/app_theme.dart';
 import 'package:movies/features/ui/auth/register_screen/view/register_screen.dart';
 import 'package:movies/features/ui/home_screen/home_screen.dart';
+import 'package:movies/features/ui/home_screen/provider/home_screen_view_model.dart';
 import 'package:movies/features/ui/onboarding_screen/provider/onboarding_view_model.dart';
 import 'package:movies/features/ui/onboarding_screen/view/onboarding_screen.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +24,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await SharedPrefsUtils.init();
   configureDependencies();
-  final bool showOnboarding = false ;
+  final bool showOnboarding = false;
   runApp(
     MultiBlocProvider(
       providers: [BlocProvider(create: (context) => getIt<AuthCubit>())],
@@ -56,7 +57,10 @@ class MyApp extends StatelessWidget {
         ),
         AppRoutes.loginRouteName: (context) => LoginScreen(),
         AppRoutes.registerRouteName: (context) => RegisterScreen(),
-        AppRoutes.homeRouteName: (context) => HomeScreen(),
+        AppRoutes.homeRouteName: (context) => ChangeNotifierProvider(
+          create: (context) => HomeScreenViewModel(),
+          child: HomeScreen(),
+        ),
       },
       themeMode: ThemeMode.dark,
       darkTheme: AppTheme.darkTheme,
