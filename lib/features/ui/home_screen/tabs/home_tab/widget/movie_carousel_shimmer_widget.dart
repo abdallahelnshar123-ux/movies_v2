@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:movies/core/utils/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../../../core/utils/screen_size.dart';
@@ -15,7 +16,14 @@ class MovieCarouselShimmerWidget extends StatelessWidget {
         return Shimmer.fromColors(
           baseColor: Colors.black26,
           highlightColor: Colors.white24,
-          child: SizedBox(width: double.infinity, height: double.infinity),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.black38,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            width: double.infinity,
+            height: double.infinity,
+          ),
         );
       },
       options: CarouselOptions(

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movies/data/data_sources/remote/movie/movie_remote_data_source.dart';
 import 'package:movies/data/exceptions/app_exceptions.dart';
@@ -24,6 +25,10 @@ class MovieRepositoryImpl extends MovieRepository {
       return Right(moviesList.map((movieDto) => movieDto.toMovie()).toList());
     } on AppException catch (e) {
       return Left(e.toFailure());
+    } on DioException catch (e) {
+      var exception = e.error as AppException;
+
+      return Left(exception.toFailure());
     }
   }
 }

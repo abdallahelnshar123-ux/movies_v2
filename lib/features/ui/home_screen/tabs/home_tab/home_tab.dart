@@ -28,7 +28,7 @@ class _HomeTabState extends State<HomeTab> {
   @override
   void initState() {
     super.initState();
-    context.read<HomeTabCubit>().getHomeTabMovies();
+    // context.read<HomeTabCubit>().getHomeTabMovies();
   }
 
   @override

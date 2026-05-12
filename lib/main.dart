@@ -30,7 +30,7 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => getIt<AuthCubit>()),
-        BlocProvider(create: (context) => getIt<HomeTabCubit>()),
+        BlocProvider(create: (context) => getIt<HomeTabCubit>()..getHomeTabMovies()),
       ],
       child: EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('ar')],
