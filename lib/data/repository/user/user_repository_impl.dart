@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movies/data/data_sources/remote/user/user_remote_data_source.dart';
-import 'package:movies/data/exceptions/exception_mapper.dart';
+import 'package:movies/data/mapper/exception_mapper.dart';
 import 'package:movies/data/mapper/my_user_dto_mapper.dart';
 import 'package:movies/data/mapper/my_user_mapper.dart';
 import 'package:movies/data/model/response/my_user_dto.dart';

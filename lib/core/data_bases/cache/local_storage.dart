@@ -2,10 +2,11 @@
 import 'dart:convert';
 
 import 'package:injectable/injectable.dart';
-import 'package:movies/core/cache/shared_prefs_keys.dart';
-import 'package:movies/core/cache/shared_prefs_utils.dart';
+import 'package:movies/core/data_bases/cache/shared_prefs_keys.dart';
+import 'package:movies/core/data_bases/cache/shared_prefs_utils.dart';
 
-import '../../data/model/response/my_user_dto.dart';
+import '../../../data/model/response/my_user_dto.dart';
+
 
 @lazySingleton
 class LocalStorage {
