@@ -10,27 +10,27 @@ class DioConsumer implements ApiConsumer {
   DioConsumer(this.dio);
 
   @override
-  Future<dynamic> get(
-      String path, {
-        dynamic data,
-        Map<String, dynamic>? queryParameters,
-      }) async {
+  Future<T> get<T>(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     final response = await dio.get(
       path,
       data: data,
       queryParameters: queryParameters,
     );
 
-    return response.data;
+    return response.data  ;
   }
 
   @override
-  Future<dynamic> post(
-      String path, {
-        dynamic data,
-        Map<String, dynamic>? queryParameters,
-        bool isFormData = false,
-      }) async {
+  Future<T> post<T>(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    bool isFormData = false,
+  }) async {
     final response = await dio.post(
       path,
       data: isFormData ? FormData.fromMap(data) : data,
@@ -41,12 +41,12 @@ class DioConsumer implements ApiConsumer {
   }
 
   @override
-  Future<dynamic> patch(
-      String path, {
-        dynamic data,
-        Map<String, dynamic>? queryParameters,
-        bool isFormData = false,
-      }) async {
+  Future<T> patch<T>(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    bool isFormData = false,
+  }) async {
     final response = await dio.patch(
       path,
       data: isFormData ? FormData.fromMap(data) : data,
@@ -57,11 +57,11 @@ class DioConsumer implements ApiConsumer {
   }
 
   @override
-  Future<dynamic> delete(
-      String path, {
-        dynamic data,
-        Map<String, dynamic>? queryParameters,
-      }) async {
+  Future<T> delete<T>(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     final response = await dio.delete(
       path,
       data: data,

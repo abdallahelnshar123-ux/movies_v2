@@ -1,19 +1,23 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:movies/core/utils/app_assets.dart';
 import 'package:movies/core/utils/app_colors.dart';
+import 'package:movies/domain/entities/response/movie/movie.dart';
+import 'package:movies/features/ui/home_screen/tabs/home_tab/provider/home_tab_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../../core/utils/app_styles.dart';
 import '../../../../../../core/utils/screen_size.dart';
 
 class MovieCarouselWidget extends StatelessWidget {
-  const MovieCarouselWidget({super.key});
+  final List<Movie> moviesList;
+
+  const MovieCarouselWidget({super.key, required this.moviesList});
 
   @override
   Widget build(BuildContext context) {
     return CarouselSlider.builder(
-      // todo : count
-      itemCount: 10,
+      itemCount: moviesList.length,
       itemBuilder: (context, index, realIndex) {
         return GestureDetector(
           onTap: () {
@@ -33,7 +37,9 @@ class MovieCarouselWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                    image: AssetImage(AppAssets.onBoardingImage2),
+                    image: CachedNetworkImageProvider(
+                      moviesList[index].largeCoverImage ?? '',
+                    ),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -51,8 +57,7 @@ class MovieCarouselWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        // todo : rating
-                        '7',
+                        moviesList[index].rating.toString(),
                         style: AppStyles.robotoRegular16White,
                       ),
 
@@ -70,8 +75,7 @@ class MovieCarouselWidget extends StatelessWidget {
         enlargeCenterPage: true,
         viewportFraction: 0.7,
         onPageChanged: (index, reason) {
-          // todo : change index
-        },
+context.read<HomeTabProvider>().changeIndex(index);        },
       ),
     );
   }

@@ -22,22 +22,31 @@ import '../../data/data_sources/remote/auth/auth_remote_data_source.dart'
     as _i202;
 import '../../data/data_sources/remote/auth/impl/auth_remote_data_source_impl.dart'
     as _i646;
+import '../../data/data_sources/remote/movie/impl/movie_remote_data_source_impl.dart'
+    as _i343;
+import '../../data/data_sources/remote/movie/movie_remote_data_source.dart'
+    as _i525;
 import '../../data/data_sources/remote/user/impl/user_remote_data_source_impl.dart'
     as _i22;
 import '../../data/data_sources/remote/user/user_remote_data_source.dart'
     as _i632;
 import '../../data/repository/auth/auth_repository_impl.dart' as _i392;
+import '../../data/repository/movie/movie_repository_impl.dart' as _i98;
 import '../../data/repository/user/user_repository_impl.dart' as _i1053;
 import '../../data/services/firebase_auth_service.dart' as _i734;
 import '../../data/services/firestore_service.dart' as _i367;
 import '../../domain/repository/auth/auth_repository.dart' as _i912;
+import '../../domain/repository/movie/movie_repository.dart' as _i128;
 import '../../domain/repository/user/user_repository.dart' as _i183;
+import '../../domain/use_cases/get_home_movies_use_case.dart' as _i766;
 import '../../domain/use_cases/login_with_email_and_password_use_case.dart'
     as _i1065;
 import '../../domain/use_cases/register_with_email_and_password_use_case.dart'
     as _i904;
 import '../../domain/use_cases/signin_with_gogole_use_cases.dart' as _i614;
 import '../../features/ui/auth/cubit/auth_view_model.dart' as _i303;
+import '../../features/ui/home_screen/tabs/home_tab/cubit/home_tab_view_model.dart'
+    as _i519;
 import '../data_bases/api/api_consumer.dart' as _i984;
 import '../data_bases/api/dio_consumer.dart' as _i44;
 import '../data_bases/api/get_it_module.dart' as _i834;
@@ -94,12 +103,24 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i614.SignInWithGoogleUseCases>(
       () => _i614.SignInWithGoogleUseCases(gh<_i912.AuthRepository>()),
     );
+    gh.factory<_i525.MovieRemoteDataSource>(
+      () => _i343.MovieRemoteDataSourceImpl(gh<_i984.ApiConsumer>()),
+    );
     gh.factory<_i303.AuthCubit>(
       () => _i303.AuthCubit(
         gh<_i614.SignInWithGoogleUseCases>(),
         gh<_i904.RegisterWithEmailAndPasswordUseCase>(),
         gh<_i1065.LoginWithEmailAndPasswordUseCase>(),
       ),
+    );
+    gh.factory<_i128.MovieRepository>(
+      () => _i98.MovieRepositoryImpl(gh<_i525.MovieRemoteDataSource>()),
+    );
+    gh.factory<_i766.GetHomeMoviesUseCase>(
+      () => _i766.GetHomeMoviesUseCase(gh<_i128.MovieRepository>()),
+    );
+    gh.factory<_i519.HomeTabCubit>(
+      () => _i519.HomeTabCubit(gh<_i766.GetHomeMoviesUseCase>()),
     );
     return this;
   }
