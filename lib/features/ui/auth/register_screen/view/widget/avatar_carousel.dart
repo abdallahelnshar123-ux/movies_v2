@@ -31,15 +31,15 @@ class AvatarCarousel extends StatelessWidget {
             context.read<AuthCubit>().changeSelectedIndex = index,
         height: context.height * 0.13,
         initialPage: 0,
-        enlargeCenterPage:true,
+        enlargeCenterPage: true,
         enableInfiniteScroll: true,
         enlargeFactor: .3,
-    viewportFraction: 0.35
+        viewportFraction: 0.35,
       ),
       items: avatars
           .map(
             (avatar) => Container(
-    width: context.height * 0.13,
+              width: context.height * 0.13,
               height: context.height * 0.13,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,

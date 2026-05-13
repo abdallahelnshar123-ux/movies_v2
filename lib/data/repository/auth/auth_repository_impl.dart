@@ -3,7 +3,7 @@ import 'package:movies/data/data_sources/local/user/user_local_data_source.dart'
 import 'package:movies/data/data_sources/remote/auth/auth_remote_data_source.dart';
 import 'package:movies/data/data_sources/remote/user/user_remote_data_source.dart';
 import 'package:movies/data/exceptions/app_exceptions.dart';
-import 'package:movies/data/exceptions/exception_mapper.dart';
+import 'package:movies/data/mapper/exception_mapper.dart';
 import 'package:movies/data/mapper/my_user_dto_mapper.dart';
 import 'package:movies/data/mapper/my_user_mapper.dart';
 import 'package:movies/domain/entities/response/auth/auth_providers.dart';
@@ -105,7 +105,7 @@ class AuthRepositoryImpl extends AuthRepository {
         authUserDto.id,
       );
       if (databaseUser == null) {
-        return Left(AuthFailure('some thing went wrong'));
+        return Left(UnauthorizedFailure('some thing went wrong'));
       }
       // final newUser = MyUser(
       //   provider: AuthProviders.emailPassword,
