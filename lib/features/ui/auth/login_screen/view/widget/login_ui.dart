@@ -69,7 +69,7 @@ class _LoginUiState extends State<LoginUi> {
                       fit: BoxFit.none,
                     ),
                     hintText: "email".tr(),
-                    hintStyle: AppStyles.robotoRegular16White,
+                    hintStyle: AppStyles.robotoRegular16White(context),
                     filled: true,
                     fillColor: AppColors.darkGrayColor,
                   ),
@@ -84,7 +84,7 @@ class _LoginUiState extends State<LoginUi> {
                         fit: BoxFit.none,
                       ),
                       hintText: "password".tr(),
-                      hintStyle: AppStyles.robotoRegular16White,
+                      hintStyle: AppStyles.robotoRegular16White(context),
                       obscureText: value,
                       filled: true,
                       fillColor: AppColors.darkGrayColor,
@@ -124,7 +124,7 @@ class _LoginUiState extends State<LoginUi> {
                         },
                         child: Text(
                           "forget_password".tr(),
-                          style: AppStyles.robotoRegular14Yellow,
+                          style: AppStyles.robotoRegular14Yellow(context),
                         ),
                       ),
                     ],
@@ -142,7 +142,7 @@ class _LoginUiState extends State<LoginUi> {
                     backgroundColor: AppColors.yellowColor,
                     child: Text(
                       "login".tr(),
-                      style: AppStyles.robotoRegular20Black,
+                      style: AppStyles.robotoRegular20Black(context),
                     ),
                   ),
 
@@ -151,7 +151,7 @@ class _LoginUiState extends State<LoginUi> {
                     children: [
                       Text(
                         "don't_have_account".tr(),
-                        style: AppStyles.robotoRegular14White,
+                        style: AppStyles.robotoRegular14White(context),
                       ),
                       TextButton(
                         style: TextButton.styleFrom(
@@ -168,7 +168,7 @@ class _LoginUiState extends State<LoginUi> {
                         },
                         child: Text(
                           "create_one".tr(),
-                          style: AppStyles.robotoRegular14Yellow,
+                          style: AppStyles.robotoRegular14Yellow(context),
                         ),
                       ),
                     ],
@@ -184,7 +184,10 @@ class _LoginUiState extends State<LoginUi> {
                           endIndent: context.width * 0.03,
                         ),
                       ),
-                      Text("or".tr(), style: AppStyles.robotoRegular15Yellow),
+                      Text(
+                        "or".tr(),
+                        style: AppStyles.robotoRegular15Yellow(context),
+                      ),
                       Expanded(
                         child: Divider(
                           color: AppColors.yellowColor,

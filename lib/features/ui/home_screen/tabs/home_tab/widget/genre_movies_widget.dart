@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/features/ui/home_screen/tabs/home_tab/cubit/home_tab_genre_view_model.dart';
+import 'package:movies/features/ui/movie_details_screen/view/movie_details_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../../../core/utils/app_colors.dart';
@@ -47,7 +48,7 @@ class _GenreMoviesWidgetState extends State<GenreMoviesWidget> {
             children: [
               Text(
                 context.watch<HomeTabGenreCubit>().randomGenre.tr(),
-                style: AppStyles.robotoRegular20White,
+                style: AppStyles.robotoRegular20White(context),
               ),
               Row(
                 children: [
@@ -55,7 +56,7 @@ class _GenreMoviesWidgetState extends State<GenreMoviesWidget> {
                     onPressed: () {},
                     child: Text(
                       "See More",
-                      style: AppStyles.robotoRegular16Yellow,
+                      style: AppStyles.robotoRegular16Yellow(context),
                     ),
                   ),
                   Icon(
@@ -97,12 +98,12 @@ class _GenreMoviesWidgetState extends State<GenreMoviesWidget> {
               }
               return GestureDetector(
                 onTap: () {
-                  // todo : navigate to movie
-                  // Navigator.pushNamed(
-                  //   context,
-                  //   AppRoutes.movieDetailsScreen,
-                  //   arguments: moviesList[index].id,
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MovieDetailsScreen(),
+                    ),
+                  );
                 },
                 child: Container(
                   padding: EdgeInsets.all(context.width * 0.015),
@@ -129,7 +130,7 @@ class _GenreMoviesWidgetState extends State<GenreMoviesWidget> {
                       children: [
                         Text(
                           widget.moviesList[index].rating.toString(),
-                          style: AppStyles.robotoRegular10White,
+                          style: AppStyles.robotoRegular10White(context),
                         ),
                         Icon(Icons.star, color: Colors.amber, size: 14),
                       ],

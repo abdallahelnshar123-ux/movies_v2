@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'app_colors.dart';
 
-
 class AppStyles {
   /// inter font ===============================================================
   static TextStyle interMedium36White = GoogleFonts.inter(
@@ -43,80 +42,203 @@ class AppStyles {
   );
 
   /// roboto font ============================================================
-  static TextStyle robotoRegular16White = GoogleFonts.roboto(
-    color: AppColors.whiteColor,
-    fontSize: 16,
-    fontWeight: FontWeight.w400,
+  // static TextStyle robotoRegular16White = GoogleFonts.roboto(
+  //   color: AppColors.whiteColor,
+  //   fontSize: 16,
+  //   fontWeight: FontWeight.w400,
+  //
+  // );
+  static TextStyle robotoRegular16White(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium!.copyWith(
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+      color: AppColors.whiteColor,
+      fontFamily: GoogleFonts.roboto().fontFamily,
+    );
+  }
 
-  );
-  static TextStyle robotoRegular14Yellow = GoogleFonts.roboto(
-    color: AppColors.yellowColor,
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-  );
-  static TextStyle robotoRegular20DarkGray = GoogleFonts.roboto(
-    color: AppColors.darkGrayColor,
-    fontSize: 20,
-    fontWeight: FontWeight.w400,
-  );
-  static TextStyle robotoRegular14White = GoogleFonts.roboto(
-    color: AppColors.whiteColor,
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-  );
-  static TextStyle robotoRegular10White = GoogleFonts.roboto(
-    color: AppColors.whiteColor,
-    fontSize: 10,
-    fontWeight: FontWeight.w400,
-  );
-  static TextStyle robotoBlack14Yellow = GoogleFonts.roboto(
-    color: AppColors.yellowColor,
-    fontSize: 14,
-    fontWeight: FontWeight.w900,
-  );
-  static TextStyle robotoRegular15Yellow = GoogleFonts.roboto(
-    color: AppColors.yellowColor,
-    fontSize: 15,
-    fontWeight: FontWeight.w400,
-  );
-  static TextStyle robotoRegular16DarkGray = GoogleFonts.roboto(
-    color: AppColors.darkGrayColor,
-    fontSize: 16,
-    fontWeight: FontWeight.w400,
-  );
-  static TextStyle robotoRegular20Black = GoogleFonts.roboto(
-    color: AppColors.blackColor,
-    fontSize: 20,
-    fontWeight: FontWeight.w400,
-  );
-  static TextStyle robotoRegular16Yellow = GoogleFonts.roboto(
-    color: AppColors.yellowColor,
-    fontSize: 16,
-    fontWeight: FontWeight.w400,
-  );
-  static TextStyle robotoRegular20White = GoogleFonts.roboto(
-    color: AppColors.whiteColor,
-    fontSize: 20,
-    fontWeight: FontWeight.w400,
-  );
-  static TextStyle robotoBold20White = GoogleFonts.roboto(
-    color: AppColors.whiteColor,
-    fontSize: 20,
-    fontWeight: FontWeight.w700,
-  );
-  static TextStyle robotoBold24White = GoogleFonts.roboto(
-    color: AppColors.whiteColor,
-    fontSize: 24,
-    fontWeight: FontWeight.w700,
-  );
-  static TextStyle robotoBold20LightGray = GoogleFonts.roboto(
-    color: AppColors.lightGrayColor,
-    fontSize: 20,
-    fontWeight: FontWeight.w700,
-  );
-  static TextStyle robotoBold36White = GoogleFonts.roboto(
-    color: AppColors.whiteColor,
-    fontSize: 36,
-    fontWeight: FontWeight.w700,
-  );
+  // static TextStyle robotoRegular14Yellow = GoogleFonts.roboto(
+  //   color: AppColors.yellowColor,
+  //   fontSize: 14,
+  //   fontWeight: FontWeight.w400,
+  // );
+  static TextStyle robotoRegular14Yellow(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium!.copyWith(
+      color: AppColors.yellowColor,
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      fontFamily: GoogleFonts.roboto().fontFamily,
+    );
+  }
+  // static TextStyle robotoRegular20DarkGray = GoogleFonts.roboto(
+  //   color: AppColors.darkGrayColor,
+  //   fontSize: 20,
+  //   fontWeight: FontWeight.w400,
+  // );
+  static TextStyle robotoRegular20DarkGray(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium!.copyWith(
+      color: AppColors.darkGrayColor,
+      fontSize: 20,
+      fontWeight: FontWeight.w400,
+      fontFamily: GoogleFonts.roboto().fontFamily,
+    );
+  }
+  // static TextStyle robotoRegular14White = GoogleFonts.roboto(
+  //   color: AppColors.whiteColor,
+  //   fontSize: 14,
+  //   fontWeight: FontWeight.w400,
+  // );
+  static TextStyle robotoRegular14White(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium!.copyWith(
+      color: AppColors.whiteColor,
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      fontFamily: GoogleFonts.roboto().fontFamily,
+    );
+  }
+  // static TextStyle robotoRegular10White = GoogleFonts.roboto(
+  //   color: AppColors.whiteColor,
+  //   fontSize: 10,
+  //   fontWeight: FontWeight.w400,
+  // );
+  static TextStyle robotoRegular10White(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium!.copyWith(
+      color: AppColors.whiteColor,
+      fontSize: 10,
+      fontWeight: FontWeight.w400,
+      fontFamily: GoogleFonts.roboto().fontFamily,
+    );
+  }
+  // static TextStyle robotoBlack14Yellow = GoogleFonts.roboto(
+  //   color: AppColors.yellowColor,
+  //   fontSize: 14,
+  //   fontWeight: FontWeight.w900,
+  // );
+  static TextStyle robotoBlack14Yellow(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium!.copyWith(
+      color: AppColors.yellowColor,
+      fontSize: 14,
+      fontWeight: FontWeight.w900,
+      fontFamily: GoogleFonts.roboto().fontFamily,
+    );
+  }
+  // static TextStyle robotoRegular15Yellow = GoogleFonts.roboto(
+  //   color: AppColors.yellowColor,
+  //   fontSize: 15,
+  //   fontWeight: FontWeight.w400,
+  // );
+  static TextStyle robotoRegular15Yellow(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium!.copyWith(
+      color: AppColors.yellowColor,
+      fontSize: 15,
+      fontWeight: FontWeight.w400,
+      fontFamily: GoogleFonts.roboto().fontFamily,
+    );
+  }
+  // static TextStyle robotoRegular16DarkGray = GoogleFonts.roboto(
+  //   color: AppColors.darkGrayColor,
+  //   fontSize: 16,
+  //   fontWeight: FontWeight.w400,
+  // );
+
+  static TextStyle robotoRegular16DarkGray(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium!.copyWith(
+      color: AppColors.darkGrayColor,
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+      fontFamily: GoogleFonts.roboto().fontFamily,
+    );
+  }
+  // static TextStyle robotoRegular20Black = GoogleFonts.roboto(
+  //   color: AppColors.blackColor,
+  //   fontSize: 20,
+  //   fontWeight: FontWeight.w400,
+  // );
+  static TextStyle robotoRegular20Black(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium!.copyWith(
+      color: AppColors.blackColor,
+      fontSize: 20,
+      fontWeight: FontWeight.w400,
+      fontFamily: GoogleFonts.roboto().fontFamily,
+    );
+  }
+  // static TextStyle robotoRegular16Yellow = GoogleFonts.roboto(
+  //   color: AppColors.yellowColor,
+  //   fontSize: 16,
+  //   fontWeight: FontWeight.w400,
+  // );
+  static TextStyle robotoRegular16Yellow(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium!.copyWith(
+      color: AppColors.yellowColor,
+      fontSize: 16,
+      fontWeight: FontWeight.w400,
+      fontFamily: GoogleFonts.roboto().fontFamily,
+    );
+  }
+  // static TextStyle robotoRegular20White = GoogleFonts.roboto(
+  //   color: AppColors.whiteColor,
+  //   fontSize: 20,
+  //   fontWeight: FontWeight.w400,
+  // );
+  static TextStyle robotoRegular20White(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium!.copyWith(
+      color: AppColors.whiteColor,
+      fontSize: 20,
+      fontWeight: FontWeight.w400,
+      fontFamily: GoogleFonts.roboto().fontFamily,
+    );
+  }
+  // static TextStyle robotoBold20White = GoogleFonts.roboto(
+  //   color: AppColors.whiteColor,
+  //   fontSize: 20,
+  //   fontWeight: FontWeight.w700,
+  // );
+  static TextStyle robotoBold20White(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium!.copyWith(
+      color: AppColors.whiteColor,
+      fontSize: 20,
+      fontWeight: FontWeight.w700,
+      fontFamily: GoogleFonts.roboto().fontFamily,
+    );
+  }
+  // static TextStyle robotoBold24White = GoogleFonts.roboto(
+  //   color: AppColors.whiteColor,
+  //   fontSize: 24,
+  //   fontWeight: FontWeight.w700,
+  // );
+
+  static TextStyle robotoBold24White(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium!.copyWith(
+      color: AppColors.whiteColor,
+      fontSize: 24,
+      fontWeight: FontWeight.w700,
+      fontFamily: GoogleFonts.roboto().fontFamily,
+    );
+  }
+  // static TextStyle robotoBold20LightGray = GoogleFonts.roboto(
+  //   color: AppColors.lightGrayColor,
+  //   fontSize: 20,
+  //   fontWeight: FontWeight.w700,
+  // );
+  static TextStyle robotoBold20LightGray(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium!.copyWith(
+      color: AppColors.lightGrayColor,
+      fontSize: 20,
+      fontWeight: FontWeight.w700,
+      fontFamily: GoogleFonts.roboto().fontFamily,
+    );
+  }
+  // static TextStyle robotoBold36White = GoogleFonts.roboto(
+  //   color: AppColors.whiteColor,
+  //   fontSize: 36,
+  //   fontWeight: FontWeight.w700,
+  // );
+  static TextStyle robotoBold36White(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium!.copyWith(
+      color: AppColors.whiteColor,
+      fontSize: 36,
+      fontWeight: FontWeight.w700,
+      fontFamily: GoogleFonts.roboto().fontFamily,
+    );
+  }
 }

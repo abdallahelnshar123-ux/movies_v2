@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:movies/core/utils/app_colors.dart';
 import 'package:movies/domain/entities/response/movie/movie.dart';
 import 'package:movies/features/ui/home_screen/tabs/home_tab/provider/home_tab_provider.dart';
+import 'package:movies/features/ui/movie_details_screen/view/movie_details_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../../core/utils/app_styles.dart';
@@ -21,12 +22,8 @@ class MovieCarouselWidget extends StatelessWidget {
       itemBuilder: (context, index, realIndex) {
         return GestureDetector(
           onTap: () {
-            // todo : navigate to movie
-            // Navigator.pushNamed(
-            //   context,
-            //   AppRoutes.movieDetailsScreen,
-            //   arguments: moviesList[index].id,
-            // );
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                MovieDetailsScreen(),));
           },
           child: Stack(
             children: [
@@ -58,7 +55,7 @@ class MovieCarouselWidget extends StatelessWidget {
                     children: [
                       Text(
                         moviesList[index].rating.toString(),
-                        style: AppStyles.robotoRegular16White,
+                        style: AppStyles.robotoRegular16White(context),
                       ),
 
                       Icon(Icons.star, color: Colors.amber, size: 22),
