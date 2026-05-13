@@ -5,7 +5,8 @@ import 'package:movies/core/utils/app_theme.dart';
 import 'package:movies/features/ui/auth/register_screen/view/register_screen.dart';
 import 'package:movies/features/ui/home_screen/home_screen.dart';
 import 'package:movies/features/ui/home_screen/provider/home_screen_view_model.dart';
-import 'package:movies/features/ui/home_screen/tabs/home_tab/cubit/home_tab_view_model.dart';
+import 'package:movies/features/ui/home_screen/tabs/home_tab/cubit/home_tab__carousel_view_model.dart';
+import 'package:movies/features/ui/home_screen/tabs/home_tab/cubit/home_tab_genre_view_model.dart';
 import 'package:movies/features/ui/home_screen/tabs/home_tab/provider/home_tab_provider.dart';
 import 'package:movies/features/ui/onboarding_screen/provider/onboarding_view_model.dart';
 import 'package:movies/features/ui/onboarding_screen/view/onboarding_screen.dart';
@@ -30,7 +31,11 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => getIt<AuthCubit>()),
-        BlocProvider(create: (context) => getIt<HomeTabCubit>()..getHomeTabMovies()),
+        BlocProvider(
+          create: (context) =>
+              getIt<HomeTabCarouselCubit>()..getHomeTabMovies(),
+        ),
+        BlocProvider(create: (context) => getIt<HomeTabGenreCubit>()),
       ],
       child: EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('ar')],

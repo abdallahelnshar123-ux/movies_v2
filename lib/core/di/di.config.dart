@@ -39,14 +39,17 @@ import '../../domain/repository/auth/auth_repository.dart' as _i912;
 import '../../domain/repository/movie/movie_repository.dart' as _i128;
 import '../../domain/repository/user/user_repository.dart' as _i183;
 import '../../domain/use_cases/get_home_movies_use_case.dart' as _i766;
+import '../../domain/use_cases/get_movies_by_genre_use_case.dart' as _i452;
 import '../../domain/use_cases/login_with_email_and_password_use_case.dart'
     as _i1065;
 import '../../domain/use_cases/register_with_email_and_password_use_case.dart'
     as _i904;
 import '../../domain/use_cases/signin_with_gogole_use_cases.dart' as _i614;
 import '../../features/ui/auth/cubit/auth_view_model.dart' as _i303;
-import '../../features/ui/home_screen/tabs/home_tab/cubit/home_tab_view_model.dart'
-    as _i519;
+import '../../features/ui/home_screen/tabs/home_tab/cubit/home_tab__carousel_view_model.dart'
+    as _i44;
+import '../../features/ui/home_screen/tabs/home_tab/cubit/home_tab_genre_view_model.dart'
+    as _i189;
 import '../data_bases/api/api_consumer.dart' as _i984;
 import '../data_bases/api/dio_consumer.dart' as _i44;
 import '../data_bases/api/get_it_module.dart' as _i834;
@@ -119,8 +122,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i766.GetHomeMoviesUseCase>(
       () => _i766.GetHomeMoviesUseCase(gh<_i128.MovieRepository>()),
     );
-    gh.factory<_i519.HomeTabCubit>(
-      () => _i519.HomeTabCubit(gh<_i766.GetHomeMoviesUseCase>()),
+    gh.factory<_i452.GetMoviesByGenreUseCase>(
+      () => _i452.GetMoviesByGenreUseCase(gh<_i128.MovieRepository>()),
+    );
+    gh.factory<_i189.HomeTabGenreCubit>(
+      () => _i189.HomeTabGenreCubit(gh<_i452.GetMoviesByGenreUseCase>()),
+    );
+    gh.factory<_i44.HomeTabCarouselCubit>(
+      () => _i44.HomeTabCarouselCubit(gh<_i766.GetHomeMoviesUseCase>()),
     );
     return this;
   }

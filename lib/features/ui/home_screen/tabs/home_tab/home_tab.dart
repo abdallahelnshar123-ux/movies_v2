@@ -4,9 +4,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/core/utils/app_colors.dart';
-import 'package:movies/features/ui/home_screen/tabs/home_tab/cubit/home_tab_view_model.dart';
-import 'package:movies/features/ui/home_screen/tabs/home_tab/home_tab_state.dart';
+import 'package:movies/features/ui/home_screen/tabs/home_tab/cubit/home_tab__carousel_view_model.dart';
+import 'package:movies/features/ui/home_screen/tabs/home_tab/cubit/home_tab_genre_view_model.dart';
+import 'package:movies/features/ui/home_screen/tabs/home_tab/home_tab_carousel_state.dart';
+import 'package:movies/features/ui/home_screen/tabs/home_tab/home_tab_genre_state.dart';
 import 'package:movies/features/ui/home_screen/tabs/home_tab/provider/home_tab_provider.dart';
+import 'package:movies/features/ui/home_screen/tabs/home_tab/widget/genre_movies_shimmer_widget.dart';
 import 'package:movies/features/ui/home_screen/tabs/home_tab/widget/genre_movies_widget.dart';
 import 'package:movies/features/ui/home_screen/tabs/home_tab/widget/movie_carousel_shimmer_widget.dart';
 import 'package:movies/features/ui/home_screen/tabs/home_tab/widget/movie_carousel_widget.dart';
@@ -23,14 +26,13 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  int currentIndex = 0;
-
   @override
   void initState() {
     super.initState();
-    // context.read<HomeTabCubit>().getHomeTabMovies();
+    context.read<HomeTabGenreCubit>().getHomeTabGenreMovies();
   }
 
+  @override
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -39,16 +41,16 @@ class _HomeTabState extends State<HomeTab> {
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
-          BlocBuilder<HomeTabCubit, HomeTabState>(
-            builder: (BuildContext context, HomeTabState state) {
-              if (state is HomeMoviesSuccessState) {
+          BlocBuilder<HomeTabCarouselCubit, HomeTabCarouselState>(
+            builder: (BuildContext context, HomeTabCarouselState state) {
+              if (state is HomeCarouselSuccessState) {
                 return CachedNetworkImage(
                   width: double.infinity,
                   height: double.infinity,
                   fit: BoxFit.cover,
                   imageUrl:
                       context
-                          .watch<HomeTabCubit>()
+                          .watch<HomeTabCarouselCubit>()
                           .moviesList[context
                               .watch<HomeTabProvider>()
                               .carouselIndex]
@@ -56,16 +58,6 @@ class _HomeTabState extends State<HomeTab> {
                       '',
                 );
               }
-              // if (state is HomeMoviesErrorState ||
-              //     state is HomeMoviesLoadingState) {
-              //   return MainErrorWidget(
-              //     errorMessage: state.message,
-              //     onPressed: () {
-              //       context.read<HomeTabCubit>().getHomeTabMovies();
-              //     },
-              //     widgetHeight: context.height * 0.45,
-              //   );
-              // }
               return Container(
                 width: double.infinity,
                 height: double.infinity,
@@ -84,18 +76,22 @@ class _HomeTabState extends State<HomeTab> {
                 SizedBox(height: context.height * 0.05),
                 Image.asset(AppAssets.availableNowImage),
                 SizedBox(height: context.height * 0.03),
-                BlocBuilder<HomeTabCubit, HomeTabState>(
-                  builder: (BuildContext context, HomeTabState state) {
-                    if (state is HomeMoviesSuccessState) {
+                BlocBuilder<HomeTabCarouselCubit, HomeTabCarouselState>(
+                  builder: (BuildContext context, HomeTabCarouselState state) {
+                    if (state is HomeCarouselSuccessState) {
                       return MovieCarouselWidget(
-                        moviesList: context.read<HomeTabCubit>().moviesList,
+                        moviesList: context
+                            .read<HomeTabCarouselCubit>()
+                            .moviesList,
                       );
                     }
-                    if (state is HomeMoviesErrorState) {
+                    if (state is HomeCarouselErrorState) {
                       return MainErrorWidget(
                         errorMessage: state.message,
                         onPressed: () {
-                          context.read<HomeTabCubit>().getHomeTabMovies();
+                          context
+                              .read<HomeTabCarouselCubit>()
+                              .getHomeTabMovies();
                         },
                         widgetHeight: context.height * 0.45,
                       );
@@ -106,7 +102,31 @@ class _HomeTabState extends State<HomeTab> {
                 SizedBox(height: context.height * 0.02),
                 Image.asset(AppAssets.watchNowImage),
                 SizedBox(height: context.height * 0.02),
-                GenreMoviesWidget(),
+                BlocBuilder<HomeTabGenreCubit, HomeTabGenreState>(
+                  builder: (context, state) {
+                    if (state is HomeGenreSuccessState ||
+                        state is HomeGenrePaginationLoadingState) {
+                      return GenreMoviesWidget(
+                        moviesList: context
+                            .watch<HomeTabGenreCubit>()
+                            .moviesList,
+                      );
+                    }
+
+                    if (state is HomeGenreErrorState) {
+                      return MainErrorWidget(
+                        errorMessage: state.message,
+                        onPressed: () {
+                          context
+                              .read<HomeTabGenreCubit>()
+                              .getHomeTabGenreMovies();
+                        },
+                        widgetHeight: context.height * 0.25,
+                      );
+                    }
+                    return GenreMoviesShimmerWidget();
+                  },
+                ),
                 SizedBox(height: context.height * 0.1),
               ],
             ),

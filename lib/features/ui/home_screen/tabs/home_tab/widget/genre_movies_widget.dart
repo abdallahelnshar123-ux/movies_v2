@@ -1,49 +1,38 @@
-import 'dart:math';
-
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:movies/core/utils/app_assets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies/features/ui/home_screen/tabs/home_tab/cubit/home_tab_genre_view_model.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/app_styles.dart';
 import '../../../../../../core/utils/screen_size.dart';
+import '../../../../../../domain/entities/response/movie/movie.dart';
 
 class GenreMoviesWidget extends StatefulWidget {
-  const GenreMoviesWidget({super.key});
+  final List<Movie> moviesList;
+
+  const GenreMoviesWidget({super.key, required this.moviesList});
 
   @override
   State<GenreMoviesWidget> createState() => _GenreMoviesWidgetState();
 }
 
 class _GenreMoviesWidgetState extends State<GenreMoviesWidget> {
-  List<String> genresList = [
-    'action',
-    'adventure',
-    'animation',
-    'anime',
-    'comedy',
-    'crime',
-    'documentary',
-    'drama',
-    'family',
-    'fantasy',
-    'horror',
-    'music',
-    'musical',
-    'mystery',
-    'reality TV',
-    'romance',
-    'sci-fi',
-    'seasonal',
-    'short',
-    'sport',
-    'thriller',
-  ];
-  var random = Random();
-  late String randomGenre = genresList[random.nextInt(genresList.length)];
+  late ScrollController scrollController;
 
   @override
   void initState() {
     super.initState();
+    scrollController = ScrollController()..addListener(onScroll);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.removeListener(onScroll);
+    scrollController.dispose();
   }
 
   @override
@@ -56,7 +45,10 @@ class _GenreMoviesWidgetState extends State<GenreMoviesWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(randomGenre, style: AppStyles.robotoRegular20White),
+              Text(
+                context.watch<HomeTabGenreCubit>().randomGenre.tr(),
+                style: AppStyles.robotoRegular20White,
+              ),
               Row(
                 children: [
                   TextButton(
@@ -80,12 +72,29 @@ class _GenreMoviesWidgetState extends State<GenreMoviesWidget> {
         SizedBox(
           height: context.height * 0.17,
           child: ListView.separated(
+            controller: scrollController,
             separatorBuilder: (context, index) =>
                 SizedBox(width: context.width * 0.03),
             padding: EdgeInsets.symmetric(horizontal: context.width * 0.02),
             scrollDirection: Axis.horizontal,
-            itemCount: 10,
+            itemCount:
+                widget.moviesList.length +
+                (context.watch<HomeTabGenreCubit>().isLoading ? 1 : 0),
             itemBuilder: (context, index) {
+              if (index == widget.moviesList.length) {
+                return Shimmer.fromColors(
+                  baseColor: Colors.black26,
+                  highlightColor: Colors.white24,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black38,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    width: context.width * 0.25,
+                    height: double.infinity,
+                  ),
+                );
+              }
               return GestureDetector(
                 onTap: () {
                   // todo : navigate to movie
@@ -101,7 +110,9 @@ class _GenreMoviesWidgetState extends State<GenreMoviesWidget> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     image: DecorationImage(
-                      image: AssetImage(AppAssets.onBoardingImage2),
+                      image: CachedNetworkImageProvider(
+                        widget.moviesList[index].largeCoverImage ?? '',
+                      ),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -113,10 +124,13 @@ class _GenreMoviesWidgetState extends State<GenreMoviesWidget> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Row(
+                      spacing: context.width * .01,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text("7", style: AppStyles.robotoRegular10White),
-                        SizedBox(width: context.width * .01),
+                        Text(
+                          widget.moviesList[index].rating.toString(),
+                          style: AppStyles.robotoRegular10White,
+                        ),
                         Icon(Icons.star, color: Colors.amber, size: 14),
                       ],
                     ),
@@ -128,5 +142,19 @@ class _GenreMoviesWidgetState extends State<GenreMoviesWidget> {
         ),
       ],
     );
+  }
+
+  void onScroll() {
+    if (context.read<HomeTabGenreCubit>().isLoading) return;
+
+    final maxScroll = scrollController.position.maxScrollExtent;
+
+    final currentScroll = scrollController.position.pixels;
+
+    if (currentScroll >= maxScroll * 0.8) {
+      context.read<HomeTabGenreCubit>().getHomeTabGenreMovies(
+        isPagination: true,
+      );
+    }
   }
 }

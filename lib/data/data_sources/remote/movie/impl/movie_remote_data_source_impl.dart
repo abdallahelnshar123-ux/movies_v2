@@ -19,4 +19,13 @@ class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
     );
     return AllMoviesResponseDto.fromJson(response).data?.movies;
   }
+
+  @override
+  Future<List<MovieDto>?> getMoviesByGenre({required String genre , required int page})async {
+    var response = await _apiConsumer.get<Map<String, dynamic>>(
+      EndPoints.movieListEndPoint,
+      queryParameters: {'genre': genre , 'page' : page},
+    );
+    return AllMoviesResponseDto.fromJson(response).data?.movies;
+  }
 }

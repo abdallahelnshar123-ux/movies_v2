@@ -75,7 +75,8 @@ class MovieCarouselWidget extends StatelessWidget {
         enlargeCenterPage: true,
         viewportFraction: 0.7,
         onPageChanged: (index, reason) {
-context.read<HomeTabProvider>().changeIndex(index);        },
+          context.read<HomeTabProvider>().changeCarouselIndex(index);
+        },
       ),
     );
   }

@@ -31,4 +31,27 @@ class MovieRepositoryImpl extends MovieRepository {
       return Left(exception.toFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, List<Movie>>> getMoviesByGenre({
+    required String genre,
+    required int page
+  }) async {
+    try {
+      var moviesList = await _movieRemoteDataSource.getMoviesByGenre(
+        genre: genre,
+        page: page
+      );
+      if (moviesList == null) {
+        return Left(UnexpectedFailure('Sorry we could not load movies'));
+      }
+      return Right(moviesList.map((movieDto) => movieDto.toMovie()).toList());
+    } on AppException catch (e) {
+      return Left(e.toFailure());
+    } on DioException catch (e) {
+      var exception = e.error as AppException;
+
+      return Left(exception.toFailure());
+    }
+  }
 }
