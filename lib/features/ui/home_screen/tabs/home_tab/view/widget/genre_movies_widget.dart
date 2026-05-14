@@ -6,10 +6,13 @@ import 'package:movies/features/ui/home_screen/tabs/home_tab/cubit/home_tab_genr
 import 'package:movies/features/ui/movie_details_screen/view/movie_details_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../../../../core/utils/app_colors.dart';
-import '../../../../../../core/utils/app_styles.dart';
-import '../../../../../../core/utils/screen_size.dart';
-import '../../../../../../domain/entities/response/movie/movie.dart';
+import '../../../../../../../core/di/di.dart';
+import '../../../../../../../core/utils/app_colors.dart';
+import '../../../../../../../core/utils/app_styles.dart';
+import '../../../../../../../core/utils/screen_size.dart';
+import '../../../../../../../domain/entities/response/movie/movie.dart';
+import '../../../../../movie_details_screen/cubit/movie_details_view_model.dart';
+import '../../../../../movie_details_screen/view/widget/movie_suggestions_widget/cubit/movie_suggestions_view_model.dart';
 
 class GenreMoviesWidget extends StatefulWidget {
   final List<Movie> moviesList;
@@ -101,9 +104,29 @@ class _GenreMoviesWidgetState extends State<GenreMoviesWidget> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MovieDetailsScreen(),
+                      builder: (_) => MultiBlocProvider(
+                        providers: [
+                          BlocProvider(
+                            create: (_) => getIt<MovieDetailsCubit>(),
+                          ),
+                          BlocProvider(
+                            create: (_) => getIt<MovieSuggestionsCubit>(),
+                          ),
+                        ],
+                        child: MovieDetailsScreen(
+                          movieId: widget.moviesList[index].id ?? -1,
+                        ),
+                      ),
                     ),
                   );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => MovieDetailsScreen(
+                  //       movieId: widget.moviesList[index].id ?? -1,
+                  //     ),
+                  //   ),
+                  // );
                 },
                 child: Container(
                   padding: EdgeInsets.all(context.width * 0.015),

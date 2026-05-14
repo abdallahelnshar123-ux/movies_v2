@@ -2,7 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../../../../core/utils/screen_size.dart';
+import '../../../../../../../core/utils/screen_size.dart';
+
 
 class MovieCarouselShimmerWidget extends StatelessWidget {
   const MovieCarouselShimmerWidget({super.key});

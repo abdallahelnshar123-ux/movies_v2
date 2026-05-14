@@ -1,5 +1,6 @@
 /// api_version : 2
 /// execution_time : "0 ms"
+library;
 
 class MetaDto {
 MetaDto({

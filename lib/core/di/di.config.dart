@@ -39,6 +39,8 @@ import '../../domain/repository/auth/auth_repository.dart' as _i912;
 import '../../domain/repository/movie/movie_repository.dart' as _i128;
 import '../../domain/repository/user/user_repository.dart' as _i183;
 import '../../domain/use_cases/get_home_movies_use_case.dart' as _i766;
+import '../../domain/use_cases/get_movie_details_use_case.dart' as _i368;
+import '../../domain/use_cases/get_movie_suggestions_use_case.dart' as _i35;
 import '../../domain/use_cases/get_movies_by_genre_use_case.dart' as _i452;
 import '../../domain/use_cases/login_with_email_and_password_use_case.dart'
     as _i1065;
@@ -50,6 +52,10 @@ import '../../features/ui/home_screen/tabs/home_tab/cubit/home_tab__carousel_vie
     as _i44;
 import '../../features/ui/home_screen/tabs/home_tab/cubit/home_tab_genre_view_model.dart'
     as _i189;
+import '../../features/ui/movie_details_screen/cubit/movie_details_view_model.dart'
+    as _i365;
+import '../../features/ui/movie_details_screen/view/widget/movie_suggestions_widget/cubit/movie_suggestions_view_model.dart'
+    as _i866;
 import '../data_bases/api/api_consumer.dart' as _i984;
 import '../data_bases/api/dio_consumer.dart' as _i44;
 import '../data_bases/api/get_it_module.dart' as _i834;
@@ -122,14 +128,26 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i766.GetHomeMoviesUseCase>(
       () => _i766.GetHomeMoviesUseCase(gh<_i128.MovieRepository>()),
     );
+    gh.factory<_i368.GetMovieDetailsUseCase>(
+      () => _i368.GetMovieDetailsUseCase(gh<_i128.MovieRepository>()),
+    );
+    gh.factory<_i35.GetMovieSuggestionsUseCase>(
+      () => _i35.GetMovieSuggestionsUseCase(gh<_i128.MovieRepository>()),
+    );
     gh.factory<_i452.GetMoviesByGenreUseCase>(
       () => _i452.GetMoviesByGenreUseCase(gh<_i128.MovieRepository>()),
     );
     gh.factory<_i189.HomeTabGenreCubit>(
       () => _i189.HomeTabGenreCubit(gh<_i452.GetMoviesByGenreUseCase>()),
     );
+    gh.factory<_i365.MovieDetailsCubit>(
+      () => _i365.MovieDetailsCubit(gh<_i368.GetMovieDetailsUseCase>()),
+    );
     gh.factory<_i44.HomeTabCarouselCubit>(
       () => _i44.HomeTabCarouselCubit(gh<_i766.GetHomeMoviesUseCase>()),
+    );
+    gh.factory<_i866.MovieSuggestionsCubit>(
+      () => _i866.MovieSuggestionsCubit(gh<_i35.GetMovieSuggestionsUseCase>()),
     );
     return this;
   }

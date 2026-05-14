@@ -65,7 +65,7 @@
   "cast": "Cast",
   "genres": "Genres",
   "sorry_we_were_unable_to_upload_similar_movies": "Sorry, we were unable to upload similar movies.",
-  "sorry_no_summary_found": "Sorry, no summary found !",
+  "no_summary_found": "Sorry, no summary found !",
   "search": "Search",
   "this_field_is_required": "This field is required",
   "email_is_required": "Email is required",

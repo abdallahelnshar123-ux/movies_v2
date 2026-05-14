@@ -1,14 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/core/utils/app_colors.dart';
 import 'package:movies/domain/entities/response/movie/movie.dart';
 import 'package:movies/features/ui/home_screen/tabs/home_tab/provider/home_tab_provider.dart';
-import 'package:movies/features/ui/movie_details_screen/view/movie_details_screen.dart';
-import 'package:provider/provider.dart';
 
-import '../../../../../../core/utils/app_styles.dart';
-import '../../../../../../core/utils/screen_size.dart';
+import '../../../../../../../core/di/di.dart';
+import '../../../../../../../core/utils/app_styles.dart';
+import '../../../../../../../core/utils/screen_size.dart';
+import '../../../../../movie_details_screen/cubit/movie_details_view_model.dart';
+import '../../../../../movie_details_screen/view/movie_details_screen.dart';
+import '../../../../../movie_details_screen/view/widget/movie_suggestions_widget/cubit/movie_suggestions_view_model.dart';
 
 class MovieCarouselWidget extends StatelessWidget {
   final List<Movie> moviesList;
@@ -22,8 +25,32 @@ class MovieCarouselWidget extends StatelessWidget {
       itemBuilder: (context, index, realIndex) {
         return GestureDetector(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                MovieDetailsScreen(),));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (_) => getIt<MovieDetailsCubit>(),
+                    ),
+                    BlocProvider(
+                      create: (_) => getIt<MovieSuggestionsCubit>(),
+                    ),
+                  ],
+                  child: MovieDetailsScreen(
+                    movieId: moviesList[index].id ?? -1,
+                  ),
+                ),
+              ),
+            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //
+            //     builder: (context) =>
+            //         MovieDetailsScreen(movieId: moviesList[index].id ?? -1),
+            //   ),
+            // );
           },
           child: Stack(
             children: [

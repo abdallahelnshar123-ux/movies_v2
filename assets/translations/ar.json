@@ -66,7 +66,7 @@
   "cast": "طاقم التمثيل",
   "genres": "الفئات",
   "sorry_we_were_unable_to_upload_similar_movies": "عذراً, لم نتمكن من تحميل أفلام مشابهة . ",
-  "sorry_no_summary_found": "عذراُ , لا يوجد ملخص ! ",
+  "no_summary_found": "عذراُ , لا يوجد ملخص ! ",
   "search": "إبحث",
   "this_field_is_required": "هذا الحقل مطلوب",
   "email_is_required": "البريد الالكتروني مطلوب",

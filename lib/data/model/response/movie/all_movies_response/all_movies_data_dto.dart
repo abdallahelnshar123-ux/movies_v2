@@ -5,15 +5,15 @@
 
 library;
 
-import 'movie_dto.dart';
-class DataDto {
-  DataDto({
+import '../movie_dto.dart';
+class AllMoviesDataDto {
+  AllMoviesDataDto({
     this.movieCount,
     this.limit,
     this.pageNumber,
     this.movies,});
 
-  DataDto.fromJson(dynamic json) {
+  AllMoviesDataDto.fromJson(dynamic json) {
     movieCount = json['movie_count'];
     limit = json['limit'];
     pageNumber = json['page_number'];

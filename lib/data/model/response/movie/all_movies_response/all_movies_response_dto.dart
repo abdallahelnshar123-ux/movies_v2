@@ -5,8 +5,8 @@
 
 library;
 
-import 'data_dto.dart';
-import 'meta_dto.dart';
+import 'all_movies_data_dto.dart';
+import '../meta_dto.dart';
 class AllMoviesResponseDto {
   AllMoviesResponseDto({
       this.status, 
@@ -17,12 +17,12 @@ class AllMoviesResponseDto {
   AllMoviesResponseDto.fromJson(dynamic json) {
     status = json['status'];
     statusMessage = json['status_message'];
-    data = json['data'] != null ? DataDto.fromJson(json['data']) : null;
+    data = json['data'] != null ? AllMoviesDataDto.fromJson(json['data']) : null;
     meta = json['@meta'] != null ? MetaDto.fromJson(json['@meta']) : null;
   }
   String? status;
   String? statusMessage;
-  DataDto? data;
+  AllMoviesDataDto? data;
   MetaDto? meta;
 
   Map<String, dynamic> toJson() {

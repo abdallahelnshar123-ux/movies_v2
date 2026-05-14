@@ -9,14 +9,14 @@ import 'package:movies/features/ui/home_screen/tabs/home_tab/cubit/home_tab_genr
 import 'package:movies/features/ui/home_screen/tabs/home_tab/home_tab_carousel_state.dart';
 import 'package:movies/features/ui/home_screen/tabs/home_tab/home_tab_genre_state.dart';
 import 'package:movies/features/ui/home_screen/tabs/home_tab/provider/home_tab_provider.dart';
-import 'package:movies/features/ui/home_screen/tabs/home_tab/widget/genre_movies_shimmer_widget.dart';
-import 'package:movies/features/ui/home_screen/tabs/home_tab/widget/genre_movies_widget.dart';
-import 'package:movies/features/ui/home_screen/tabs/home_tab/widget/movie_carousel_shimmer_widget.dart';
-import 'package:movies/features/ui/home_screen/tabs/home_tab/widget/movie_carousel_widget.dart';
+import 'package:movies/features/ui/home_screen/tabs/home_tab/view/widget/genre_movies_shimmer_widget.dart';
+import 'package:movies/features/ui/home_screen/tabs/home_tab/view/widget/genre_movies_widget.dart';
+import 'package:movies/features/ui/home_screen/tabs/home_tab/view/widget/movie_carousel_shimmer_widget.dart';
+import 'package:movies/features/ui/home_screen/tabs/home_tab/view/widget/movie_carousel_widget.dart';
 import 'package:movies/widgets/main_error_widget.dart';
 
-import '../../../../../core/utils/app_assets.dart';
-import '../../../../../core/utils/screen_size.dart';
+import '../../../../../../core/utils/app_assets.dart';
+import '../../../../../../core/utils/screen_size.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});

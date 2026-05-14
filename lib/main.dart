@@ -36,6 +36,8 @@ void main() async {
               getIt<HomeTabCarouselCubit>()..getHomeTabMovies(),
         ),
         BlocProvider(create: (context) => getIt<HomeTabGenreCubit>()),
+        // BlocProvider(create: (context) => getIt<MovieDetailsCubit>()),
+        // BlocProvider(create: (context) => getIt<MovieSuggestionsCubit>()),
       ],
       child: EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('ar')],
