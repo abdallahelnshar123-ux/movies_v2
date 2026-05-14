@@ -3,12 +3,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/features/ui/home_screen/tabs/home_tab/cubit/home_tab_genre_view_model.dart';
+import 'package:movies/features/ui/movie_details_screen/view/movie_details_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../../../../core/utils/app_colors.dart';
-import '../../../../../../core/utils/app_styles.dart';
-import '../../../../../../core/utils/screen_size.dart';
-import '../../../../../../domain/entities/response/movie/movie.dart';
+import '../../../../../../../core/di/di.dart';
+import '../../../../../../../core/utils/app_colors.dart';
+import '../../../../../../../core/utils/app_styles.dart';
+import '../../../../../../../core/utils/screen_size.dart';
+import '../../../../../../../domain/entities/response/movie/movie.dart';
+import '../../../../../movie_details_screen/cubit/movie_details_view_model.dart';
+import '../../../../../movie_details_screen/view/widget/movie_suggestions_widget/cubit/movie_suggestions_view_model.dart';
 
 class GenreMoviesWidget extends StatefulWidget {
   final List<Movie> moviesList;
@@ -47,7 +51,7 @@ class _GenreMoviesWidgetState extends State<GenreMoviesWidget> {
             children: [
               Text(
                 context.watch<HomeTabGenreCubit>().randomGenre.tr(),
-                style: AppStyles.robotoRegular20White,
+                style: AppStyles.robotoRegular20White(context),
               ),
               Row(
                 children: [
@@ -55,7 +59,7 @@ class _GenreMoviesWidgetState extends State<GenreMoviesWidget> {
                     onPressed: () {},
                     child: Text(
                       "See More",
-                      style: AppStyles.robotoRegular16Yellow,
+                      style: AppStyles.robotoRegular16Yellow(context),
                     ),
                   ),
                   Icon(
@@ -97,11 +101,31 @@ class _GenreMoviesWidgetState extends State<GenreMoviesWidget> {
               }
               return GestureDetector(
                 onTap: () {
-                  // todo : navigate to movie
-                  // Navigator.pushNamed(
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => MultiBlocProvider(
+                        providers: [
+                          BlocProvider(
+                            create: (_) => getIt<MovieDetailsCubit>(),
+                          ),
+                          BlocProvider(
+                            create: (_) => getIt<MovieSuggestionsCubit>(),
+                          ),
+                        ],
+                        child: MovieDetailsScreen(
+                          movieId: widget.moviesList[index].id ?? -1,
+                        ),
+                      ),
+                    ),
+                  );
+                  // Navigator.push(
                   //   context,
-                  //   AppRoutes.movieDetailsScreen,
-                  //   arguments: moviesList[index].id,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => MovieDetailsScreen(
+                  //       movieId: widget.moviesList[index].id ?? -1,
+                  //     ),
+                  //   ),
                   // );
                 },
                 child: Container(
@@ -129,7 +153,7 @@ class _GenreMoviesWidgetState extends State<GenreMoviesWidget> {
                       children: [
                         Text(
                           widget.moviesList[index].rating.toString(),
-                          style: AppStyles.robotoRegular10White,
+                          style: AppStyles.robotoRegular10White(context),
                         ),
                         Icon(Icons.star, color: Colors.amber, size: 14),
                       ],

@@ -57,7 +57,10 @@ class _RegisterUiState extends State<RegisterUi> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.transparentColor,
-        title: Text('Register'.tr(), style: AppStyles.robotoRegular16Yellow),
+        title: Text(
+          'Register'.tr(),
+          style: AppStyles.robotoRegular16Yellow(context),
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -77,7 +80,7 @@ class _RegisterUiState extends State<RegisterUi> {
                       AvatarCarousel(),
                       Text(
                         'Avatar'.tr(),
-                        style: AppStyles.robotoRegular16White,
+                        style: AppStyles.robotoRegular16White(context),
                         textAlign: TextAlign.center,
                       ),
                     ],
@@ -97,7 +100,7 @@ class _RegisterUiState extends State<RegisterUi> {
                     fit: BoxFit.none,
                   ),
                   hintText: "Name".tr(),
-                  hintStyle: AppStyles.robotoRegular16White,
+                  hintStyle: AppStyles.robotoRegular16White(context),
                   filled: true,
                   fillColor: AppColors.darkGrayColor,
                 ),
@@ -115,7 +118,7 @@ class _RegisterUiState extends State<RegisterUi> {
                     fit: BoxFit.none,
                   ),
                   hintText: "Email".tr(),
-                  hintStyle: AppStyles.robotoRegular16White,
+                  hintStyle: AppStyles.robotoRegular16White(context),
                   filled: true,
                   fillColor: AppColors.darkGrayColor,
                 ),
@@ -130,7 +133,7 @@ class _RegisterUiState extends State<RegisterUi> {
                     ),
                     validator: (value) => Validators.password(value),
                     controller: passwordController,
-                    hintStyle: AppStyles.robotoRegular16White,
+                    hintStyle: AppStyles.robotoRegular16White(context),
                     hintText: "Password".tr(),
                     prefixIcon: SvgPicture.asset(
                       AppAssets.passwordIcon,
@@ -170,7 +173,7 @@ class _RegisterUiState extends State<RegisterUi> {
                     ),
                     controller: confPasswordController,
                     hintText: "Confirm Password".tr(),
-                    hintStyle: AppStyles.robotoRegular16White,
+                    hintStyle: AppStyles.robotoRegular16White(context),
                     prefixIcon: SvgPicture.asset(
                       AppAssets.passwordIcon,
                       fit: BoxFit.none,
@@ -208,7 +211,7 @@ class _RegisterUiState extends State<RegisterUi> {
                     fit: BoxFit.none,
                   ),
                   hintText: "Phone Number".tr(),
-                  hintStyle: AppStyles.robotoRegular16White,
+                  hintStyle: AppStyles.robotoRegular16White(context),
                   filled: true,
                   fillColor: AppColors.darkGrayColor,
                 ),
@@ -230,7 +233,7 @@ class _RegisterUiState extends State<RegisterUi> {
                   backgroundColor: AppColors.yellowColor,
                   child: Text(
                     'Create Account'.tr(),
-                    style: AppStyles.robotoRegular20Black,
+                    style: AppStyles.robotoRegular20Black(context),
                   ),
                 ),
                 Row(
@@ -238,7 +241,7 @@ class _RegisterUiState extends State<RegisterUi> {
                   children: [
                     Text(
                       "already_have_account".tr(),
-                      style: AppStyles.robotoRegular14White,
+                      style: AppStyles.robotoRegular14White(context),
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
@@ -255,7 +258,7 @@ class _RegisterUiState extends State<RegisterUi> {
                       },
                       child: Text(
                         "login".tr(),
-                        style: AppStyles.robotoRegular14Yellow,
+                        style: AppStyles.robotoRegular14Yellow(context),
                       ),
                     ),
                   ],
@@ -270,7 +273,10 @@ class _RegisterUiState extends State<RegisterUi> {
                         endIndent: context.width * 0.03,
                       ),
                     ),
-                    Text("or".tr(), style: AppStyles.robotoRegular15Yellow),
+                    Text(
+                      "or".tr(),
+                      style: AppStyles.robotoRegular15Yellow(context),
+                    ),
                     Expanded(
                       child: Divider(
                         color: AppColors.yellowColor,

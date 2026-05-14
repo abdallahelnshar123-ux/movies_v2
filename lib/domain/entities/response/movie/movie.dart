@@ -1,3 +1,8 @@
+
+import 'package:movies/domain/entities/response/movie/cast.dart';
+import 'package:movies/domain/entities/response/movie/torrents.dart';
+
+
 class Movie {
   Movie({
     this.id,
@@ -11,9 +16,9 @@ class Movie {
     this.rating,
     this.runtime,
     this.genres,
-    this.summary,
+    this.likeCount,
+    this.descriptionIntro,
     this.descriptionFull,
-    this.synopsis,
     this.ytTrailerCode,
     this.language,
     this.mpaRating,
@@ -22,9 +27,18 @@ class Movie {
     this.smallCoverImage,
     this.mediumCoverImage,
     this.largeCoverImage,
-    this.state,
+    this.screenshots ,
+    // this.mediumScreenshotImage1,
+    // this.mediumScreenshotImage2,
+    // this.mediumScreenshotImage3,
+    // this.largeScreenshotImage1,
+    // this.largeScreenshotImage2,
+    // this.largeScreenshotImage3,
+    this.cast,
+    this.torrents,
     this.dateUploaded,
     this.dateUploadedUnix,
+
   });
 
   int? id;
@@ -38,9 +52,9 @@ class Movie {
   double? rating;
   int? runtime;
   List<String>? genres;
-  String? summary;
+  int? likeCount;
+  String? descriptionIntro;
   String? descriptionFull;
-  String? synopsis;
   String? ytTrailerCode;
   String? language;
   String? mpaRating;
@@ -49,7 +63,15 @@ class Movie {
   String? smallCoverImage;
   String? mediumCoverImage;
   String? largeCoverImage;
-  String? state;
+List<String?>? screenshots ;
+  // String? mediumScreenshotImage1;
+  // String? mediumScreenshotImage2;
+  // String? mediumScreenshotImage3;
+  // String? largeScreenshotImage1;
+  // String? largeScreenshotImage2;
+  // String? largeScreenshotImage3;
+  List<Cast>? cast;
+  List<Torrents>? torrents;
   String? dateUploaded;
   int? dateUploadedUnix;
 }

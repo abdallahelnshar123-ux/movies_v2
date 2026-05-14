@@ -8,8 +8,9 @@ import '../../../../core/utils/screen_size.dart';
 import '../../../../widgets/custom_elevated_button.dart';
 
 class ContinueWithGoogleButton extends StatelessWidget {
-  final VoidCallback onPressed ;
-  const ContinueWithGoogleButton({super.key , required this.onPressed});
+  final VoidCallback onPressed;
+
+  const ContinueWithGoogleButton({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class ContinueWithGoogleButton extends StatelessWidget {
           SvgPicture.asset("assets/icons/google_icon.svg", fit: BoxFit.none),
           Text(
             "continue_with_google".tr(),
-            style: AppStyles.robotoRegular20Black,
+            style: AppStyles.robotoRegular20Black(context),
           ),
         ],
       ),

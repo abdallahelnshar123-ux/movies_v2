@@ -29,7 +29,7 @@ class MainErrorWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         spacing: context.height * 0.03,
         children: [
-          Text(errorMessage, style: AppStyles.robotoBold20White , textAlign: TextAlign.center,),
+          Text(errorMessage, style: AppStyles.robotoBold20White(context) , textAlign: TextAlign.center,),
 
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -39,7 +39,7 @@ class MainErrorWidget extends StatelessWidget {
             onPressed: onPressed,
             child: Text(
               'try again',
-              style: AppStyles.robotoRegular20Black,
+              style: AppStyles.robotoRegular20Black(context),
             ),
           ),
         ],

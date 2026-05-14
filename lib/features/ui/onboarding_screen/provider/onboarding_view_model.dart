@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:movies/core/utils/app_routes.dart';
 
 class OnboardingViewModel extends ChangeNotifier {
   // final LocalStorage _localStorage;

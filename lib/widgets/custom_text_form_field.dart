@@ -61,7 +61,7 @@ class CustomTextFormField extends StatelessWidget {
       obscureText: obscureText,
       obscuringCharacter:obscuringCharacter ,
       keyboardType:  keyboardType,
-      style: AppStyles.robotoRegular16White,
+      style: AppStyles.robotoRegular16White(context),
       cursorColor: AppColors.yellowColor,
       cursorHeight: context.height*0.04,
       decoration: InputDecoration(

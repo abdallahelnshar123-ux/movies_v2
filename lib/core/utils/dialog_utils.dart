@@ -17,7 +17,10 @@ class DialogUtils {
           spacing: 20,
           children: [
             CircularProgressIndicator(color: AppColors.yellowColor),
-            Text(context.tr('loading'), style: AppStyles.robotoRegular14White),
+            Text(
+              context.tr('loading'),
+              style: AppStyles.robotoRegular14White(context),
+            ),
           ],
         ),
       ),
@@ -47,7 +50,7 @@ class DialogUtils {
           },
           child: Text(
             context.tr(posActionText),
-            style: AppStyles.robotoRegular16Yellow,
+            style: AppStyles.robotoRegular16Yellow(context),
           ),
         ),
       );
@@ -61,7 +64,7 @@ class DialogUtils {
           },
           child: Text(
             context.tr(negActionText),
-            style: AppStyles.robotoRegular16Yellow,
+            style: AppStyles.robotoRegular16Yellow(context),
           ),
         ),
       );
@@ -73,9 +76,12 @@ class DialogUtils {
         contentPadding: EdgeInsets.all(20),
         content: Text(
           context.tr(message),
-          style: AppStyles.robotoRegular14White,
+          style: AppStyles.robotoRegular14White(context),
         ),
-        title: Text(context.tr(title), style: AppStyles.robotoRegular16Yellow),
+        title: Text(
+          context.tr(title),
+          style: AppStyles.robotoRegular16Yellow(context),
+        ),
         actions: actions,
       ),
     );
@@ -100,7 +106,7 @@ class DialogUtils {
           contentPadding: const EdgeInsets.all(20),
           title: Text(
             context.tr(title),
-            style: AppStyles.robotoRegular16Yellow,
+            style: AppStyles.robotoRegular16Yellow(context),
           ),
           content: Form(
             key: formKey,
@@ -109,7 +115,7 @@ class DialogUtils {
               children: [
                 Text(
                   context.tr(message),
-                  style: AppStyles.robotoRegular14White,
+                  style: AppStyles.robotoRegular14White(context),
                 ),
                 const SizedBox(height: 15),
                 CustomTextFormField(
@@ -125,7 +131,7 @@ class DialogUtils {
                   },
                   controller: passwordController,
                   hintText: "password".tr(),
-                  hintStyle: AppStyles.robotoRegular16White,
+                  hintStyle: AppStyles.robotoRegular16White(context),
                   obscureText: true,
                   filled: true,
                   fillColor: AppColors.blackColor,
@@ -140,7 +146,7 @@ class DialogUtils {
               },
               child: Text(
                 context.tr(cancelText),
-                style: AppStyles.robotoRegular16Yellow,
+                style: AppStyles.robotoRegular16Yellow(context),
               ),
             ),
             TextButton(
@@ -151,7 +157,7 @@ class DialogUtils {
               },
               child: Text(
                 context.tr(confirmText),
-                style: AppStyles.robotoRegular16Yellow,
+                style: AppStyles.robotoRegular16Yellow(context),
               ),
             ),
           ],
