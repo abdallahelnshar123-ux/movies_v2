@@ -6,35 +6,14 @@ import 'package:movies/domain/entities/response/movie/movie.dart';
 import 'package:movies/domain/use_cases/get_movies_by_genre_use_case.dart';
 import 'package:movies/features/ui/home_screen/tabs/home_tab/home_tab_genre_state.dart';
 
+import '../../../../../../core/constants/app_constants.dart';
+
 @injectable
 class HomeTabGenreCubit extends Cubit<HomeTabGenreState> {
   final GetMoviesByGenreUseCase _getMoviesByGenreUseCase;
 
   HomeTabGenreCubit(this._getMoviesByGenreUseCase)
     : super(HomeGenreInitState());
-  List<String> genresList = [
-    'action',
-    'adventure',
-    'animation',
-    'anime',
-    'comedy',
-    'crime',
-    'documentary',
-    'drama',
-    'family',
-    'fantasy',
-    'horror',
-    'music',
-    'musical',
-    'mystery',
-    'reality TV',
-    'romance',
-    'sci-fi',
-    'seasonal',
-    'short',
-    'sport',
-    'thriller',
-  ];
   var random = Random();
   String randomGenre = '';
 
@@ -51,7 +30,7 @@ class HomeTabGenreCubit extends Cubit<HomeTabGenreState> {
     isLoading = true;
 
     if (!isPagination) {
-      randomGenre = genresList[random.nextInt(genresList.length)];
+      randomGenre = AppConstants.genresList[random.nextInt(AppConstants.genresList.length)];
 
       currentPage = 1;
 

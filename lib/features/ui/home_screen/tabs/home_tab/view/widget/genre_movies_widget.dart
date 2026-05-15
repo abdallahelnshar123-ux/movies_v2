@@ -1,10 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies/features/ui/home_screen/provider/home_screen_view_model.dart';
+import 'package:movies/features/ui/home_screen/tabs/browse_tab/cubit/browse_view_model.dart';
 import 'package:movies/features/ui/home_screen/tabs/home_tab/cubit/home_tab_genre_view_model.dart';
 import 'package:movies/features/ui/movie_details_screen/view/movie_details_screen.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:movies/widgets/movie_item.dart';
+import 'package:movies/widgets/shimmer_widget.dart';
 
 import '../../../../../../../core/di/di.dart';
 import '../../../../../../../core/utils/app_colors.dart';
@@ -56,9 +58,18 @@ class _GenreMoviesWidgetState extends State<GenreMoviesWidget> {
               Row(
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      String selectedGenre = context
+                          .read<HomeTabGenreCubit>()
+                          .randomGenre;
+                      context.read<HomeScreenViewModel>().changeIndex(2);
+
+                      await context
+                          .read<BrowseCubit>()
+                          .getBrowseMoviesFromHomeTab(genre: selectedGenre);
+                    },
                     child: Text(
-                      "See More",
+                      "see_more".tr(),
                       style: AppStyles.robotoRegular16Yellow(context),
                     ),
                   ),
@@ -86,18 +97,7 @@ class _GenreMoviesWidgetState extends State<GenreMoviesWidget> {
                 (context.watch<HomeTabGenreCubit>().isLoading ? 1 : 0),
             itemBuilder: (context, index) {
               if (index == widget.moviesList.length) {
-                return Shimmer.fromColors(
-                  baseColor: Colors.black26,
-                  highlightColor: Colors.white24,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black38,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    width: context.width * 0.25,
-                    height: double.infinity,
-                  ),
-                );
+                return ShimmerWidget(width: context.width * 0.25);
               }
               return GestureDetector(
                 onTap: () {
@@ -119,46 +119,18 @@ class _GenreMoviesWidgetState extends State<GenreMoviesWidget> {
                       ),
                     ),
                   );
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => MovieDetailsScreen(
-                  //       movieId: widget.moviesList[index].id ?? -1,
-                  //     ),
-                  //   ),
-                  // );
                 },
-                child: Container(
-                  padding: EdgeInsets.all(context.width * 0.015),
-                  alignment: Alignment.topLeft,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    image: DecorationImage(
-                      image: CachedNetworkImageProvider(
-                        widget.moviesList[index].largeCoverImage ?? '',
-                      ),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  width: context.width * 0.25,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                    decoration: BoxDecoration(
-                      color: AppColors.blurColor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      spacing: context.width * .01,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          widget.moviesList[index].rating.toString(),
-                          style: AppStyles.robotoRegular10White(context),
-                        ),
-                        Icon(Icons.star, color: Colors.amber, size: 14),
-                      ],
-                    ),
-                  ),
+                child: MovieItem(
+                  imageUrl: widget.moviesList[index].largeCoverImage ?? '',
+                  rating: widget.moviesList[index].rating.toString(),
+                  ratingTextStyle: AppStyles.robotoRegular10White(context),
+                  startSize: 12,
+                  ratingPaddingHorizontal: 6,
+                  ratingPaddingVertical: 3,
+                  containerPadding: context.width * 0.015,
+                  containerWidth: context.width * 0.25,
+                  ratingBorderRadius: 7,
+                  containerBorderRadius: 10,
                 ),
               );
             },
@@ -169,7 +141,9 @@ class _GenreMoviesWidgetState extends State<GenreMoviesWidget> {
   }
 
   void onScroll() {
-    if (context.read<HomeTabGenreCubit>().isLoading) return;
+    if (context.read<HomeTabGenreCubit>().isLoading) {
+      return;
+    }
 
     final maxScroll = scrollController.position.maxScrollExtent;
 
