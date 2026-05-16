@@ -100,6 +100,8 @@
   "short": "قصير",
   "sport": "رياضة",
   "thriller": "تشويق",
-  "see_more": "شاهد المزيد"
+  "see_more": "شاهد المزيد",
+  "no_movies_for_this_search_term" : "لا يوجد افلام لهذا المصطلح"
+
 
 }

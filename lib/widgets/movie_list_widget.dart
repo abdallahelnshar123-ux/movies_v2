@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies/features/ui/home_screen/tabs/browse_tab/browse_state.dart';
+import 'package:movies/domain/entities/response/movie/movie.dart';
 
-import '../../../../../../../core/di/di.dart';
-import '../../../../../../../core/utils/app_styles.dart';
-import '../../../../../../../core/utils/screen_size.dart';
-import '../../../../../../../widgets/movie_item.dart';
-import '../../../../../../../widgets/shimmer_widget.dart';
-import '../../../../../movie_details_screen/cubit/movie_details_view_model.dart';
-import '../../../../../movie_details_screen/view/movie_details_screen.dart';
-import '../../../../../movie_details_screen/view/widget/movie_suggestions_widget/cubit/movie_suggestions_view_model.dart';
+import '../core/di/di.dart';
+import '../core/utils/app_styles.dart';
+import '../core/utils/screen_size.dart';
+import 'movie_item.dart';
+import 'shimmer_widget.dart';
+import '../features/ui/movie_details_screen/cubit/movie_details_view_model.dart';
+import '../features/ui/movie_details_screen/view/movie_details_screen.dart';
+import '../features/ui/movie_details_screen/view/widget/movie_suggestions_widget/cubit/movie_suggestions_view_model.dart';
 
 class MovieListWidget extends StatelessWidget {
   final ScrollController scrollController;
-  final BrowseSuccessState state;
+
+  // final State state;
+
+  final bool isPaginationLoading;
+
+  final List<Movie> moviesList;
 
   const MovieListWidget({
     super.key,
     required this.scrollController,
-    required this.state,
+    // required this.state,
+    required this.moviesList,
+    required this.isPaginationLoading,
   });
 
   @override
@@ -36,12 +43,12 @@ class MovieListWidget extends StatelessWidget {
         mainAxisSpacing: context.width * 0.04,
         childAspectRatio: 0.7,
       ),
-      itemCount: state.moviesList.length + (state.isPaginationLoading ? 2 : 0),
+      itemCount: moviesList.length + (isPaginationLoading ? 2 : 0),
       itemBuilder: (context, index) {
-        if (index >= state.moviesList.length) {
+        if (index >= moviesList.length) {
           return ShimmerWidget();
         }
-        final movie = state.moviesList[index];
+        final movie = moviesList[index];
 
         return GestureDetector(
           onTap: () {

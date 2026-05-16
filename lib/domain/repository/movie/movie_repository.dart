@@ -9,6 +9,7 @@ abstract class MovieRepository {
   Future<Either<Failure, List<Movie>>> getMoviesByGenre({required String genre , required int page});
   Future <Either<Failure, Movie>> getMovieDetails({ required int movieId});
   Future <Either<Failure, List<Movie>>> getMovieSuggestions({ required int movieId});
+  Future <Either<Failure,List<Movie>>> getMoviesBySearch({required String searchTerm ,required int page});
 
 
 

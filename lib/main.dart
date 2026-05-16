@@ -9,6 +9,7 @@ import 'package:movies/features/ui/home_screen/tabs/browse_tab/cubit/browse_view
 import 'package:movies/features/ui/home_screen/tabs/home_tab/cubit/home_tab__carousel_view_model.dart';
 import 'package:movies/features/ui/home_screen/tabs/home_tab/cubit/home_tab_genre_view_model.dart';
 import 'package:movies/features/ui/home_screen/tabs/home_tab/provider/home_tab_provider.dart';
+import 'package:movies/features/ui/home_screen/tabs/search_tab/cubit/search_view_model.dart';
 import 'package:movies/features/ui/onboarding_screen/provider/onboarding_view_model.dart';
 import 'package:movies/features/ui/onboarding_screen/view/onboarding_screen.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +39,7 @@ void main() async {
         ),
         BlocProvider(create: (context) => getIt<HomeTabGenreCubit>()),
         BlocProvider(create: (context) => getIt<BrowseCubit>()..getBrowseMovies()),
+        BlocProvider(create: (context) => getIt<SearchCubit>()),
         // BlocProvider(create: (context) => getIt<MovieDetailsCubit>()),
         // BlocProvider(create: (context) => getIt<MovieSuggestionsCubit>()),
       ],
