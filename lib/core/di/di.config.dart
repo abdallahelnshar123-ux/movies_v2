@@ -42,6 +42,7 @@ import '../../domain/use_cases/get_home_movies_use_case.dart' as _i766;
 import '../../domain/use_cases/get_movie_details_use_case.dart' as _i368;
 import '../../domain/use_cases/get_movie_suggestions_use_case.dart' as _i35;
 import '../../domain/use_cases/get_movies_by_genre_use_case.dart' as _i452;
+import '../../domain/use_cases/get_movies_by_search_use_case.dart' as _i23;
 import '../../domain/use_cases/login_with_email_and_password_use_case.dart'
     as _i1065;
 import '../../domain/use_cases/register_with_email_and_password_use_case.dart'
@@ -54,6 +55,8 @@ import '../../features/ui/home_screen/tabs/home_tab/cubit/home_tab__carousel_vie
     as _i44;
 import '../../features/ui/home_screen/tabs/home_tab/cubit/home_tab_genre_view_model.dart'
     as _i189;
+import '../../features/ui/home_screen/tabs/search_tab/cubit/search_view_model.dart'
+    as _i301;
 import '../../features/ui/movie_details_screen/cubit/movie_details_view_model.dart'
     as _i365;
 import '../../features/ui/movie_details_screen/view/widget/movie_suggestions_widget/cubit/movie_suggestions_view_model.dart'
@@ -139,6 +142,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i452.GetMoviesByGenreUseCase>(
       () => _i452.GetMoviesByGenreUseCase(gh<_i128.MovieRepository>()),
     );
+    gh.factory<_i23.GetMoviesBySearchUseCase>(
+      () => _i23.GetMoviesBySearchUseCase(gh<_i128.MovieRepository>()),
+    );
     gh.factory<_i882.BrowseCubit>(
       () => _i882.BrowseCubit(gh<_i452.GetMoviesByGenreUseCase>()),
     );
@@ -153,6 +159,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i866.MovieSuggestionsCubit>(
       () => _i866.MovieSuggestionsCubit(gh<_i35.GetMovieSuggestionsUseCase>()),
+    );
+    gh.factory<_i301.SearchCubit>(
+      () => _i301.SearchCubit(gh<_i23.GetMoviesBySearchUseCase>()),
     );
     return this;
   }

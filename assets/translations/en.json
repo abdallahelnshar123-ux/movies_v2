@@ -99,6 +99,7 @@
   "short": "Short",
   "sport": "Sport",
   "thriller": "Thriller",
-  "see_more": "See More"
+  "see_more": "See More",
+  "no_movies_for_this_search_term" : "No movies for this search term"
 
 }

@@ -55,4 +55,13 @@ class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
     );
     return AllMoviesResponseDto.fromJson(response).data?.movies;
   }
+
+  @override
+  Future<List<MovieDto>?> getMoviesBySearch({required String searchTerm , required int page }) async{
+    var response = await _apiConsumer.get<Map<String, dynamic>>(
+      EndPoints.movieListEndPoint,
+      queryParameters: {'query_term': searchTerm ,'page': page},
+    );
+    return AllMoviesResponseDto.fromJson(response).data?.movies;
+  }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../../core/utils/screen_size.dart';
-import '../../../../../../../widgets/shimmer_widget.dart';
+import '../core/utils/screen_size.dart';
+import 'shimmer_widget.dart';
 
 class MovieListShimmerWidget extends StatelessWidget {
   const MovieListShimmerWidget({super.key});

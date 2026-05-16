@@ -76,11 +76,36 @@ class MovieRepositoryImpl extends MovieRepository {
   }
 
   @override
-  Future<Either<Failure, List<Movie>>> getMovieSuggestions({required int movieId})async {
+  Future<Either<Failure, List<Movie>>> getMovieSuggestions({
+    required int movieId,
+  }) async {
     try {
-      var moviesList = await _movieRemoteDataSource.getMovieSuggestions(movieId: movieId);
+      var moviesList = await _movieRemoteDataSource.getMovieSuggestions(
+        movieId: movieId,
+      );
       if (moviesList == null) {
         return Left(UnexpectedFailure('Sorry we could not load suggestions'));
+      }
+      return Right(moviesList.map((movieDto) => movieDto.toMovie()).toList());
+    } on AppException catch (e) {
+      return Left(e.toFailure());
+    } on DioException catch (e) {
+      var exception = e.error as AppException;
+
+      return Left(exception.toFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Movie>>> getMoviesBySearch({
+    required String searchTerm,required int page
+  }) async {
+    try {
+      var moviesList = await _movieRemoteDataSource.getMoviesBySearch(
+        searchTerm: searchTerm,page: page
+      );
+      if (moviesList == null) {
+        return Left(UnexpectedFailure('no_movies_for_this_search_term'));
       }
       return Right(moviesList.map((movieDto) => movieDto.toMovie()).toList());
     } on AppException catch (e) {
