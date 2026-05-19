@@ -30,19 +30,30 @@ import '../../data/data_sources/remote/user/impl/user_remote_data_source_impl.da
     as _i22;
 import '../../data/data_sources/remote/user/user_remote_data_source.dart'
     as _i632;
+import '../../data/data_sources/remote/watchlist/impl/watchlist_remote_data_source_impl.dart'
+    as _i643;
+import '../../data/data_sources/remote/watchlist/watchlist_remote_data_source.dart'
+    as _i569;
 import '../../data/repository/auth/auth_repository_impl.dart' as _i392;
 import '../../data/repository/movie/movie_repository_impl.dart' as _i98;
 import '../../data/repository/user/user_repository_impl.dart' as _i1053;
+import '../../data/repository/watchlist/watchlist_repository_impl.dart'
+    as _i883;
 import '../../data/services/firebase_auth_service.dart' as _i734;
 import '../../data/services/firestore_service.dart' as _i367;
 import '../../domain/repository/auth/auth_repository.dart' as _i912;
 import '../../domain/repository/movie/movie_repository.dart' as _i128;
 import '../../domain/repository/user/user_repository.dart' as _i183;
+import '../../domain/repository/watchlist/watchlist_repository.dart' as _i593;
+import '../../domain/use_cases/add_movie_to_watchlist_use_case.dart' as _i981;
+import '../../domain/use_cases/delete_movie_from_watchlist_use_case.dart'
+    as _i327;
 import '../../domain/use_cases/get_home_movies_use_case.dart' as _i766;
 import '../../domain/use_cases/get_movie_details_use_case.dart' as _i368;
 import '../../domain/use_cases/get_movie_suggestions_use_case.dart' as _i35;
 import '../../domain/use_cases/get_movies_by_genre_use_case.dart' as _i452;
 import '../../domain/use_cases/get_movies_by_search_use_case.dart' as _i23;
+import '../../domain/use_cases/get_watchlist_movies_use_case.dart' as _i448;
 import '../../domain/use_cases/login_with_email_and_password_use_case.dart'
     as _i1065;
 import '../../domain/use_cases/register_with_email_and_password_use_case.dart'
@@ -55,6 +66,8 @@ import '../../features/ui/home_screen/tabs/home_tab/cubit/home_tab__carousel_vie
     as _i44;
 import '../../features/ui/home_screen/tabs/home_tab/cubit/home_tab_genre_view_model.dart'
     as _i189;
+import '../../features/ui/home_screen/tabs/profile_tab/cubit/watchlist_view_model.dart'
+    as _i222;
 import '../../features/ui/home_screen/tabs/search_tab/cubit/search_view_model.dart'
     as _i301;
 import '../../features/ui/movie_details_screen/cubit/movie_details_view_model.dart'
@@ -81,6 +94,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i734.FirebaseAuthService(),
     );
     gh.lazySingleton<_i367.FirestoreService>(() => _i367.FirestoreService());
+    gh.factory<_i569.WatchlistRemoteDataSource>(
+      () => _i643.WatchlistRemoteDataSourceImpl(gh<_i367.FirestoreService>()),
+    );
     gh.factory<_i632.UserRemoteDataSource>(
       () => _i22.UserRemoteDataSourceImpl(gh<_i367.FirestoreService>()),
     );
@@ -96,10 +112,22 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i202.AuthRemoteDataSource>(
       () => _i646.AuthRemoteDataSourceImpl(gh<_i734.FirebaseAuthService>()),
     );
+    gh.factory<_i593.WatchlistRepository>(
+      () =>
+          _i883.WatchlistRepositoryImpl(gh<_i569.WatchlistRemoteDataSource>()),
+    );
     gh.factory<_i996.UserLocalDataSource>(
       () => _i111.UserLocalDataSourceImpl(gh<_i1020.LocalStorage>()),
     );
     gh.factory<_i984.ApiConsumer>(() => _i44.DioConsumer(gh<_i361.Dio>()));
+    gh.factory<_i981.AddMovieToWatchlistUseCase>(
+      () => _i981.AddMovieToWatchlistUseCase(gh<_i593.WatchlistRepository>()),
+    );
+    gh.factory<_i327.DeleteMovieFromWatchlistUseCase>(
+      () => _i327.DeleteMovieFromWatchlistUseCase(
+        gh<_i593.WatchlistRepository>(),
+      ),
+    );
     gh.factory<_i912.AuthRepository>(
       () => _i392.AuthRepositoryImpl(
         gh<_i202.AuthRemoteDataSource>(),
@@ -116,6 +144,16 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i614.SignInWithGoogleUseCases>(
       () => _i614.SignInWithGoogleUseCases(gh<_i912.AuthRepository>()),
+    );
+    gh.factory<_i448.GetWatchlistMoviesUseCase>(
+      () => _i448.GetWatchlistMoviesUseCase(gh<_i593.WatchlistRepository>()),
+    );
+    gh.factory<_i222.WatchListCubit>(
+      () => _i222.WatchListCubit(
+        gh<_i448.GetWatchlistMoviesUseCase>(),
+        gh<_i981.AddMovieToWatchlistUseCase>(),
+        gh<_i327.DeleteMovieFromWatchlistUseCase>(),
+      ),
     );
     gh.factory<_i525.MovieRemoteDataSource>(
       () => _i343.MovieRemoteDataSourceImpl(gh<_i984.ApiConsumer>()),

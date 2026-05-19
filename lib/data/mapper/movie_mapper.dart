@@ -34,19 +34,8 @@ extension MovieMapper on MovieDto {
       screenshots: [
         mediumScreenshotImage1 ?? largeScreenshotImage1,
         mediumScreenshotImage2 ?? largeScreenshotImage2,
-        mediumScreenshotImage3 ?? largeScreenshotImage3
+        mediumScreenshotImage3 ?? largeScreenshotImage3,
       ],
-      // largeScreenshotImage1
-      // :,
-      // largeScreenshotImage2
-      // :,
-      // largeScreenshotImage3: largeScreenshotImage3,
-      // likeCount: likeCount,
-      // mediumScreenshotImage1
-      // :,
-      // mediumScreenshotImage2
-      // :,
-      // mediumScreenshotImage3: mediumScreenshotImage3,
       torrents: torrents
           ?.map((torrentsDto) => torrentsDto.toTorrents())
           .toList(),
