@@ -87,7 +87,7 @@ class SectionSwitcher extends StatelessWidget {
                   child: BlocBuilder<WatchListCubit, WatchListState>(
                     builder: (context, state) {
                       if (state is WatchListSuccessState) {
-                        return WatchlistMovieGrid(movies: state.movies);
+                        return WatchlistMovieGrid(moviesList: state.movies);
                       }
 
                       if (state is WatchListErrorState) {
@@ -117,7 +117,7 @@ class SectionSwitcher extends StatelessWidget {
                   child: BlocBuilder<HistoryCubit, HistoryState>(
                     builder: (context, state) {
                       if (state is HistorySuccessState) {
-                        return HistoryMovieGrid(movies: state.movies);
+                        return HistoryMovieGrid(moviesList: state.movies);
                       }
 
                       if (state is HistoryErrorState) {

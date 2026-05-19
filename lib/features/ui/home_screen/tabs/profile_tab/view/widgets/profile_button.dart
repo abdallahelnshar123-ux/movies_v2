@@ -1,10 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies/features/ui/auth/cubit/auth_view_model.dart';
 import 'package:movies/widgets/custom_elevated_button.dart';
 
 import '../../../../../../../core/utils/app_colors.dart';
+import '../../../../../../../core/utils/app_routes.dart';
 import '../../../../../../../core/utils/app_styles.dart';
 import '../../../../../../../core/utils/screen_size.dart';
+import '../../../../../auth/auth_state.dart';
 
 class ProfileButton extends StatelessWidget {
   late final String label;
@@ -17,7 +21,41 @@ class ProfileButton extends StatelessWidget {
     backgroundColor = AppColors.redColor;
     textColor = AppColors.whiteColor;
     label = 'exit'.tr();
-    icon = const Icon(Icons.logout, color: AppColors.whiteColor);
+    icon = BlocConsumer<AuthCubit, AuthState>(
+      builder: (context, state) {
+        if (state is AuthLogoutLoading) {
+          return CircularProgressIndicator(color: AppColors.whiteColor);
+        }
+
+        return Icon(Icons.logout, color: AppColors.whiteColor);
+      },
+      listenWhen: (previous, current) {
+        return current is AuthLogoutError || current is AuthUnauthenticated;
+      },
+      listener: (BuildContext context, AuthState state) {
+        if (state is AuthUnauthenticated) {
+
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            AppRoutes.loginRouteName,
+            (route) => false,
+          );
+
+          context.read<AuthCubit>().currentUser = null;
+        }
+        if (state is AuthLogoutError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                state.message,
+                style: AppStyles.robotoRegular14White(context),
+              ),
+              backgroundColor: AppColors.whiteColor,
+            ),
+          );
+        }
+      },
+    );
   }
 
   ProfileButton.editProfile({super.key, required this.onPressed}) {

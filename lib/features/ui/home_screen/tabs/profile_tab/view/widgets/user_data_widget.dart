@@ -8,7 +8,7 @@ import '../../../../../../../core/utils/app_styles.dart';
 import '../../../../../../../core/utils/screen_size.dart';
 
 class UserDataWidget extends StatelessWidget {
-  final MyUser currentUser;
+  final MyUser? currentUser;
 
   const UserDataWidget({super.key, required this.currentUser});
 
@@ -28,15 +28,15 @@ class UserDataWidget extends StatelessWidget {
             image: DecorationImage(
               fit: BoxFit.cover,
               image: AssetImage(
-                currentUser.avatarIndex != -1
-                    ? AppConstants.avatarList[currentUser.avatarIndex]
+                currentUser?.avatarIndex != -1
+                    ? AppConstants.avatarList[currentUser?.avatarIndex ?? -1]
                     : AppAssets.fallbackUserImage,
               ),
             ),
           ),
         ),
         Text(
-          currentUser.name,
+          currentUser?.name ?? '',
           style: AppStyles.robotoBold20White(context),
           textAlign: TextAlign.center,
         ),

@@ -16,6 +16,7 @@ import 'package:movies/features/ui/onboarding_screen/view/onboarding_screen.dart
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'core/data_bases/cache/shared_prefs_utils.dart';
+import 'features/ui/edit_profile_screen/edit_profile_screen.dart';
 import 'features/ui/home_screen/tabs/profile_tab/cubit/watchlist_view_model.dart';
 import 'firebase_options.dart';
 import 'core/di/di.dart';
@@ -83,6 +84,7 @@ class MyApp extends StatelessWidget {
           child: OnboardingScreen(),
         ),
         AppRoutes.loginRouteName: (context) => LoginScreen(),
+        AppRoutes.editProfileScreen: (context) => EditProfileScreen(),
         AppRoutes.registerRouteName: (context) => RegisterScreen(),
         AppRoutes.homeRouteName: (context) => MultiProvider(
           providers: [

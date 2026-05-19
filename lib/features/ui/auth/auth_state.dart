@@ -4,8 +4,15 @@ class AuthInitial extends AuthState {}
 
 class AuthLoginLoading extends AuthState {}
 
-class AuthLoginError extends AuthState {
+class AuthLogoutLoading extends AuthState {}
 
+class AuthLogoutError extends AuthState {
+  final String message;
+
+  AuthLogoutError(this.message);
+}
+
+class AuthLoginError extends AuthState {
   final String message;
 
   AuthLoginError(this.message);

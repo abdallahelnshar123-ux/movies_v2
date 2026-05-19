@@ -82,4 +82,10 @@ class SearchCubit extends Cubit<SearchState> {
 
     isFetching = false;
   }
+
+  @override
+  Future<void> close() {
+    searchController.dispose();
+    return super.close();
+  }
 }

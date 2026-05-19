@@ -7,6 +7,7 @@ import 'package:movies/features/ui/home_screen/tabs/profile_tab/view/widgets/pro
 import 'package:movies/features/ui/home_screen/tabs/profile_tab/view/widgets/user_data_widget.dart';
 
 import '../../../../../../core/utils/app_colors.dart';
+import '../../../../../../core/utils/app_routes.dart';
 import '../../../../../../core/utils/screen_size.dart';
 import '../../../../auth/cubit/auth_view_model.dart';
 import 'widgets/section_switcher.dart';
@@ -22,7 +23,9 @@ class _ProfileTabState extends State<ProfileTab> {
   @override
   Widget build(BuildContext context) {
     late var currentUser = context.watch<AuthCubit>().currentUser;
-
+    if (currentUser == null) {
+      return const SizedBox.shrink();
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -42,7 +45,7 @@ class _ProfileTabState extends State<ProfileTab> {
                 children: [
                   Expanded(
                     flex: 2,
-                    child: UserDataWidget(currentUser: currentUser!),
+                    child: UserDataWidget(currentUser: currentUser),
                   ),
                   Expanded(
                     flex: 3,
@@ -64,11 +67,22 @@ class _ProfileTabState extends State<ProfileTab> {
                 children: [
                   Expanded(
                     flex: 3,
-                    child: ProfileButton.editProfile(onPressed: () {}),
+                    child: ProfileButton.editProfile(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.editProfileScreen,
+                        );
+                      },
+                    ),
                   ),
                   Expanded(
                     flex: 2,
-                    child: ProfileButton.exit(onPressed: () {}),
+                    child: ProfileButton.exit(
+                      onPressed: () {
+                        context.read<AuthCubit>().logout(context);
+                      },
+                    ),
                   ),
                 ],
               ),

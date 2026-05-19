@@ -54,7 +54,7 @@ class LocalStorage {
     if (data == null) return null;
     return MyUserDto.fromFireStore(jsonDecode(data.toString()));
   }
-  //
-  // Future<void> clearUser() =>
-  //     SharedPrefsUtils.removeData(key: SharedPrefsKeys.userKey);
+
+  Future<void> clearUser() =>
+      SharedPrefsUtils.removeData(key: SharedPrefsKeys.userKey);
 }

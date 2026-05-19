@@ -63,6 +63,7 @@ import '../../domain/use_cases/get_movies_by_search_use_case.dart' as _i23;
 import '../../domain/use_cases/get_watchlist_movies_use_case.dart' as _i448;
 import '../../domain/use_cases/login_with_email_and_password_use_case.dart'
     as _i1065;
+import '../../domain/use_cases/logout_use_case.dart' as _i250;
 import '../../domain/use_cases/register_with_email_and_password_use_case.dart'
     as _i904;
 import '../../domain/use_cases/signin_with_gogole_use_cases.dart' as _i614;
@@ -185,12 +186,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i475.HistoryCubit>(
       () => _i475.HistoryCubit(gh<_i856.GetHistoryMoviesUseCase>()),
     );
-    gh.factory<_i303.AuthCubit>(
-      () => _i303.AuthCubit(
-        gh<_i614.SignInWithGoogleUseCases>(),
-        gh<_i904.RegisterWithEmailAndPasswordUseCase>(),
-        gh<_i1065.LoginWithEmailAndPasswordUseCase>(),
-      ),
+    gh.factory<_i250.LogoutUseCase>(
+      () => _i250.LogoutUseCase(gh<_i912.AuthRepository>()),
     );
     gh.factory<_i766.GetHomeMoviesUseCase>(
       () => _i766.GetHomeMoviesUseCase(gh<_i128.MovieRepository>()),
@@ -218,6 +215,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i44.HomeTabCarouselCubit>(
       () => _i44.HomeTabCarouselCubit(gh<_i766.GetHomeMoviesUseCase>()),
+    );
+    gh.factory<_i303.AuthCubit>(
+      () => _i303.AuthCubit(
+        gh<_i614.SignInWithGoogleUseCases>(),
+        gh<_i904.RegisterWithEmailAndPasswordUseCase>(),
+        gh<_i1065.LoginWithEmailAndPasswordUseCase>(),
+        gh<_i250.LogoutUseCase>(),
+      ),
     );
     gh.factory<_i866.MovieSuggestionsCubit>(
       () => _i866.MovieSuggestionsCubit(gh<_i35.GetMovieSuggestionsUseCase>()),
