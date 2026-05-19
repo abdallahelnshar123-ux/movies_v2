@@ -19,7 +19,7 @@ class WatchListCubit extends Cubit<WatchListState> {
     this._getWatchListMoviesUseCase,
     this._addMovieToWatchlistUseCase,
     this._deleteMovieFromWatchlistUseCase,
-  ) : super(WatchListLoadingState());
+  ) : super(WatchListInitState());
 
   StreamSubscription? _subscription;
 
@@ -41,48 +41,41 @@ class WatchListCubit extends Cubit<WatchListState> {
         },
 
         (movies) {
+
           watchListMovies = movies;
 
           watchListIds = movies.map((movie) => movie.id ?? 0).toSet();
-
+          if (watchListMovies.isEmpty) {
+            emit(WatchListEmptyState());
+          }
           emit(WatchListSuccessState(movies));
         },
       );
     });
   }
-  Future<void> addMovie({
-    required Movie movie,
-    required String uId,
-  }) async {
+
+  Future<void> addMovie({required Movie movie, required String uId}) async {
     final result = await _addMovieToWatchlistUseCase.invoke(
       movie: movie,
       uId: uId,
     );
 
-    result.fold(
-          (failure) {
-        emit(WatchListErrorState(failure.message));
-      },
-          (_) {},
-    );
+    result.fold((failure) {
+      emit(WatchListErrorState(failure.message));
+    }, (_) {});
   }
 
-  Future<void> deleteMovie({
-    required Movie movie,
-    required String uId,
-  }) async {
+  Future<void> deleteMovie({required Movie movie, required String uId}) async {
     final result = await _deleteMovieFromWatchlistUseCase.invoke(
       movie: movie,
       uId: uId,
     );
 
-    result.fold(
-          (failure) {
-        emit(WatchListErrorState(failure.message));
-      },
-          (_) {},
-    );
+    result.fold((failure) {
+      emit(WatchListErrorState(failure.message));
+    }, (_) {});
   }
+
   bool isMovieSaved(int movieId) {
     return watchListIds.contains(movieId);
   }

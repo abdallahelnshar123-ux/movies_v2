@@ -26,7 +26,7 @@ class FirestoreService {
     return documentSnapshot.data();
   }
 
-  /// ===============================   movie   =============================
+  /// ===============================   watchlist   =============================
   CollectionReference<MovieDto> getWatchListCollection(String uId) {
     return getUsersCollection()
         .doc(uId)
@@ -41,7 +41,7 @@ class FirestoreService {
   Future<void> addMovieToWatchList({
     required MovieDto movie,
     required String uId,
-  }){
+  }) {
     return getWatchListCollection(uId).doc(movie.id.toString()).set(movie);
   }
 
@@ -49,16 +49,14 @@ class FirestoreService {
     required MovieDto movie,
     required String uId,
   }) {
-    return  getWatchListCollection(uId).doc(movie.id.toString()).delete();
+    return getWatchListCollection(uId).doc(movie.id.toString()).delete();
   }
 
   Stream<DocumentSnapshot<MovieDto>> watchMovieInWatchList({
     required String uId,
     required MovieDto movie,
   }) {
-    return getWatchListCollection(
-      uId,
-    ).doc(movie.id.toString()).snapshots();
+    return getWatchListCollection(uId).doc(movie.id.toString()).snapshots();
   }
 
   Stream<List<MovieDto>> getWatchListMovies({required String uId}) {
@@ -67,7 +65,7 @@ class FirestoreService {
     );
   }
 
-  /// history ===============================================================
+  /// ========================== history ====================================
 
   CollectionReference<MovieDto> getHistoryCollection(String uId) {
     return getUsersCollection()
@@ -83,7 +81,13 @@ class FirestoreService {
   Future<void> addMovieToHistory({
     required MovieDto movie,
     required String uId,
-  }) async{
+  }) async {
     return await getHistoryCollection(uId).doc(movie.id.toString()).set(movie);
+  }
+
+  Stream<List<MovieDto>> getHistoryMovies({required String uId}) {
+    return getHistoryCollection(uId).snapshots().map(
+      (snapshot) => snapshot.docs.map((doc) => doc.data()).toList(),
+    );
   }
 }

@@ -21,7 +21,10 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<MovieDetailsCubit>().getMovieDetails(movieId: widget.movieId);
+    context.read<MovieDetailsCubit>().getMovieDetails(
+      movieId: widget.movieId,
+      context: context,
+    );
   }
 
   @override
@@ -37,6 +40,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
             onPressed: () {
               context.read<MovieDetailsCubit>().getMovieDetails(
                 movieId: widget.movieId,
+                context: context,
               );
             },
             widgetHeight: context.height,

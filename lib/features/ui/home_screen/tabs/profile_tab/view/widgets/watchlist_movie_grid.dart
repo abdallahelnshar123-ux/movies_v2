@@ -9,10 +9,10 @@ import '../../../../../../../core/utils/screen_size.dart';
 import '../../../../../../../domain/entities/response/movie/movie.dart';
 import '../../../../../auth/cubit/auth_view_model.dart';
 
-class MovieGrid extends StatelessWidget {
+class WatchlistMovieGrid extends StatelessWidget {
   final List<Movie> movies;
 
-  const MovieGrid({super.key, required this.movies});
+  const WatchlistMovieGrid({super.key, required this.movies});
 
   @override
   Widget build(BuildContext context) {

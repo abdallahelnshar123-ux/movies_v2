@@ -22,6 +22,10 @@ import '../../data/data_sources/remote/auth/auth_remote_data_source.dart'
     as _i202;
 import '../../data/data_sources/remote/auth/impl/auth_remote_data_source_impl.dart'
     as _i646;
+import '../../data/data_sources/remote/history/history_remote_data_source.dart'
+    as _i599;
+import '../../data/data_sources/remote/history/impl/history_remote_data_source_impl.dart'
+    as _i244;
 import '../../data/data_sources/remote/movie/impl/movie_remote_data_source_impl.dart'
     as _i343;
 import '../../data/data_sources/remote/movie/movie_remote_data_source.dart'
@@ -35,6 +39,7 @@ import '../../data/data_sources/remote/watchlist/impl/watchlist_remote_data_sour
 import '../../data/data_sources/remote/watchlist/watchlist_remote_data_source.dart'
     as _i569;
 import '../../data/repository/auth/auth_repository_impl.dart' as _i392;
+import '../../data/repository/history/history_repository_impl.dart' as _i921;
 import '../../data/repository/movie/movie_repository_impl.dart' as _i98;
 import '../../data/repository/user/user_repository_impl.dart' as _i1053;
 import '../../data/repository/watchlist/watchlist_repository_impl.dart'
@@ -42,12 +47,14 @@ import '../../data/repository/watchlist/watchlist_repository_impl.dart'
 import '../../data/services/firebase_auth_service.dart' as _i734;
 import '../../data/services/firestore_service.dart' as _i367;
 import '../../domain/repository/auth/auth_repository.dart' as _i912;
+import '../../domain/repository/history/history_repository.dart' as _i450;
 import '../../domain/repository/movie/movie_repository.dart' as _i128;
 import '../../domain/repository/user/user_repository.dart' as _i183;
 import '../../domain/repository/watchlist/watchlist_repository.dart' as _i593;
 import '../../domain/use_cases/add_movie_to_watchlist_use_case.dart' as _i981;
 import '../../domain/use_cases/delete_movie_from_watchlist_use_case.dart'
     as _i327;
+import '../../domain/use_cases/get_history_movies_use_case.dart' as _i856;
 import '../../domain/use_cases/get_home_movies_use_case.dart' as _i766;
 import '../../domain/use_cases/get_movie_details_use_case.dart' as _i368;
 import '../../domain/use_cases/get_movie_suggestions_use_case.dart' as _i35;
@@ -66,6 +73,8 @@ import '../../features/ui/home_screen/tabs/home_tab/cubit/home_tab__carousel_vie
     as _i44;
 import '../../features/ui/home_screen/tabs/home_tab/cubit/home_tab_genre_view_model.dart'
     as _i189;
+import '../../features/ui/home_screen/tabs/profile_tab/cubit/history_view_model.dart'
+    as _i475;
 import '../../features/ui/home_screen/tabs/profile_tab/cubit/watchlist_view_model.dart'
     as _i222;
 import '../../features/ui/home_screen/tabs/search_tab/cubit/search_view_model.dart'
@@ -97,6 +106,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i569.WatchlistRemoteDataSource>(
       () => _i643.WatchlistRemoteDataSourceImpl(gh<_i367.FirestoreService>()),
     );
+    gh.factory<_i599.HistoryRemoteDataSource>(
+      () => _i244.HistoryRemoteDataSourceImpl(gh<_i367.FirestoreService>()),
+    );
     gh.factory<_i632.UserRemoteDataSource>(
       () => _i22.UserRemoteDataSourceImpl(gh<_i367.FirestoreService>()),
     );
@@ -119,7 +131,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i996.UserLocalDataSource>(
       () => _i111.UserLocalDataSourceImpl(gh<_i1020.LocalStorage>()),
     );
+    gh.factory<_i450.HistoryRepository>(
+      () => _i921.HistoryRepositoryImpl(gh<_i599.HistoryRemoteDataSource>()),
+    );
     gh.factory<_i984.ApiConsumer>(() => _i44.DioConsumer(gh<_i361.Dio>()));
+    gh.factory<_i856.GetHistoryMoviesUseCase>(
+      () => _i856.GetHistoryMoviesUseCase(gh<_i450.HistoryRepository>()),
+    );
     gh.factory<_i981.AddMovieToWatchlistUseCase>(
       () => _i981.AddMovieToWatchlistUseCase(gh<_i593.WatchlistRepository>()),
     );
@@ -158,15 +176,21 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i525.MovieRemoteDataSource>(
       () => _i343.MovieRemoteDataSourceImpl(gh<_i984.ApiConsumer>()),
     );
+    gh.factory<_i128.MovieRepository>(
+      () => _i98.MovieRepositoryImpl(
+        gh<_i525.MovieRemoteDataSource>(),
+        gh<_i599.HistoryRemoteDataSource>(),
+      ),
+    );
+    gh.factory<_i475.HistoryCubit>(
+      () => _i475.HistoryCubit(gh<_i856.GetHistoryMoviesUseCase>()),
+    );
     gh.factory<_i303.AuthCubit>(
       () => _i303.AuthCubit(
         gh<_i614.SignInWithGoogleUseCases>(),
         gh<_i904.RegisterWithEmailAndPasswordUseCase>(),
         gh<_i1065.LoginWithEmailAndPasswordUseCase>(),
       ),
-    );
-    gh.factory<_i128.MovieRepository>(
-      () => _i98.MovieRepositoryImpl(gh<_i525.MovieRemoteDataSource>()),
     );
     gh.factory<_i766.GetHomeMoviesUseCase>(
       () => _i766.GetHomeMoviesUseCase(gh<_i128.MovieRepository>()),

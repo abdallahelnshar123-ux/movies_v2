@@ -2,6 +2,7 @@ import '../../../../../domain/entities/response/movie/movie.dart';
 
 abstract class WatchListState {}
 
+class WatchListInitState extends WatchListState {}
 class WatchListLoadingState extends WatchListState {}
 class WatchListEmptyState extends WatchListState {}
 

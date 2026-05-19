@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:movies/features/ui/home_screen/tabs/profile_tab/cubit/history_view_model.dart';
+import 'package:movies/features/ui/home_screen/tabs/profile_tab/history_state.dart';
 
 import '../../../../../../../core/utils/app_assets.dart';
 import '../../../../../../../core/utils/app_colors.dart';
@@ -8,7 +10,8 @@ import '../../../../../../../core/utils/app_styles.dart';
 import '../../../../../../../core/utils/screen_size.dart';
 import '../../cubit/watchlist_view_model.dart';
 import '../../watchlist_state.dart';
-import 'movie_grid.dart';
+import 'history_movie_grid.dart';
+import 'watchlist_movie_grid.dart';
 import 'movie_grid_shimmer_widget.dart';
 
 class SectionSwitcher extends StatelessWidget {
@@ -80,10 +83,11 @@ class SectionSwitcher extends StatelessWidget {
               children: [
                 SafeArea(
                   bottom: true,
+                  top: false,
                   child: BlocBuilder<WatchListCubit, WatchListState>(
                     builder: (context, state) {
                       if (state is WatchListSuccessState) {
-                        return MovieGrid(movies: state.movies);
+                        return WatchlistMovieGrid(movies: state.movies);
                       }
 
                       if (state is WatchListErrorState) {
@@ -96,15 +100,9 @@ class SectionSwitcher extends StatelessWidget {
 
                       if (state is WatchListEmptyState) {
                         return Center(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(height: context.height * 0.1),
-                              Image.asset(
-                                AppAssets.emptyListImage,
-                                width: context.width * 0.26,
-                              ),
-                            ],
+                          child: Image.asset(
+                            AppAssets.emptyListImage,
+                            width: context.width * 0.26,
                           ),
                         );
                       }
@@ -115,13 +113,14 @@ class SectionSwitcher extends StatelessWidget {
                 ),
                 SafeArea(
                   bottom: true,
-                  child: BlocBuilder<WatchListCubit, WatchListState>(
+                  top: false,
+                  child: BlocBuilder<HistoryCubit, HistoryState>(
                     builder: (context, state) {
-                      if (state is WatchListSuccessState) {
-                        return MovieGrid(movies: state.movies);
+                      if (state is HistorySuccessState) {
+                        return HistoryMovieGrid(movies: state.movies);
                       }
 
-                      if (state is WatchListErrorState) {
+                      if (state is HistoryErrorState) {
                         return Text(
                           state.message,
                           style: AppStyles.robotoBold20White(context),
@@ -129,17 +128,11 @@ class SectionSwitcher extends StatelessWidget {
                         );
                       }
 
-                      if (state is WatchListEmptyState) {
+                      if (state is HistoryEmptyState) {
                         return Center(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(height: context.height * 0.1),
-                              Image.asset(
-                                AppAssets.emptyListImage,
-                                width: context.width * 0.26,
-                              ),
-                            ],
+                          child: Image.asset(
+                            AppAssets.emptyListImage,
+                            width: context.width * 0.26,
                           ),
                         );
                       }

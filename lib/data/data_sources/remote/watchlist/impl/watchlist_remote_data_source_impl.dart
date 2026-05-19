@@ -54,39 +54,14 @@ class WatchlistRemoteDataSourceImpl implements WatchlistRemoteDataSource {
 
   @override
   Stream<List<MovieDto>> getWatchListMovies({required String uId}) {
-    // try {
-      return _firestoreService.getWatchListMovies(uId: uId).handleError((
-        error,
-      ) {
-        if (error is FirebaseException) {
-          throw ServerException(message: error.message ?? 'Firestore Error');
-        } else if (error is SocketException) {
-          throw NetworkException(message: 'No Internet');
-        } else {
-          throw UnexpectedException(message: error.toString());
-        }
-      });
-    // } on FirebaseException catch (e) {
-    // } on SocketException {
-    //   throw NetworkException(message: 'No Internet');
-    // } catch (e) {
-    //   throw UnexpectedException(message: e.toString());
-    // }
+    return _firestoreService.getWatchListMovies(uId: uId).handleError((error) {
+      if (error is FirebaseException) {
+        throw ServerException(message: error.message ?? 'Firestore Error');
+      } else if (error is SocketException) {
+        throw NetworkException(message: 'No Internet');
+      } else {
+        throw UnexpectedException(message: error.toString());
+      }
+    });
   }
-
-  // @override
-  // Stream<DocumentSnapshot<MovieDto>> watchMovieInWatchList({
-  //   required String uId,
-  //   required MovieDto movie,
-  // }) {
-  //   try {
-  //     return _firestoreService.watchMovieInWatchList(uId: uId, movie: movie);
-  //   } on FirebaseException catch (e) {
-  //     throw ServerException(message: e.message ?? 'Firestore Error');
-  //   } on SocketException {
-  //     throw NetworkException(message: 'No Internet');
-  //   } catch (e) {
-  //     throw UnexpectedException(message: e.toString());
-  //   }
-  // }
 }

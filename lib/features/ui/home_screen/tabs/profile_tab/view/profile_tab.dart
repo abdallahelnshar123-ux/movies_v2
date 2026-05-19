@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies/features/ui/home_screen/tabs/profile_tab/cubit/history_view_model.dart';
 import 'package:movies/features/ui/home_screen/tabs/profile_tab/cubit/watchlist_view_model.dart';
 import 'package:movies/features/ui/home_screen/tabs/profile_tab/view/widgets/lists_count.dart';
 import 'package:movies/features/ui/home_screen/tabs/profile_tab/view/widgets/profile_button.dart';
@@ -50,7 +51,10 @@ class _ProfileTabState extends State<ProfileTab> {
                           .watch<WatchListCubit>()
                           .watchListMovies
                           .length,
-                      historyCount: 0,
+                      historyCount: context
+                          .watch<HistoryCubit>()
+                          .historyMovies
+                          .length,
                     ),
                   ),
                 ],
