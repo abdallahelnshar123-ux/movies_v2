@@ -1,6 +1,7 @@
-class AppConstants {
+import '../utils/app_assets.dart';
 
-  static const   List<String> genresList = [
+class AppConstants {
+  static const List<String> genresList = [
     'action',
     'adventure',
     'animation',
@@ -23,5 +24,18 @@ class AppConstants {
     'sport',
     'thriller',
   ];
-
+  static final List<String> avatarList = const [
+    AppAssets.avatarImage1,
+    AppAssets.avatarImage2,
+    AppAssets.avatarImage3,
+    AppAssets.avatarImage4,
+    AppAssets.avatarImage5,
+    AppAssets.avatarImage6,
+    AppAssets.avatarImage7,
+    AppAssets.avatarImage8,
+    AppAssets.avatarImage9,
+  ];
+  static const String usersCollectionName = 'users';
+  static const String watchListCollectionName = 'watch_list';
+  static const String historyCollectionName = 'history';
 }

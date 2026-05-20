@@ -27,4 +27,13 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
       throw CacheException(message: e.toString());
     }
   }
+
+  @override
+  Future<void> deleteUser({required MyUserDto user}) async {
+    try {
+      await _localStorage.clearUser();
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
+  }
 }

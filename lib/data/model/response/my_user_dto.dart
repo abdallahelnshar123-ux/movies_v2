@@ -1,5 +1,4 @@
 class MyUserDto {
-  static const String collectionName = 'users';
  final String name;
   final String email;
   final String id;

@@ -9,12 +9,15 @@ import 'package:movies/features/ui/home_screen/tabs/browse_tab/cubit/browse_view
 import 'package:movies/features/ui/home_screen/tabs/home_tab/cubit/home_tab__carousel_view_model.dart';
 import 'package:movies/features/ui/home_screen/tabs/home_tab/cubit/home_tab_genre_view_model.dart';
 import 'package:movies/features/ui/home_screen/tabs/home_tab/provider/home_tab_provider.dart';
+import 'package:movies/features/ui/home_screen/tabs/profile_tab/cubit/history_view_model.dart';
 import 'package:movies/features/ui/home_screen/tabs/search_tab/cubit/search_view_model.dart';
 import 'package:movies/features/ui/onboarding_screen/provider/onboarding_view_model.dart';
 import 'package:movies/features/ui/onboarding_screen/view/onboarding_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'core/data_bases/cache/shared_prefs_utils.dart';
+import 'features/ui/edit_profile_screen/edit_profile_screen.dart';
+import 'features/ui/home_screen/tabs/profile_tab/cubit/watchlist_view_model.dart';
 import 'firebase_options.dart';
 import 'core/di/di.dart';
 
@@ -38,10 +41,22 @@ void main() async {
               getIt<HomeTabCarouselCubit>()..getHomeTabMovies(),
         ),
         BlocProvider(create: (context) => getIt<HomeTabGenreCubit>()),
-        BlocProvider(create: (context) => getIt<BrowseCubit>()..getBrowseMovies()),
+        BlocProvider(
+          create: (context) => getIt<BrowseCubit>()..getBrowseMovies(),
+        ),
         BlocProvider(create: (context) => getIt<SearchCubit>()),
-        // BlocProvider(create: (context) => getIt<MovieDetailsCubit>()),
-        // BlocProvider(create: (context) => getIt<MovieSuggestionsCubit>()),
+        BlocProvider(
+          lazy: true,
+          create: (context) => getIt<WatchListCubit>()
+            ..loadWatchList(context.read<AuthCubit>().currentUser?.id ?? ''),
+        ),
+        BlocProvider(
+          lazy: true,
+
+          create: (context) =>
+              getIt<HistoryCubit>()
+                ..loadHistory(context.read<AuthCubit>().currentUser?.id ?? ''),
+        ),
       ],
       child: EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('ar')],
@@ -71,6 +86,7 @@ class MyApp extends StatelessWidget {
           child: OnboardingScreen(),
         ),
         AppRoutes.loginRouteName: (context) => LoginScreen(),
+        AppRoutes.editProfileScreen: (context) => EditProfileScreen(),
         AppRoutes.registerRouteName: (context) => RegisterScreen(),
         AppRoutes.homeRouteName: (context) => MultiProvider(
           providers: [

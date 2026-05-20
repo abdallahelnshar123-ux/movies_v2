@@ -4,4 +4,5 @@ abstract class UserLocalDataSource {
   MyUserDto? getUser();
 
   Future<void> saveUser({required MyUserDto user});
+  Future<void> deleteUser({required MyUserDto user});
 }

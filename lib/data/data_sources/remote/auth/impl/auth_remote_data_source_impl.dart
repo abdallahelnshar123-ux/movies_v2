@@ -69,4 +69,17 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
       throw UnexpectedException(message: e.toString());
     }
   }
+
+  @override
+  Future<void> logout() {
+    try {
+      return _firebaseAuthService.logout();
+    } on FirebaseAuthException catch (e) {
+      throw ServerException(message: e.message ?? 'Firebase Auth Error');
+    } on SocketException {
+      throw NetworkException(message: 'No Internet');
+    } catch (e) {
+      throw UnexpectedException(message: e.toString());
+    }
+  }
 }

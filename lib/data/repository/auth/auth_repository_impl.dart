@@ -107,16 +107,24 @@ class AuthRepositoryImpl extends AuthRepository {
       if (databaseUser == null) {
         return Left(UnauthorizedFailure('some thing went wrong'));
       }
-      // final newUser = MyUser(
-      //   provider: AuthProviders.emailPassword,
-      //   id: authUserDto.id,
-      //   name: name,
-      //   phone: phone,
-      //   email: authUserDto.email,
-      //   avatarIndex: avatarIndex,
-      // );
+
       await _userLocalDataSource.saveUser(user: databaseUser);
       return Right(databaseUser.toUser());
+    } on AppException catch (e) {
+      return Left(e.toFailure());
+    } catch (e) {
+      return Left(UnexpectedFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> logout() async {
+    try {
+      await _authRemoteDataSource.logout();
+      var currentUser = _userLocalDataSource.getUser()!;
+      await _userLocalDataSource.deleteUser(user: currentUser);
+
+      return Right(unit);
     } on AppException catch (e) {
       return Left(e.toFailure());
     } catch (e) {

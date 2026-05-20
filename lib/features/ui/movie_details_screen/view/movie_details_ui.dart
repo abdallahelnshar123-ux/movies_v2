@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/domain/entities/response/movie/movie.dart';
+import 'package:movies/features/ui/movie_details_screen/view/widget/book_mark_widget.dart';
 import 'package:movies/features/ui/movie_details_screen/view/widget/movie_suggestions_widget/cubit/movie_suggestions_view_model.dart';
 import 'package:movies/features/ui/movie_details_screen/view/widget/movie_suggestions_widget/movie_suggestions_state.dart';
 import 'package:movies/features/ui/movie_details_screen/view/widget/movie_suggestions_widget/view/movie_suggestions_shimmer_widget.dart';
@@ -33,7 +34,6 @@ class MovieDetailsUI extends StatefulWidget {
 }
 
 class _MovieDetailsUIState extends State<MovieDetailsUI> {
-
   @override
   void initState() {
     super.initState();
@@ -92,7 +92,7 @@ class _MovieDetailsUIState extends State<MovieDetailsUI> {
                               color: Colors.white,
                             ),
                           ),
-                          // BookMarkWidget(movie: widget.movie),
+                          BookMarkWidget(movie: widget.movie),
                         ],
                       ),
                     ),
@@ -112,17 +112,9 @@ class _MovieDetailsUIState extends State<MovieDetailsUI> {
                       textAlign: TextAlign.center,
                     ),
 
-                    ///todo: Watch Button
                     CustomElevatedButton(
                       onPressed: () {
-                        // final String? userId =
-                        //     context.read<AuthCubit>().currentUser?.id;
-                        // if (userId != null) {
-                        //   FirebaseUtils.addMovieToHistory(
-                        //     movie: widget.movie,
-                        //     uId: userId,
-                        //   );
-                        // }
+                        ///todo: Watch Button
                       },
                       backgroundColor: AppColors.redColor,
                       child: Text(
@@ -171,7 +163,6 @@ class _MovieDetailsUIState extends State<MovieDetailsUI> {
                   screenShotsList: widget.movie.screenshots ?? [],
                 ),
                 TitleWidget(text: "similar".tr()),
-                // todo :  similar
                 BlocBuilder<MovieSuggestionsCubit, MovieSuggestionsState>(
                   builder: (context, state) {
                     if (state is MovieSuggestionsSuccessState) {
@@ -202,8 +193,6 @@ class _MovieDetailsUIState extends State<MovieDetailsUI> {
                       widget.movie.descriptionFull ?? 'no_summary_found'.tr(),
                 ),
                 TitleWidget(text: 'cast'.tr()),
-
-                // todo : cast Widget
                 CastWidget(castList: widget.movie.cast ?? []),
                 TitleWidget(text: 'Genres'),
                 GenresWidget(genresList: widget.movie.genres ?? []),

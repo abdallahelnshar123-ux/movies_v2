@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:movies/features/ui/home_screen/provider/home_screen_view_model.dart';
-import 'package:movies/features/ui/home_screen/tabs/search_tab/cubit/search_view_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/utils/app_assets.dart';
@@ -15,12 +14,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void dispose() {
-    context.read<SearchCubit>().searchController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

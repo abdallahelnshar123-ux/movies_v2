@@ -201,6 +201,14 @@ class AppStyles {
       fontFamily: GoogleFonts.roboto().fontFamily,
     );
   }
+  // static TextStyle robotoBold36White(BuildContext context) {
+  //   return Theme.of(context).textTheme.bodyMedium!.copyWith(
+  //     color: AppColors.whiteColor,
+  //     fontSize: 36,
+  //     fontWeight: FontWeight.w700,
+  //     fontFamily: GoogleFonts.roboto().fontFamily,
+  //   );
+  // }
   // static TextStyle robotoBold24White = GoogleFonts.roboto(
   //   color: AppColors.whiteColor,
   //   fontSize: 24,
@@ -233,10 +241,10 @@ class AppStyles {
   //   fontSize: 36,
   //   fontWeight: FontWeight.w700,
   // );
-  static TextStyle robotoBold36White(BuildContext context) {
+  static TextStyle robotoBold30White(BuildContext context) {
     return Theme.of(context).textTheme.bodyMedium!.copyWith(
       color: AppColors.whiteColor,
-      fontSize: 36,
+      fontSize: 30,
       fontWeight: FontWeight.w700,
       fontFamily: GoogleFonts.roboto().fontFamily,
     );

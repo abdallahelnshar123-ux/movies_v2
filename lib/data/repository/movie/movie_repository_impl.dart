@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:movies/data/data_sources/remote/history/history_remote_data_source.dart';
 import 'package:movies/data/data_sources/remote/movie/movie_remote_data_source.dart';
 import 'package:movies/data/exceptions/app_exceptions.dart';
 import 'package:movies/data/mapper/exception_mapper.dart';
@@ -13,8 +14,12 @@ import '../../mapper/movie_mapper.dart';
 @Injectable(as: MovieRepository)
 class MovieRepositoryImpl extends MovieRepository {
   final MovieRemoteDataSource _movieRemoteDataSource;
+  final HistoryRemoteDataSource _historyRemoteDataSource;
 
-  MovieRepositoryImpl(this._movieRemoteDataSource);
+  MovieRepositoryImpl(
+    this._movieRemoteDataSource,
+    this._historyRemoteDataSource,
+  );
 
   @override
   Future<Either<Failure, List<Movie>>> getHomeMovies() async {
@@ -57,7 +62,7 @@ class MovieRepositoryImpl extends MovieRepository {
   }
 
   @override
-  Future<Either<Failure, Movie>> getMovieDetails({required int movieId}) async {
+  Future<Either<Failure, Movie>> getMovieDetails({required int movieId , required String uId}) async {
     try {
       var movieDto = await _movieRemoteDataSource.getMovieDetails(
         movieId: movieId,
@@ -65,6 +70,7 @@ class MovieRepositoryImpl extends MovieRepository {
       if (movieDto == null) {
         return Left(UnexpectedFailure('Sorry we could not load movies'));
       }
+       await _historyRemoteDataSource.addMovieToHistory(movie: movieDto, uId:uId );
       return Right(movieDto.toMovie());
     } on AppException catch (e) {
       return Left(e.toFailure());
@@ -98,11 +104,13 @@ class MovieRepositoryImpl extends MovieRepository {
 
   @override
   Future<Either<Failure, List<Movie>>> getMoviesBySearch({
-    required String searchTerm,required int page
+    required String searchTerm,
+    required int page,
   }) async {
     try {
       var moviesList = await _movieRemoteDataSource.getMoviesBySearch(
-        searchTerm: searchTerm,page: page
+        searchTerm: searchTerm,
+        page: page,
       );
       if (moviesList == null) {
         return Left(UnexpectedFailure('no_movies_for_this_search_term'));

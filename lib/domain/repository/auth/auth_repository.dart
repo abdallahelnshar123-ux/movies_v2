@@ -18,4 +18,6 @@ abstract class AuthRepository {
     required String phone,
     required int avatarIndex,
   });
+
+  Future<Either<Failure, Unit>> logout();
 }

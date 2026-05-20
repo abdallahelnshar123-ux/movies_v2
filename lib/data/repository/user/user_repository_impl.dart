@@ -18,7 +18,7 @@ class UserRepositoryImpl extends UserRepository {
   UserRepositoryImpl(this._userRemoteDataSource);
 
   @override
-  Future<Either<Failure, Option<MyUser>>> getUser({required String uId}) async {
+  Future<Either<Failure, Option<MyUser>>> getUserFromRemoteDataSource({required String uId}) async {
     try {
       final MyUserDto? userDto = await _userRemoteDataSource.getUser(uId);
       return userDto != null ? Right(Some(userDto.toUser())) : Right(None());

@@ -13,55 +13,7 @@ class FirebaseUtils {
   // }
   //
   // ///  watch List =========================================================
-  // static CollectionReference<Movie> getWatchListCollection(String uId) {
-  //   return getUsersCollection()
-  //       .doc(uId)
-  //       .collection(Movie.watchListCollectionName)
-  //       .withConverter<Movie>(
-  //         fromFirestore: (snapshot, options) => Movie.fromJson(snapshot.data()),
-  //         toFirestore: (movie, options) => movie.toJson(),
-  //       );
-  // }
-  //
-  // static Future<void> addMovieToWatchList({
-  //   required Movie movie,
-  //   required String uId,
-  // }) {
-  //   return getWatchListCollection(uId).doc(movie.id.toString()).set(movie);
-  // }
-  //
-  // static Future<void> deleteMovieFromWatchList({
-  //   required Movie movie,
-  //   required String uId,
-  // }) {
-  //   return getWatchListCollection(uId).doc(movie.id.toString()).delete();
-  // }
-  //
-  // static Stream<DocumentSnapshot<Movie>> watchMovieInWatchList({
-  //   required String uId,
-  //   required Movie movie,
-  // }) {
-  //   return getWatchListCollection(uId).doc(movie.id.toString()).snapshots();
-  // }
-  //
-  // /// history ===============================================================
-  //
-  // static CollectionReference<Movie> getHistoryCollection(String uId) {
-  //   return getUsersCollection()
-  //       .doc(uId)
-  //       .collection(Movie.historyCollectionName)
-  //       .withConverter<Movie>(
-  //         fromFirestore: (snapshot, options) => Movie.fromJson(snapshot.data()),
-  //         toFirestore: (movie, options) => movie.toJson(),
-  //       );
-  // }
-  //
-  // static Future<void> addMovieToHistory({
-  //   required Movie movie,
-  //   required String uId,
-  // }) {
-  //   return getHistoryCollection(uId).doc(movie.id.toString()).set(movie);
-  // }
+
   //
   // /// sign in ==============================================================
   //
