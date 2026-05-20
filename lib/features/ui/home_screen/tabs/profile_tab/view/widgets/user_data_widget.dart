@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/core/constants/app_constants.dart';
 import 'package:movies/core/utils/app_assets.dart';
 import 'package:movies/domain/entities/response/user/my_user.dart';
@@ -6,14 +7,14 @@ import 'package:movies/domain/entities/response/user/my_user.dart';
 import '../../../../../../../core/utils/app_colors.dart';
 import '../../../../../../../core/utils/app_styles.dart';
 import '../../../../../../../core/utils/screen_size.dart';
+import '../../../../../auth/cubit/auth_view_model.dart';
 
 class UserDataWidget extends StatelessWidget {
-  final MyUser? currentUser;
-
-  const UserDataWidget({super.key, required this.currentUser});
+  const UserDataWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final MyUser? currentUser = context.read<AuthCubit>().currentUser;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       spacing: context.height * 0.015,

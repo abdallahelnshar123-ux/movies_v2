@@ -1,3 +1,5 @@
+import 'package:movies/domain/entities/response/user/my_user.dart';
+
 abstract class AuthState {}
 
 class AuthInitial extends AuthState {}
@@ -34,7 +36,11 @@ class AuthContinueWithGoogleError extends AuthState {
   AuthContinueWithGoogleError(this.message);
 }
 
-class AuthAuthenticated extends AuthState {}
+class AuthAuthenticated extends AuthState {
+  final MyUser? currentUser;
+
+  AuthAuthenticated(this.currentUser);
+}
 
 class AuthUnauthenticated extends AuthState {}
 

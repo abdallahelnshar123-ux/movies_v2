@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies/features/ui/home_screen/tabs/profile_tab/cubit/history_view_model.dart';
-import 'package:movies/features/ui/home_screen/tabs/profile_tab/cubit/watchlist_view_model.dart';
 import 'package:movies/features/ui/home_screen/tabs/profile_tab/view/widgets/lists_count.dart';
 import 'package:movies/features/ui/home_screen/tabs/profile_tab/view/widgets/profile_button.dart';
 import 'package:movies/features/ui/home_screen/tabs/profile_tab/view/widgets/user_data_widget.dart';
@@ -22,10 +20,6 @@ class ProfileTab extends StatefulWidget {
 class _ProfileTabState extends State<ProfileTab> {
   @override
   Widget build(BuildContext context) {
-    late var currentUser = context.watch<AuthCubit>().currentUser;
-    if (currentUser == null) {
-      return const SizedBox.shrink();
-    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -43,23 +37,8 @@ class _ProfileTabState extends State<ProfileTab> {
               Row(
                 spacing: context.width * 0.04,
                 children: [
-                  Expanded(
-                    flex: 2,
-                    child: UserDataWidget(currentUser: currentUser),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: ListsCount(
-                      watchListCount: context
-                          .watch<WatchListCubit>()
-                          .watchListMovies
-                          .length,
-                      historyCount: context
-                          .watch<HistoryCubit>()
-                          .historyMovies
-                          .length,
-                    ),
-                  ),
+                  Expanded(flex: 2, child: UserDataWidget()),
+                  Expanded(flex: 3, child: ListsCount()),
                 ],
               ),
               Row(

@@ -79,7 +79,14 @@ class WatchListCubit extends Cubit<WatchListState> {
   bool isMovieSaved(int movieId) {
     return watchListIds.contains(movieId);
   }
+  Future<void> clearWatchList() async{
+    _subscription?.cancel();
 
+    watchListMovies.clear();
+    watchListIds.clear();
+
+    emit(WatchListInitState());
+  }
   @override
   Future<void> close() {
     _subscription?.cancel();

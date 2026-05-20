@@ -88,9 +88,9 @@ class AuthCubit extends Cubit<AuthState> {
   //
   void logout(BuildContext context) async {
     emit(AuthLogoutLoading());
-    await context.read<HistoryCubit>().close();
-    if(!context.mounted) return ;
-    await context.read<WatchListCubit>().close();
+    await context.read<WatchListCubit>().clearWatchList();
+    if (!context.mounted) return;
+    await context.read<HistoryCubit>().clearHistory();
     var result = await _logoutUseCase.invoke();
     result.fold((failure) => emit(AuthLogoutError(failure.message.tr())), (_) {
       emit(AuthUnauthenticated());
@@ -169,7 +169,7 @@ class AuthCubit extends Cubit<AuthState> {
         user,
       ) {
         currentUser = user;
-        emit(AuthAuthenticated());
+        emit(AuthAuthenticated(user));
       });
     } catch (e) {
       emit(AuthContinueWithGoogleError('Unexpected Error'));
@@ -187,7 +187,7 @@ class AuthCubit extends Cubit<AuthState> {
         user,
       ) {
         currentUser = user;
-        emit(AuthAuthenticated());
+        emit(AuthAuthenticated(user));
       });
     } catch (e) {
       emit(AuthLoginError('Unexpected Error'));
@@ -215,7 +215,7 @@ class AuthCubit extends Cubit<AuthState> {
         user,
       ) {
         currentUser = user;
-        emit(AuthAuthenticated());
+        emit(AuthAuthenticated(user));
       });
     } catch (e) {
       emit(AuthRegisterError('Unexpected Error'));

@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../../core/utils/app_styles.dart';
+import '../../cubit/history_view_model.dart';
+import '../../cubit/watchlist_view_model.dart';
 
 class ListsCount extends StatelessWidget {
-  final int watchListCount;
-  final int historyCount;
-
-  const ListsCount({
-    super.key,
-    required this.watchListCount,
-    required this.historyCount,
-  });
+  const ListsCount({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +16,12 @@ class ListsCount extends StatelessWidget {
         builtCountWidget(
           context: context,
           title: 'Watch List',
-          count: watchListCount,
+          count: context.watch<WatchListCubit>().watchListMovies.length,
         ),
         builtCountWidget(
           context: context,
           title: 'History',
-          count: historyCount,
+          count: context.watch<HistoryCubit>().historyMovies.length,
         ),
       ],
     );

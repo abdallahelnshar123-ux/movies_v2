@@ -46,15 +46,17 @@ void main() async {
         ),
         BlocProvider(create: (context) => getIt<SearchCubit>()),
         BlocProvider(
+          lazy: true,
           create: (context) => getIt<WatchListCubit>()
             ..loadWatchList(context.read<AuthCubit>().currentUser?.id ?? ''),
         ),
         BlocProvider(
-          create: (context) => getIt<HistoryCubit>()
-            ..loadHistory(context.read<AuthCubit>().currentUser?.id ?? ''),
+          lazy: true,
+
+          create: (context) =>
+              getIt<HistoryCubit>()
+                ..loadHistory(context.read<AuthCubit>().currentUser?.id ?? ''),
         ),
-        // BlocProvider(create: (context) => getIt<MovieDetailsCubit>()),
-        // BlocProvider(create: (context) => getIt<MovieSuggestionsCubit>()),
       ],
       child: EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('ar')],

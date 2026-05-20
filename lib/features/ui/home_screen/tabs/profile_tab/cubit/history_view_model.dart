@@ -42,7 +42,14 @@ class HistoryCubit extends Cubit<HistoryState> {
       );
     });
   }
+  Future<void> clearHistory() async{
+    _subscription?.cancel();
 
+    historyMovies.clear();
+    watchListIds.clear();
+
+    emit(HistoryInitState());
+  }
   @override
   Future<void> close() {
     _subscription?.cancel();
