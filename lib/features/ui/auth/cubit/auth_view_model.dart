@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:movies/domain/use_cases/delete_account_use_case.dart';
 import 'package:movies/domain/use_cases/login_with_email_and_password_use_case.dart';
 import 'package:movies/domain/use_cases/register_with_email_and_password_use_case.dart';
 import 'package:movies/domain/use_cases/signin_with_gogole_use_cases.dart';
@@ -19,12 +20,14 @@ class AuthCubit extends Cubit<AuthState> {
   _registerWithEmailAndPasswordUseCases;
   final LoginWithEmailAndPasswordUseCase _loginWithEmailAndPasswordUseCase;
   final LogoutUseCase _logoutUseCase;
+  final DeleteAccountUseCase _deleteAccountUseCase;
 
   AuthCubit(
     this._signInWithGoogleUseCases,
     this._registerWithEmailAndPasswordUseCases,
     this._loginWithEmailAndPasswordUseCase,
     this._logoutUseCase,
+    this._deleteAccountUseCase,
   ) : super(AuthInitial());
 
   MyUser? currentUser;
@@ -38,54 +41,6 @@ class AuthCubit extends Cubit<AuthState> {
     return _selectedAvatarIndex;
   }
 
-  // Future<void> loginWithEmailAndPassword(String email, String password) async {
-  //   try {
-  //     emit(AuthLoginLoading());
-  //
-  //     final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-  //       email: email,
-  //       password: password,
-  //     );
-  //
-  //     debugPrint(credential.user?.uid ?? 'no user');
-  //
-  //     final userData = await FirebaseUtils.readUserFromFireStore(
-  //       credential.user?.uid ?? '',
-  //     );
-  //
-  //     if (userData == null) {
-  //       emit(AuthLoginError('Email not found'));
-  //       return;
-  //     }
-  //
-  //     debugPrint(userData.toString());
-  //
-  //     final user = MyUser(
-  //       id: userData.id,
-  //       name: userData.name,
-  //       email: userData.email,
-  //       avatarIndex: userData.avatarIndex,
-  //       phone: userData.phone,
-  //       provider: userData.provider,
-  //     );
-  //
-  //     currentUser = user;
-  //
-  //     emit(AuthAuthenticated());
-  //   } catch (e) {
-  //     debugPrint(e.toString());
-  //
-  //     if (e is FirebaseAuthException) {
-  //       if (e.message ==
-  //           'The supplied auth credential is incorrect, malformed or has expired.') {
-  //         emit(AuthLoginError('Email or password is incorrect ! '));
-  //       }
-  //     } else {
-  //       emit(AuthLoginError('Something went wrong'));
-  //     }
-  //   }
-  // }
-  //
   void logout(BuildContext context) async {
     emit(AuthLogoutLoading());
     await context.read<WatchListCubit>().clearWatchList();
@@ -97,37 +52,21 @@ class AuthCubit extends Cubit<AuthState> {
     });
   }
 
-  //
-  // Future<void> deleteUserAccountWithEmailPassword(String password) async {
-  //   try {
-  //     emit(AuthDeleteLoading());
-  //
-  //     final user = FirebaseAuth.instance.currentUser;
-  //
-  //     final credential = EmailAuthProvider.credential(
-  //       email: user!.email!,
-  //       password: password,
-  //     );
-  //
-  //     await user.reauthenticateWithCredential(credential);
-  //     await FirebaseUtils.deleteUserFromFirestore(user.uid);
-  //     await user.delete();
-  //     currentUser = null;
-  //
-  //     emit(AuthDeleteSuccess());
-  //   } on FirebaseAuthException catch (e) {
-  //     if (e.code == 'wrong-password') {
-  //       emit(AuthDeleteError("Wrong password"));
-  //     } else if (e.code == 'requires-recent-login') {
-  //       emit(AuthDeleteError("Please login again"));
-  //     } else {
-  //       emit(AuthDeleteError(e.message ?? "Delete failed"));
-  //     }
-  //   } catch (e) {
-  //     emit(AuthDeleteError("Something went wrong"));
-  //   }
-  // }
-  //
+  Future<void> deleteUserAccountWithEmailPassword({
+    required BuildContext context,
+    required String password,
+  }) async {
+    emit(AccountDeleteLoading());
+
+    var result = await _deleteAccountUseCase.deleteAccount(password: password);
+    result.fold((failure) => emit(AccountDeleteError(failure.message.tr())), (
+      unit,
+    ) {
+      emit(AccountDeleteSuccess());
+      logout(context);
+    });
+  }
+
   // Future<void> updateUserData({
   //   required String name,
   //   required String phone,

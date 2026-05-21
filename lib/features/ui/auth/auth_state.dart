@@ -57,12 +57,12 @@ class AuthUpdateError extends AuthState {
 
 // todo: delete states
 
-class AuthDeleteLoading extends AuthState {}
+class AccountDeleteLoading extends AuthState {}
 
-class AuthDeleteSuccess extends AuthState {}
+class AccountDeleteSuccess extends AuthState {}
 
-class AuthDeleteError extends AuthState {
+class AccountDeleteError extends AuthState {
   final String message;
 
-  AuthDeleteError(this.message);
+  AccountDeleteError(this.message);
 }

@@ -26,6 +26,15 @@ class FirestoreService {
     return documentSnapshot.data();
   }
 
+  Future<void> updateUserDataToFirestore(MyUserDto user) async {
+    var querySnapshot = getUsersCollection().doc(user.id);
+    await querySnapshot.update(user.toFireStore());
+  }
+
+  Future<void> deleteUserFromFirestore(String uId) async {
+    await getUsersCollection().doc(uId).delete();
+  }
+
   /// ===============================   watchlist   =============================
   CollectionReference<MovieDto> getWatchListCollection(String uId) {
     return getUsersCollection()

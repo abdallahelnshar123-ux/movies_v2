@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 
 import '../exceptions/app_exceptions.dart';
 
-@lazySingleton
+@singleton
 class FirebaseAuthService {
   Future<UserCredential> signInWithGoogle() async {
     try {
@@ -54,5 +54,19 @@ class FirebaseAuthService {
 
   Future<void> logout() async {
     await FirebaseAuth.instance.signOut();
+  }
+
+  Future<UserCredential> reAuthenticate({required String password}) async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    final credential = EmailAuthProvider.credential(
+      email: user!.email!,
+      password: password,
+    );
+
+    return await user.reauthenticateWithCredential(credential);
+  }
+  Future<void> deleteAccount() async {
+    await FirebaseAuth.instance.currentUser!.delete();
   }
 }

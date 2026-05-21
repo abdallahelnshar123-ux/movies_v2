@@ -20,4 +20,8 @@ abstract class AuthRepository {
   });
 
   Future<Either<Failure, Unit>> logout();
+
+  Future<Either<Failure, String>> reAuthenticate(String password);
+
+  Future<Either<Failure, Unit>> deleteAccount();
 }

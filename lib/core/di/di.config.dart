@@ -52,6 +52,7 @@ import '../../domain/repository/movie/movie_repository.dart' as _i128;
 import '../../domain/repository/user/user_repository.dart' as _i183;
 import '../../domain/repository/watchlist/watchlist_repository.dart' as _i593;
 import '../../domain/use_cases/add_movie_to_watchlist_use_case.dart' as _i981;
+import '../../domain/use_cases/delete_account_use_case.dart' as _i1008;
 import '../../domain/use_cases/delete_movie_from_watchlist_use_case.dart'
     as _i327;
 import '../../domain/use_cases/get_history_movies_use_case.dart' as _i856;
@@ -67,6 +68,7 @@ import '../../domain/use_cases/logout_use_case.dart' as _i250;
 import '../../domain/use_cases/register_with_email_and_password_use_case.dart'
     as _i904;
 import '../../domain/use_cases/signin_with_gogole_use_cases.dart' as _i614;
+import '../../domain/use_cases/update_user_use_case.dart' as _i833;
 import '../../features/ui/auth/cubit/auth_view_model.dart' as _i303;
 import '../../features/ui/home_screen/tabs/browse_tab/cubit/browse_view_model.dart'
     as _i882;
@@ -99,10 +101,8 @@ extension GetItInjectableX on _i174.GetIt {
     final getItModule = _$GetItModule();
     gh.singleton<_i361.BaseOptions>(() => getItModule.baseOptions);
     gh.singleton<_i528.PrettyDioLogger>(() => getItModule.prettyDioLogger);
+    gh.singleton<_i734.FirebaseAuthService>(() => _i734.FirebaseAuthService());
     gh.lazySingleton<_i1020.LocalStorage>(() => _i1020.LocalStorage());
-    gh.lazySingleton<_i734.FirebaseAuthService>(
-      () => _i734.FirebaseAuthService(),
-    );
     gh.lazySingleton<_i367.FirestoreService>(() => _i367.FirestoreService());
     gh.factory<_i569.WatchlistRemoteDataSource>(
       () => _i643.WatchlistRemoteDataSourceImpl(gh<_i367.FirestoreService>()),
@@ -121,6 +121,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i361.BaseOptions>(),
         gh<_i528.PrettyDioLogger>(),
       ),
+    );
+    gh.factory<_i833.UpdateUserUseCase>(
+      () => _i833.UpdateUserUseCase(gh<_i183.UserRepository>()),
     );
     gh.factory<_i202.AuthRemoteDataSource>(
       () => _i646.AuthRemoteDataSourceImpl(gh<_i734.FirebaseAuthService>()),
@@ -186,6 +189,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i475.HistoryCubit>(
       () => _i475.HistoryCubit(gh<_i856.GetHistoryMoviesUseCase>()),
     );
+    gh.factory<_i1008.DeleteAccountUseCase>(
+      () => _i1008.DeleteAccountUseCase(
+        gh<_i183.UserRepository>(),
+        gh<_i912.AuthRepository>(),
+      ),
+    );
     gh.factory<_i250.LogoutUseCase>(
       () => _i250.LogoutUseCase(gh<_i912.AuthRepository>()),
     );
@@ -222,6 +231,7 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i904.RegisterWithEmailAndPasswordUseCase>(),
         gh<_i1065.LoginWithEmailAndPasswordUseCase>(),
         gh<_i250.LogoutUseCase>(),
+        gh<_i1008.DeleteAccountUseCase>(),
       ),
     );
     gh.factory<_i866.MovieSuggestionsCubit>(

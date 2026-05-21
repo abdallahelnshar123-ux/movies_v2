@@ -18,7 +18,9 @@ class UserRepositoryImpl extends UserRepository {
   UserRepositoryImpl(this._userRemoteDataSource);
 
   @override
-  Future<Either<Failure, Option<MyUser>>> getUserFromRemoteDataSource({required String uId}) async {
+  Future<Either<Failure, Option<MyUser>>> getUserFromRemoteDataSource({
+    required String uId,
+  }) async {
     try {
       final MyUserDto? userDto = await _userRemoteDataSource.getUser(uId);
       return userDto != null ? Right(Some(userDto.toUser())) : Right(None());
@@ -33,6 +35,30 @@ class UserRepositoryImpl extends UserRepository {
   Future<Either<Failure, Unit>> createUser({required MyUser user}) async {
     try {
       await _userRemoteDataSource.createUser(user.toMyUserDto());
+      return Right(unit);
+    } on AppException catch (e) {
+      return Left(e.toFailure());
+    } catch (e) {
+      return Left(UnexpectedFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> deleteUser({required String uId}) async {
+    try {
+      await _userRemoteDataSource.deleteUser(uId);
+      return Right(unit);
+    } on AppException catch (e) {
+      return Left(e.toFailure());
+    } catch (e) {
+      return Left(UnexpectedFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> updateUser({required MyUser user}) async {
+    try {
+     await _userRemoteDataSource.updateUser(user.toMyUserDto());
       return Right(unit);
     } on AppException catch (e) {
       return Left(e.toFailure());

@@ -2,21 +2,8 @@
 
 class FirebaseUtils {
 
-  //
-  // static Future<void> updateUserDataToFirestore(MyUser user) async {
-  //   var querySnapshot = getUsersCollection().doc(user.id);
-  //   await querySnapshot.update(user.toFireStore());
-  // }
-  //
-  // static Future<void> deleteUserFromFirestore(String uId) async {
-  //   await getUsersCollection().doc(uId).delete();
-  // }
-  //
-  // ///  watch List =========================================================
 
-  //
-  // /// sign in ==============================================================
-  //
+
 
   //
   // static Future<UserCredential?> reSignInWithGoogle() async {

@@ -131,4 +131,30 @@ class AuthRepositoryImpl extends AuthRepository {
       return Left(UnexpectedFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> deleteAccount() async {
+    try {
+      await _authRemoteDataSource.deleteAccount();
+
+      return Right(unit);
+    } on AppException catch (e) {
+      return Left(e.toFailure());
+    } catch (e) {
+      return Left(UnexpectedFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> reAuthenticate(String password) async {
+    try {
+      var authUserDto = await _authRemoteDataSource.reAuthenticate(password);
+
+      return Right(authUserDto.id);
+    } on AppException catch (e) {
+      return Left(e.toFailure());
+    } catch (e) {
+      return Left(UnexpectedFailure(e.toString()));
+    }
+  }
 }
