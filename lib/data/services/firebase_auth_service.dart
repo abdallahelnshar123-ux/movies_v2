@@ -69,4 +69,31 @@ class FirebaseAuthService {
   Future<void> deleteAccount() async {
     await FirebaseAuth.instance.currentUser!.delete();
   }
+
+  Future<UserCredential> reAuthenticateWithGoogle() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      throw Exception('No logged in user');
+    }
+
+    final GoogleSignIn signIn = GoogleSignIn.instance;
+
+    await signIn.initialize(
+      clientId:
+      '503224830946-tm277q3ec3la0j61i5ds6dc222jhn6sf.apps.googleusercontent.com',
+    );
+
+    final GoogleSignInAccount googleAccount =
+    await signIn.authenticate();
+
+    final GoogleSignInAuthentication googleAuth =
+        googleAccount.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      idToken: googleAuth.idToken,
+    );
+
+    return await user.reauthenticateWithCredential(credential);
+  }
 }

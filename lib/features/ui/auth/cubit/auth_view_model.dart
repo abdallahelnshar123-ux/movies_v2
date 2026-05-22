@@ -55,13 +55,16 @@ class AuthCubit extends Cubit<AuthState> {
     });
   }
 
-  Future<void> deleteUserAccountWithEmailPassword({
+  Future<void> deleteUserAccount({
     required BuildContext context,
     required String password,
   }) async {
     emit(AccountDeleteLoading());
 
-    var result = await _deleteAccountUseCase.deleteAccount(password: password);
+    var result = await _deleteAccountUseCase.deleteAccount(
+      password: password,
+      provider: currentUser?.provider ?? '',
+    );
     result.fold((failure) => emit(AccountDeleteError(failure.message.tr())), (
       unit,
     ) {

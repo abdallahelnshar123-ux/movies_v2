@@ -135,19 +135,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                     if (password != null && password.isNotEmpty) {
                       if (!context.mounted) return;
-                      context
-                          .read<AuthCubit>()
-                          .deleteUserAccountWithEmailPassword(
-                            context: context,
-                            password: password,
-                          );
+                      context.read<AuthCubit>().deleteUserAccount(
+                        context: context,
+                        password: password,
+                      );
                     }
                   } else {
                     DialogUtils.showMessage(
                       context: context,
                       message: 'Are you sure you want to delete the account ?',
                       title: 'confirmation !',
-                      posAction: () {},
+                      posAction: () {
+                        context.read<AuthCubit>().deleteUserAccount(
+                          context: context,
+                          password: "",
+                        );
+                      },
                       posActionText: 'yes',
                       negActionText: 'no',
                     );
