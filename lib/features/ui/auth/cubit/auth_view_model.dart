@@ -6,6 +6,7 @@ import 'package:movies/domain/use_cases/delete_account_use_case.dart';
 import 'package:movies/domain/use_cases/login_with_email_and_password_use_case.dart';
 import 'package:movies/domain/use_cases/register_with_email_and_password_use_case.dart';
 import 'package:movies/domain/use_cases/signin_with_gogole_use_cases.dart';
+import 'package:movies/domain/use_cases/update_account_details_use_case.dart';
 
 import '../../../../domain/entities/response/user/my_user.dart';
 import '../../../../domain/use_cases/logout_use_case.dart';
@@ -21,6 +22,7 @@ class AuthCubit extends Cubit<AuthState> {
   final LoginWithEmailAndPasswordUseCase _loginWithEmailAndPasswordUseCase;
   final LogoutUseCase _logoutUseCase;
   final DeleteAccountUseCase _deleteAccountUseCase;
+  final UpdateAccountDetailsUseCase _updateAccountDetailsUseCase;
 
   AuthCubit(
     this._signInWithGoogleUseCases,
@@ -28,6 +30,7 @@ class AuthCubit extends Cubit<AuthState> {
     this._loginWithEmailAndPasswordUseCase,
     this._logoutUseCase,
     this._deleteAccountUseCase,
+    this._updateAccountDetailsUseCase,
   ) : super(AuthInitial());
 
   MyUser? currentUser;
@@ -67,38 +70,20 @@ class AuthCubit extends Cubit<AuthState> {
     });
   }
 
-  // Future<void> updateUserData({
-  //   required String name,
-  //   required String phone,
-  //   required int avatarIndex,
-  // }) async {
-  //   try {
-  //     emit(AuthUpdateLoading());
-  //     if (currentUser == null) {
-  //       emit(AuthUpdateError("User not logged in"));
-  //       return;
-  //     }
-  //
-  //     final updatedUser = MyUser(
-  //       id: currentUser!.id,
-  //       email: currentUser!.email,
-  //       name: name,
-  //       phone: phone,
-  //       avatarIndex: avatarIndex,
-  //       provider: currentUser!.provider,
-  //     );
-  //
-  //     await FirebaseUtils.updateUserDataToFirestore(updatedUser);
-  //
-  //     currentUser = updatedUser;
-  //
-  //     emit(AuthUpdateSuccess());
-  //   } catch (e) {
-  //     emit(AuthUpdateError(e.toString()));
-  //   }
-  // }
-  //
-  // ///   auth with google
+  Future<void> updateAccountDetails({required MyUser user}) async {
+    emit(AccountDetailsUpdateLoading());
+    var result = await _updateAccountDetailsUseCase.updateAccountDetails(
+      user: user,
+    );
+    result.fold((failure) => emit(AccountDetailsUpdateError(failure.message)), (
+      unit,
+    ) {
+      currentUser = user;
+      emit(AccountDetailsUpdateSuccess());
+    });
+  }
+
+  ///   auth with google
   Future<void> continueWithGoogle() async {
     try {
       emit(AuthContinueWithGoogleLoading());

@@ -41,7 +41,6 @@ class WatchListCubit extends Cubit<WatchListState> {
         },
 
         (movies) {
-
           watchListMovies = movies;
 
           watchListIds = movies.map((movie) => movie.id ?? 0).toSet();
@@ -79,7 +78,8 @@ class WatchListCubit extends Cubit<WatchListState> {
   bool isMovieSaved(int movieId) {
     return watchListIds.contains(movieId);
   }
-  Future<void> clearWatchList() async{
+
+  Future<void> clearWatchList() async {
     _subscription?.cancel();
 
     watchListMovies.clear();
@@ -87,6 +87,7 @@ class WatchListCubit extends Cubit<WatchListState> {
 
     emit(WatchListInitState());
   }
+
   @override
   Future<void> close() {
     _subscription?.cancel();

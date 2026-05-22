@@ -38,7 +38,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     currentUser.avatarIndex,
   );
 
-
   @override
   void dispose() {
     nameController.dispose();
@@ -50,14 +49,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
       listenWhen: (previous, current) =>
-          current is AuthUpdateSuccess ||
-          current is AuthUpdateError ||
-          current is AuthUpdateLoading ||
+          current is AccountDetailsUpdateSuccess ||
+          current is AccountDetailsUpdateError ||
+          current is AccountDetailsUpdateLoading ||
           current is AccountDeleteError ||
           current is AccountDeleteLoading ||
           current is AccountDeleteSuccess,
       listener: (context, state) {
-        if (state is AuthUpdateSuccess) {
+        if (state is AccountDetailsUpdateSuccess) {
           DialogUtils.hideLoading(context: context);
           DialogUtils.showMessage(
             context: context,
@@ -69,7 +68,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             },
           );
         }
-        if (state is AuthUpdateError) {
+        if (state is AccountDetailsUpdateError) {
           DialogUtils.hideLoading(context: context);
           DialogUtils.showMessage(
             context: context,
@@ -78,7 +77,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             posActionText: 'Ok',
           );
         }
-        if (state is AuthUpdateLoading) {
+        if (state is AccountDetailsUpdateLoading) {
           DialogUtils.showLoading(context: context);
         }
         if (state is AccountDeleteSuccess) {
@@ -142,16 +141,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             context: context,
                             password: password,
                           );
-
                     }
                   } else {
                     DialogUtils.showMessage(
                       context: context,
                       message: 'Are you sure you want to delete the account ?',
                       title: 'confirmation !',
-                      posAction: () {
-
-                      },
+                      posAction: () {},
                       posActionText: 'yes',
                       negActionText: 'no',
                     );
@@ -173,11 +169,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       posActionText: 'yes',
                       negActionText: 'Cancel',
                       posAction: () {
-                        // todo : update user data
+                        context.read<AuthCubit>().updateAccountDetails(
+                          user: currentUser.copyWith(
+                            avatarIndex: avatarIndex.value,
+                            name: nameController.text,
+                            phone: phoneController.text,
+                          ),
+                        );
                       },
                     );
                   }
-                  debugPrint('updated');
                 },
                 child: Text(
                   'update_account'.tr(),

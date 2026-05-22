@@ -14,7 +14,7 @@ class UserDataWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MyUser? currentUser = context.read<AuthCubit>().currentUser;
+    final MyUser? currentUser = context.watch<AuthCubit>().currentUser;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       spacing: context.height * 0.015,

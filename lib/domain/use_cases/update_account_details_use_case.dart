@@ -6,12 +6,12 @@ import 'package:movies/domain/failure/failure.dart';
 import '../repository/user/user_repository.dart';
 
 @injectable
-class UpdateUserUseCase {
+class UpdateAccountDetailsUseCase {
   final UserRepository _userRepository;
 
-  UpdateUserUseCase(this._userRepository);
+  UpdateAccountDetailsUseCase(this._userRepository);
 
-  Future<Either<Failure, Unit>> updateUser({required MyUser user}) async {
+  Future<Either<Failure, Unit>> updateAccountDetails({required MyUser user}) async {
     return await _userRepository.updateUser(user: user);
   }
 }

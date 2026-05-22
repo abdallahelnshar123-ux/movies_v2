@@ -121,8 +121,8 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<Either<Failure, Unit>> logout() async {
     try {
       await _authRemoteDataSource.logout();
-      var currentUser = _userLocalDataSource.getUser()!;
-      await _userLocalDataSource.deleteUser(user: currentUser);
+      // var currentUser = _userLocalDataSource.getUser()!;
+      await _userLocalDataSource.deleteUser();
 
       return Right(unit);
     } on AppException catch (e) {
