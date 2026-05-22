@@ -67,6 +67,7 @@ import '../../domain/use_cases/login_with_email_and_password_use_case.dart'
 import '../../domain/use_cases/logout_use_case.dart' as _i250;
 import '../../domain/use_cases/register_with_email_and_password_use_case.dart'
     as _i904;
+import '../../domain/use_cases/reset_password_use_case.dart' as _i638;
 import '../../domain/use_cases/signin_with_gogole_use_cases.dart' as _i614;
 import '../../domain/use_cases/update_account_details_use_case.dart' as _i274;
 import '../../features/ui/auth/cubit/auth_view_model.dart' as _i303;
@@ -195,6 +196,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i912.AuthRepository>(),
       ),
     );
+    gh.factory<_i638.ResetPasswordUseCase>(
+      () => _i638.ResetPasswordUseCase(gh<_i912.AuthRepository>()),
+    );
     gh.factory<_i250.LogoutUseCase>(
       () => _i250.LogoutUseCase(gh<_i912.AuthRepository>()),
     );
@@ -216,16 +220,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i23.GetMoviesBySearchUseCase>(
       () => _i23.GetMoviesBySearchUseCase(gh<_i128.MovieRepository>()),
     );
-    gh.factory<_i303.AuthCubit>(
-      () => _i303.AuthCubit(
-        gh<_i614.SignInWithGoogleUseCases>(),
-        gh<_i904.RegisterWithEmailAndPasswordUseCase>(),
-        gh<_i1065.LoginWithEmailAndPasswordUseCase>(),
-        gh<_i250.LogoutUseCase>(),
-        gh<_i1008.DeleteAccountUseCase>(),
-        gh<_i274.UpdateAccountDetailsUseCase>(),
-      ),
-    );
     gh.factory<_i882.BrowseCubit>(
       () => _i882.BrowseCubit(gh<_i452.GetMoviesByGenreUseCase>()),
     );
@@ -234,6 +228,17 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i365.MovieDetailsCubit>(
       () => _i365.MovieDetailsCubit(gh<_i368.GetMovieDetailsUseCase>()),
+    );
+    gh.factory<_i303.AuthCubit>(
+      () => _i303.AuthCubit(
+        gh<_i614.SignInWithGoogleUseCases>(),
+        gh<_i904.RegisterWithEmailAndPasswordUseCase>(),
+        gh<_i1065.LoginWithEmailAndPasswordUseCase>(),
+        gh<_i250.LogoutUseCase>(),
+        gh<_i1008.DeleteAccountUseCase>(),
+        gh<_i274.UpdateAccountDetailsUseCase>(),
+        gh<_i638.ResetPasswordUseCase>(),
+      ),
     );
     gh.factory<_i44.HomeTabCarouselCubit>(
       () => _i44.HomeTabCarouselCubit(gh<_i766.GetHomeMoviesUseCase>()),

@@ -44,7 +44,7 @@ class AuthAuthenticated extends AuthState {
 
 class AuthUnauthenticated extends AuthState {}
 
-// todo: update states
+/// =============================   update states   ======================
 class AccountDetailsUpdateLoading extends AuthState {}
 
 class AccountDetailsUpdateSuccess extends AuthState {}
@@ -55,7 +55,7 @@ class AccountDetailsUpdateError extends AuthState {
   AccountDetailsUpdateError(this.message);
 }
 
-// todo: delete states
+/// =========================   delete states   ===========================
 
 class AccountDeleteLoading extends AuthState {}
 
@@ -65,4 +65,15 @@ class AccountDeleteError extends AuthState {
   final String message;
 
   AccountDeleteError(this.message);
+}
+
+/// ==========================   reset state   ===========================
+class ResetPasswordLoading extends AuthState {}
+
+class ResetPasswordSuccess extends AuthState {}
+
+class ResetPasswordError extends AuthState {
+  final String message;
+
+  ResetPasswordError(this.message);
 }

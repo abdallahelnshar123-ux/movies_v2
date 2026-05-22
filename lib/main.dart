@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/core/utils/app_theme.dart';
 import 'package:movies/features/ui/auth/register_screen/view/register_screen.dart';
+import 'package:movies/features/ui/forget_password_screen/reset_password_screen.dart';
 import 'package:movies/features/ui/home_screen/home_screen.dart';
 import 'package:movies/features/ui/home_screen/provider/home_screen_view_model.dart';
 import 'package:movies/features/ui/home_screen/tabs/browse_tab/cubit/browse_view_model.dart';
@@ -31,6 +32,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await SharedPrefsUtils.init();
   configureDependencies();
+  // todo : on boarding
   final bool showOnboarding = false;
   runApp(
     MultiBlocProvider(
@@ -87,6 +89,7 @@ class MyApp extends StatelessWidget {
         ),
         AppRoutes.loginRouteName: (context) => LoginScreen(),
         AppRoutes.editProfileScreen: (context) => EditProfileScreen(),
+        AppRoutes.resetPasswordRouteName: (context) => ResetPasswordScreen(),
         AppRoutes.registerRouteName: (context) => RegisterScreen(),
         AppRoutes.homeRouteName: (context) => MultiProvider(
           providers: [

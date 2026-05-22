@@ -10,6 +10,7 @@ import 'package:movies/domain/use_cases/update_account_details_use_case.dart';
 
 import '../../../../domain/entities/response/user/my_user.dart';
 import '../../../../domain/use_cases/logout_use_case.dart';
+import '../../../../domain/use_cases/reset_password_use_case.dart';
 import '../../home_screen/tabs/profile_tab/cubit/history_view_model.dart';
 import '../../home_screen/tabs/profile_tab/cubit/watchlist_view_model.dart';
 import '../auth_state.dart';
@@ -23,6 +24,7 @@ class AuthCubit extends Cubit<AuthState> {
   final LogoutUseCase _logoutUseCase;
   final DeleteAccountUseCase _deleteAccountUseCase;
   final UpdateAccountDetailsUseCase _updateAccountDetailsUseCase;
+  final ResetPasswordUseCase _resetPasswordUseCase;
 
   AuthCubit(
     this._signInWithGoogleUseCases,
@@ -31,6 +33,7 @@ class AuthCubit extends Cubit<AuthState> {
     this._logoutUseCase,
     this._deleteAccountUseCase,
     this._updateAccountDetailsUseCase,
+    this._resetPasswordUseCase,
   ) : super(AuthInitial());
 
   MyUser? currentUser;
@@ -147,5 +150,20 @@ class AuthCubit extends Cubit<AuthState> {
     } catch (e) {
       emit(AuthRegisterError('Unexpected Error'));
     }
+  }
+
+  Future<void> resetPassword({required String email}) async {
+    emit(ResetPasswordLoading());
+
+    final result = await _resetPasswordUseCase.invoke(email: email);
+
+    result.fold(
+      (failure) {
+        emit(ResetPasswordError(failure.message.tr()));
+      },
+      (_) {
+        emit(ResetPasswordSuccess());
+      },
+    );
   }
 }

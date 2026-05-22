@@ -31,19 +31,13 @@ class MovieSuggestionsWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () {
-
-
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (_) => MultiBlocProvider(
                   providers: [
-                    BlocProvider(
-                      create: (_) => getIt<MovieDetailsCubit>(),
-                    ),
-                    BlocProvider(
-                      create: (_) => getIt<MovieSuggestionsCubit>(),
-                    ),
+                    BlocProvider(create: (_) => getIt<MovieDetailsCubit>()),
+                    BlocProvider(create: (_) => getIt<MovieSuggestionsCubit>()),
                   ],
                   child: MovieDetailsScreen(
                     movieId: moviesList[index].id ?? -1,
@@ -51,9 +45,6 @@ class MovieSuggestionsWidget extends StatelessWidget {
                 ),
               ),
             );
-            // Navigator.push(context, MaterialPageRoute(builder: (context) =>
-            //     MovieDetailsScreen(movieId: moviesList[index].id ?? -1),));
-
           },
           child: Container(
             padding: EdgeInsets.all(context.width * 0.015),
@@ -91,40 +82,6 @@ class MovieSuggestionsWidget extends StatelessWidget {
             ),
           ),
         );
-
-        //   ClipRRect(
-        //   borderRadius: BorderRadius.circular(16),
-        //   child: Stack(
-        //     children: [
-        //       Positioned.fill(
-        //         child: CachedNetworkImage(
-        //           fit: BoxFit.cover,
-        //           imageUrl: moviesList[index].largeCoverImage??  '',
-        //           placeholder: (context, url) => MainLoadingWidget(),
-        //           errorWidget: (context, url, error) => Icon(Icons.error),
-        //         ),
-        //       ),
-        //       Positioned(
-        //         top: 8,
-        //         left: 8,
-        //         child: Container(
-        //           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        //           decoration: BoxDecoration(
-        //             color: Colors.black.withAlpha(179),
-        //             borderRadius: BorderRadius.circular(8),
-        //           ),
-        //           child: Row(
-        //             spacing: 4,
-        //             children: [
-        //               Icon(Icons.star, color: Colors.amber, size: 16),
-        //               Text('', style: AppStyles.robotoRegular14White(context)),
-        //             ],
-        //           ),
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // );
       },
       itemCount: moviesList.length,
     );

@@ -128,4 +128,17 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
       throw UnexpectedException(message: e.toString());
     }
   }
+
+  @override
+  Future<void> resetPassword({required String email}) async {
+    try {
+      await _firebaseAuthService.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      throw ServerException(message: e.message ?? 'Firebase Auth Error');
+    } on SocketException {
+      throw NetworkException(message: 'No Internet');
+    } catch (e) {
+      throw UnexpectedException(message: e.toString());
+    }
+  }
 }
