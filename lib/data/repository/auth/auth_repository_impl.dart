@@ -121,8 +121,8 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<Either<Failure, Unit>> logout() async {
     try {
       await _authRemoteDataSource.logout();
-      var currentUser = _userLocalDataSource.getUser()!;
-      await _userLocalDataSource.deleteUser(user: currentUser);
+      // var currentUser = _userLocalDataSource.getUser()!;
+      await _userLocalDataSource.deleteUser();
 
       return Right(unit);
     } on AppException catch (e) {
@@ -131,4 +131,44 @@ class AuthRepositoryImpl extends AuthRepository {
       return Left(UnexpectedFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> deleteAccount() async {
+    try {
+      await _authRemoteDataSource.deleteAccount();
+
+      return Right(unit);
+    } on AppException catch (e) {
+      return Left(e.toFailure());
+    } catch (e) {
+      return Left(UnexpectedFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> reAuthenticateWithEmailAndPassword(String password) async {
+    try {
+      var authUserDto = await _authRemoteDataSource.reAuthenticateWithEmailAndPassword(password);
+
+      return Right(authUserDto.id);
+    } on AppException catch (e) {
+      return Left(e.toFailure());
+    } catch (e) {
+      return Left(UnexpectedFailure(e.toString()));
+    }
+  }
+  @override
+  Future<Either<Failure, String>> reAuthenticateWithGoogle() async {
+    try {
+      final authUserDto =
+      await _authRemoteDataSource.reAuthenticateWithGoogle();
+
+      return Right(authUserDto.id);
+    } on AppException catch (e) {
+      return Left(e.toFailure());
+    } catch (e) {
+      return Left(UnexpectedFailure(e.toString()));
+    }
+  }
+
 }

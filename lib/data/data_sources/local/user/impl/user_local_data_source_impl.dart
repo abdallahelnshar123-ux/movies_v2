@@ -29,7 +29,7 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
   }
 
   @override
-  Future<void> deleteUser({required MyUserDto user}) async {
+  Future<void> deleteUser() async {
     try {
       await _localStorage.clearUser();
     } catch (e) {

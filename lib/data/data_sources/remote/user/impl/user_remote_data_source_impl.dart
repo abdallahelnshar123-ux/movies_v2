@@ -39,4 +39,30 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       throw UnexpectedException(message: e.toString());
     }
   }
+
+  @override
+  Future<void> deleteUser(String uId) async {
+    try {
+       await _firestoreService.deleteUserFromFirestore(uId);
+    } on FirebaseException catch (e) {
+      throw ServerException(message: e.message ?? 'Firestore Error');
+    } on SocketException {
+      throw NetworkException(message: 'No Internet');
+    } catch (e) {
+      throw UnexpectedException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<void> updateUser(MyUserDto user) async {
+    try {
+      await _firestoreService.updateUserDataToFirestore(user);
+    } on FirebaseException catch (e) {
+      throw ServerException(message: e.message ?? 'Firestore Error');
+    } on SocketException {
+      throw NetworkException(message: 'No Internet');
+    } catch (e) {
+      throw UnexpectedException(message: e.toString());
+    }
+  }
 }

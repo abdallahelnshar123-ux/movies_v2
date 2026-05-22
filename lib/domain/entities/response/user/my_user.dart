@@ -14,4 +14,15 @@ class MyUser {
     required this.avatarIndex,
     required this.provider,
   });
+
+  MyUser copyWith({String? name, String? phone, int? avatarIndex}) {
+    return MyUser(
+      id: id,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+      avatarIndex: avatarIndex ?? this.avatarIndex,
+      email: email,
+      provider: provider,
+    );
+  }
 }

@@ -45,24 +45,24 @@ class AuthAuthenticated extends AuthState {
 class AuthUnauthenticated extends AuthState {}
 
 // todo: update states
-class AuthUpdateLoading extends AuthState {}
+class AccountDetailsUpdateLoading extends AuthState {}
 
-class AuthUpdateSuccess extends AuthState {}
+class AccountDetailsUpdateSuccess extends AuthState {}
 
-class AuthUpdateError extends AuthState {
+class AccountDetailsUpdateError extends AuthState {
   final String message;
 
-  AuthUpdateError(this.message);
+  AccountDetailsUpdateError(this.message);
 }
 
 // todo: delete states
 
-class AuthDeleteLoading extends AuthState {}
+class AccountDeleteLoading extends AuthState {}
 
-class AuthDeleteSuccess extends AuthState {}
+class AccountDeleteSuccess extends AuthState {}
 
-class AuthDeleteError extends AuthState {
+class AccountDeleteError extends AuthState {
   final String message;
 
-  AuthDeleteError(this.message);
+  AccountDeleteError(this.message);
 }

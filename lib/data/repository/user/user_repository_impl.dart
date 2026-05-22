@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+import 'package:movies/data/data_sources/local/user/user_local_data_source.dart';
 import 'package:movies/data/data_sources/remote/user/user_remote_data_source.dart';
 import 'package:movies/data/mapper/exception_mapper.dart';
 import 'package:movies/data/mapper/my_user_dto_mapper.dart';
@@ -14,11 +15,14 @@ import '../../exceptions/app_exceptions.dart';
 @Injectable(as: UserRepository)
 class UserRepositoryImpl extends UserRepository {
   final UserRemoteDataSource _userRemoteDataSource;
+  final UserLocalDataSource _userLocalDataSource;
 
-  UserRepositoryImpl(this._userRemoteDataSource);
+  UserRepositoryImpl(this._userRemoteDataSource, this._userLocalDataSource);
 
   @override
-  Future<Either<Failure, Option<MyUser>>> getUserFromRemoteDataSource({required String uId}) async {
+  Future<Either<Failure, Option<MyUser>>> getUserFromRemoteDataSource({
+    required String uId,
+  }) async {
     try {
       final MyUserDto? userDto = await _userRemoteDataSource.getUser(uId);
       return userDto != null ? Right(Some(userDto.toUser())) : Right(None());
@@ -33,6 +37,32 @@ class UserRepositoryImpl extends UserRepository {
   Future<Either<Failure, Unit>> createUser({required MyUser user}) async {
     try {
       await _userRemoteDataSource.createUser(user.toMyUserDto());
+      return Right(unit);
+    } on AppException catch (e) {
+      return Left(e.toFailure());
+    } catch (e) {
+      return Left(UnexpectedFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> deleteUser({required String uId}) async {
+    try {
+      await _userRemoteDataSource.deleteUser(uId);
+      await _userLocalDataSource.deleteUser();
+      return Right(unit);
+    } on AppException catch (e) {
+      return Left(e.toFailure());
+    } catch (e) {
+      return Left(UnexpectedFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> updateUser({required MyUser user}) async {
+    try {
+      await _userRemoteDataSource.updateUser(user.toMyUserDto());
+      await _userLocalDataSource.saveUser(user: user.toMyUserDto());
       return Right(unit);
     } on AppException catch (e) {
       return Left(e.toFailure());

@@ -52,6 +52,7 @@ import '../../domain/repository/movie/movie_repository.dart' as _i128;
 import '../../domain/repository/user/user_repository.dart' as _i183;
 import '../../domain/repository/watchlist/watchlist_repository.dart' as _i593;
 import '../../domain/use_cases/add_movie_to_watchlist_use_case.dart' as _i981;
+import '../../domain/use_cases/delete_account_use_case.dart' as _i1008;
 import '../../domain/use_cases/delete_movie_from_watchlist_use_case.dart'
     as _i327;
 import '../../domain/use_cases/get_history_movies_use_case.dart' as _i856;
@@ -67,6 +68,7 @@ import '../../domain/use_cases/logout_use_case.dart' as _i250;
 import '../../domain/use_cases/register_with_email_and_password_use_case.dart'
     as _i904;
 import '../../domain/use_cases/signin_with_gogole_use_cases.dart' as _i614;
+import '../../domain/use_cases/update_account_details_use_case.dart' as _i274;
 import '../../features/ui/auth/cubit/auth_view_model.dart' as _i303;
 import '../../features/ui/home_screen/tabs/browse_tab/cubit/browse_view_model.dart'
     as _i882;
@@ -99,10 +101,8 @@ extension GetItInjectableX on _i174.GetIt {
     final getItModule = _$GetItModule();
     gh.singleton<_i361.BaseOptions>(() => getItModule.baseOptions);
     gh.singleton<_i528.PrettyDioLogger>(() => getItModule.prettyDioLogger);
+    gh.singleton<_i734.FirebaseAuthService>(() => _i734.FirebaseAuthService());
     gh.lazySingleton<_i1020.LocalStorage>(() => _i1020.LocalStorage());
-    gh.lazySingleton<_i734.FirebaseAuthService>(
-      () => _i734.FirebaseAuthService(),
-    );
     gh.lazySingleton<_i367.FirestoreService>(() => _i367.FirestoreService());
     gh.factory<_i569.WatchlistRemoteDataSource>(
       () => _i643.WatchlistRemoteDataSourceImpl(gh<_i367.FirestoreService>()),
@@ -112,9 +112,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i632.UserRemoteDataSource>(
       () => _i22.UserRemoteDataSourceImpl(gh<_i367.FirestoreService>()),
-    );
-    gh.factory<_i183.UserRepository>(
-      () => _i1053.UserRepositoryImpl(gh<_i632.UserRemoteDataSource>()),
     );
     gh.singleton<_i361.Dio>(
       () => getItModule.provideDio(
@@ -164,6 +161,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i614.SignInWithGoogleUseCases>(
       () => _i614.SignInWithGoogleUseCases(gh<_i912.AuthRepository>()),
     );
+    gh.factory<_i183.UserRepository>(
+      () => _i1053.UserRepositoryImpl(
+        gh<_i632.UserRemoteDataSource>(),
+        gh<_i996.UserLocalDataSource>(),
+      ),
+    );
     gh.factory<_i448.GetWatchlistMoviesUseCase>(
       () => _i448.GetWatchlistMoviesUseCase(gh<_i593.WatchlistRepository>()),
     );
@@ -186,8 +189,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i475.HistoryCubit>(
       () => _i475.HistoryCubit(gh<_i856.GetHistoryMoviesUseCase>()),
     );
+    gh.factory<_i1008.DeleteAccountUseCase>(
+      () => _i1008.DeleteAccountUseCase(
+        gh<_i183.UserRepository>(),
+        gh<_i912.AuthRepository>(),
+      ),
+    );
     gh.factory<_i250.LogoutUseCase>(
       () => _i250.LogoutUseCase(gh<_i912.AuthRepository>()),
+    );
+    gh.factory<_i274.UpdateAccountDetailsUseCase>(
+      () => _i274.UpdateAccountDetailsUseCase(gh<_i183.UserRepository>()),
     );
     gh.factory<_i766.GetHomeMoviesUseCase>(
       () => _i766.GetHomeMoviesUseCase(gh<_i128.MovieRepository>()),
@@ -204,6 +216,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i23.GetMoviesBySearchUseCase>(
       () => _i23.GetMoviesBySearchUseCase(gh<_i128.MovieRepository>()),
     );
+    gh.factory<_i303.AuthCubit>(
+      () => _i303.AuthCubit(
+        gh<_i614.SignInWithGoogleUseCases>(),
+        gh<_i904.RegisterWithEmailAndPasswordUseCase>(),
+        gh<_i1065.LoginWithEmailAndPasswordUseCase>(),
+        gh<_i250.LogoutUseCase>(),
+        gh<_i1008.DeleteAccountUseCase>(),
+        gh<_i274.UpdateAccountDetailsUseCase>(),
+      ),
+    );
     gh.factory<_i882.BrowseCubit>(
       () => _i882.BrowseCubit(gh<_i452.GetMoviesByGenreUseCase>()),
     );
@@ -215,14 +237,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i44.HomeTabCarouselCubit>(
       () => _i44.HomeTabCarouselCubit(gh<_i766.GetHomeMoviesUseCase>()),
-    );
-    gh.factory<_i303.AuthCubit>(
-      () => _i303.AuthCubit(
-        gh<_i614.SignInWithGoogleUseCases>(),
-        gh<_i904.RegisterWithEmailAndPasswordUseCase>(),
-        gh<_i1065.LoginWithEmailAndPasswordUseCase>(),
-        gh<_i250.LogoutUseCase>(),
-      ),
     );
     gh.factory<_i866.MovieSuggestionsCubit>(
       () => _i866.MovieSuggestionsCubit(gh<_i35.GetMovieSuggestionsUseCase>()),

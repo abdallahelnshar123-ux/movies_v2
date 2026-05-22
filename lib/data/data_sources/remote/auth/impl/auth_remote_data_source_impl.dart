@@ -82,4 +82,50 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
       throw UnexpectedException(message: e.toString());
     }
   }
+
+  @override
+  Future<void> deleteAccount() async {
+    try {
+      await _firebaseAuthService.deleteAccount();
+    } on FirebaseAuthException catch (e) {
+      throw ServerException(message: e.message ?? 'Firebase Auth Error');
+    } on SocketException {
+      throw NetworkException(message: 'No Internet');
+    } catch (e) {
+      throw UnexpectedException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<AuthUserDto> reAuthenticateWithEmailAndPassword(
+    String password,
+  ) async {
+    try {
+      final UserCredential userCredential = await _firebaseAuthService
+          .reAuthenticate(password: password);
+      return userCredential.toAuthUserDto();
+    } on FirebaseAuthException catch (e) {
+      throw ServerException(message: e.message ?? 'Firebase Auth Error');
+    } on SocketException {
+      throw NetworkException(message: 'No Internet');
+    } catch (e) {
+      throw UnexpectedException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<AuthUserDto> reAuthenticateWithGoogle() async {
+    try {
+      final userCredential = await _firebaseAuthService
+          .reAuthenticateWithGoogle();
+
+      return userCredential.toAuthUserDto();
+    } on FirebaseAuthException catch (e) {
+      throw ServerException(message: e.message ?? 'Firebase Auth Error');
+    } on SocketException {
+      throw NetworkException(message: 'No Internet');
+    } catch (e) {
+      throw UnexpectedException(message: e.toString());
+    }
+  }
 }

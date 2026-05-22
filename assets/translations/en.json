@@ -102,5 +102,6 @@
   "see_more": "See More",
   "no_movies_for_this_search_term": "No movies for this search term",
   "edit_Profile": "Edit profile",
-  "exit" : "Exit"
+  "exit" : "Exit" ,
+  "update_account" : "Update Account"
 }
