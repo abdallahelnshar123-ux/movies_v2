@@ -119,7 +119,7 @@ class _LoginUiState extends State<LoginUi> {
                           FocusManager.instance.primaryFocus?.unfocus();
                           Navigator.pushNamed(
                             context,
-                            AppRoutes.forgetPasswordRouteName,
+                            AppRoutes.resetPasswordRouteName,
                           );
                         },
                         child: Text(

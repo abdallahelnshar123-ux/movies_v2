@@ -156,7 +156,7 @@ class OnboardingScreen extends StatelessWidget {
                     ? vm.nextPage
                     : () {
                   // todo : finish on boarding
-                        // vm.finishOnboarding(context);
+                  //       vm.finishOnboarding(context);
                       },
                 backgroundColor: AppColors.yellowColor,
                 child: Text(

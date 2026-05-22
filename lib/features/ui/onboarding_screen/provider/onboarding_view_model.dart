@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class OnboardingViewModel extends ChangeNotifier {
+  // todo : onboarding
   // final LocalStorage _localStorage;
   // OnboardingViewModel(this._localStorage);
 

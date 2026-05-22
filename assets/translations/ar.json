@@ -104,6 +104,7 @@
   "no_movies_for_this_search_term": "لا يوجد افلام لهذا المصطلح",
   "edit_Profile": "تعديل الملف الشخصي",
   "exit": "خروج" ,
-  "update_account" : "تحديث الحساب"
+  "update_account" : "تحديث الحساب",
+  "send_reset_password_link" : "أرسل لينك التحقق"
 
 }

@@ -103,5 +103,7 @@
   "no_movies_for_this_search_term": "No movies for this search term",
   "edit_Profile": "Edit profile",
   "exit" : "Exit" ,
-  "update_account" : "Update Account"
+  "update_account" : "Update Account",
+  "send_reset_password_link" : "Send reset password link"
+
 }

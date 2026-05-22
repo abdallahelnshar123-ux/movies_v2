@@ -259,7 +259,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           onPressed: () {
                             Navigator.of(
                               context,
-                            ).pushNamed(AppRoutes.forgetPasswordRouteName);
+                            ).pushNamed(AppRoutes.resetPasswordRouteName);
                           },
                           child: Text(
                             "Reset Password",

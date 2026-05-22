@@ -170,5 +170,21 @@ class AuthRepositoryImpl extends AuthRepository {
       return Left(UnexpectedFailure(e.toString()));
     }
   }
+  @override
+  Future<Either<Failure, Unit>> resetPassword({
+    required String email,
+  }) async {
+    try {
+      await _authRemoteDataSource.resetPassword(
+        email: email,
+      );
+
+      return Right(unit);
+    } on AppException catch (e) {
+      return Left(e.toFailure());
+    } catch (e) {
+      return Left(UnexpectedFailure(e.toString()));
+    }
+  }
 
 }

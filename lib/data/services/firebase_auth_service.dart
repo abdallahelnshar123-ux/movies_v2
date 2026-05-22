@@ -6,21 +6,24 @@ import '../exceptions/app_exceptions.dart';
 
 @singleton
 class FirebaseAuthService {
+  Future<AuthCredential> _getGoogleCredential() async {
+    final GoogleSignIn signIn = GoogleSignIn.instance;
+
+    await signIn.initialize(
+      clientId:
+          '503224830946-tm277q3ec3la0j61i5ds6dc222jhn6sf.apps.googleusercontent.com',
+    );
+
+    final GoogleSignInAccount googleAccount = await signIn.authenticate();
+
+    final GoogleSignInAuthentication googleAuth = googleAccount.authentication;
+
+    return GoogleAuthProvider.credential(idToken: googleAuth.idToken);
+  }
+
   Future<UserCredential> signInWithGoogle() async {
     try {
-      final GoogleSignIn signIn = GoogleSignIn.instance;
-      await signIn.initialize(
-        clientId:
-            '503224830946-tm277q3ec3la0j61i5ds6dc222jhn6sf.apps.googleusercontent.com',
-      );
-
-      final GoogleSignInAccount googleAccount = await signIn.authenticate();
-      final GoogleSignInAuthentication googleAuth =
-          googleAccount.authentication;
-
-      final credential = GoogleAuthProvider.credential(
-        idToken: googleAuth.idToken,
-      );
+      final credential = await _getGoogleCredential();
 
       return await FirebaseAuth.instance.signInWithCredential(credential);
     } on GoogleSignInException catch (e) {
@@ -28,7 +31,7 @@ class FirebaseAuthService {
         throw CancelledByUserException();
       }
 
-      rethrow;
+      throw UnexpectedException(message: 'UnExpected Error');
     }
   }
 
@@ -66,34 +69,32 @@ class FirebaseAuthService {
 
     return await user.reauthenticateWithCredential(credential);
   }
+
   Future<void> deleteAccount() async {
     await FirebaseAuth.instance.currentUser!.delete();
   }
 
   Future<UserCredential> reAuthenticateWithGoogle() async {
-    final user = FirebaseAuth.instance.currentUser;
+    try {
+      final user = FirebaseAuth.instance.currentUser;
 
-    if (user == null) {
-      throw Exception('No logged in user');
+      if (user == null) {
+        throw UnauthorizedException(message: 'User not authenticated');
+      }
+
+      final credential = await _getGoogleCredential();
+
+      return await user.reauthenticateWithCredential(credential);
+    } on GoogleSignInException catch (e) {
+      if (e.code == GoogleSignInExceptionCode.canceled) {
+        throw CancelledByUserException();
+      }
+
+      throw UnexpectedException(message: 'Unexpected Error');
     }
+  }
 
-    final GoogleSignIn signIn = GoogleSignIn.instance;
-
-    await signIn.initialize(
-      clientId:
-      '503224830946-tm277q3ec3la0j61i5ds6dc222jhn6sf.apps.googleusercontent.com',
-    );
-
-    final GoogleSignInAccount googleAccount =
-    await signIn.authenticate();
-
-    final GoogleSignInAuthentication googleAuth =
-        googleAccount.authentication;
-
-    final credential = GoogleAuthProvider.credential(
-      idToken: googleAuth.idToken,
-    );
-
-    return await user.reauthenticateWithCredential(credential);
+  Future<void> sendPasswordResetEmail({required String email}) async {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
   }
 }

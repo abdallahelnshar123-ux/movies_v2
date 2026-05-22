@@ -39,7 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
             selectedLabelStyle: TextStyle(fontSize: 0),
             backgroundColor: AppColors.transparentColor,
             onTap: (index) {
-              // todo :  change tab
               context.read<HomeScreenViewModel>().changeIndex(index);
             },
             items: [
