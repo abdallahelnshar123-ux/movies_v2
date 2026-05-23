@@ -33,15 +33,15 @@ class LocalStorage {
   Future<void> setTheme(String value) =>
       SharedPrefsUtils.saveData(key: SharedPrefsKeys.appThemeKey, value: value);
 
-  // String? get token =>
-  //     SharedPrefsUtils.getData<String>(key: SharedPrefsKeys.tokenKey);
-  //
-  // Future<void> saveToken(String token) =>
-  //     SharedPrefsUtils.saveData(key: SharedPrefsKeys.tokenKey, value: token);
-  //
-  // Future<void> clearToken() =>
-  //     SharedPrefsUtils.removeData(key: SharedPrefsKeys.tokenKey);
-  //
+  String? get token =>
+      SharedPrefsUtils.getData<String>(key: SharedPrefsKeys.tokenKey);
+
+  Future<void> saveToken(String token) =>
+      SharedPrefsUtils.saveData(key: SharedPrefsKeys.tokenKey, value: token);
+
+  Future<void> clearToken() =>
+      SharedPrefsUtils.removeData(key: SharedPrefsKeys.tokenKey);
+
   Future<void> saveUser(MyUserDto user) async {
     await SharedPrefsUtils.saveData(
       key: SharedPrefsKeys.userKey,

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/core/utils/app_theme.dart';
+import 'package:movies/domain/use_cases/set_onboarding_done_use_case.dart';
 import 'package:movies/features/ui/auth/register_screen/view/register_screen.dart';
 import 'package:movies/features/ui/forget_password_screen/reset_password_screen.dart';
 import 'package:movies/features/ui/home_screen/home_screen.dart';
@@ -32,8 +33,6 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await SharedPrefsUtils.init();
   configureDependencies();
-  // todo : on boarding
-  final bool showOnboarding = false;
   runApp(
     MultiBlocProvider(
       providers: [
@@ -64,27 +63,24 @@ void main() async {
         supportedLocales: const [Locale('en'), Locale('ar')],
         path: 'assets/translations',
         fallbackLocale: const Locale('en'),
-        child: MyApp(showOnboarding: showOnboarding),
+        child: MyApp(),
       ),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  final bool showOnboarding;
-
-  const MyApp({super.key, required this.showOnboarding});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: showOnboarding
-          ? AppRoutes.onboardingRouteName
-          : AppRoutes.loginRouteName,
+      initialRoute: context.read<AuthCubit>().getInitialRoute(),
       routes: {
         AppRoutes.onboardingRouteName: (context) => ChangeNotifierProvider(
-          create: (context) => OnboardingViewModel(),
+          create: (context) =>
+              OnboardingViewModel(getIt<SetOnboardingDoneUseCase>()),
           child: OnboardingScreen(),
         ),
         AppRoutes.loginRouteName: (context) => LoginScreen(),

@@ -8,14 +8,17 @@ import 'package:movies/domain/use_cases/register_with_email_and_password_use_cas
 import 'package:movies/domain/use_cases/signin_with_gogole_use_cases.dart';
 import 'package:movies/domain/use_cases/update_account_details_use_case.dart';
 
+import '../../../../core/utils/app_routes.dart';
 import '../../../../domain/entities/response/user/my_user.dart';
+import '../../../../domain/entities/startup_result/startup_result.dart';
+import '../../../../domain/use_cases/check_app_startup_use_case.dart';
 import '../../../../domain/use_cases/logout_use_case.dart';
 import '../../../../domain/use_cases/reset_password_use_case.dart';
 import '../../home_screen/tabs/profile_tab/cubit/history_view_model.dart';
 import '../../home_screen/tabs/profile_tab/cubit/watchlist_view_model.dart';
 import '../auth_state.dart';
 
-@injectable
+@lazySingleton
 class AuthCubit extends Cubit<AuthState> {
   final SignInWithGoogleUseCases _signInWithGoogleUseCases;
   final RegisterWithEmailAndPasswordUseCase
@@ -25,6 +28,7 @@ class AuthCubit extends Cubit<AuthState> {
   final DeleteAccountUseCase _deleteAccountUseCase;
   final UpdateAccountDetailsUseCase _updateAccountDetailsUseCase;
   final ResetPasswordUseCase _resetPasswordUseCase;
+  final CheckAppStartupUseCase _checkAppStartupUseCase;
 
   AuthCubit(
     this._signInWithGoogleUseCases,
@@ -34,6 +38,7 @@ class AuthCubit extends Cubit<AuthState> {
     this._deleteAccountUseCase,
     this._updateAccountDetailsUseCase,
     this._resetPasswordUseCase,
+    this._checkAppStartupUseCase,
   ) : super(AuthInitial());
 
   MyUser? currentUser;
@@ -166,4 +171,23 @@ class AuthCubit extends Cubit<AuthState> {
       },
     );
   }
+
+  String getInitialRoute() {
+    var result = _checkAppStartupUseCase.checkAppStartup();
+
+    switch (result.status) {
+      case StartupStatus.onboarding:
+        return AppRoutes.onboardingRouteName;
+      case StartupStatus.unauthenticated:
+        return AppRoutes.loginRouteName;
+      case StartupStatus.authenticated:
+        currentUser = result.user;
+        return AppRoutes.homeRouteName;
+    }
+  }
+
+  // void startupAuth(MyUser user) {
+  //   currentUser = user;
+  //   emit(AuthAuthenticated(currentUser));
+  // }
 }

@@ -70,4 +70,16 @@ class UserRepositoryImpl extends UserRepository {
       return Left(UnexpectedFailure(e.toString()));
     }
   }
+
+  @override
+  Either<Failure, Option<MyUser>> getUserFromCache(){
+    try {
+      final MyUserDto? userDto = _userLocalDataSource.getUserFromCache();
+      return userDto != null ? Right(Some(userDto.toUser())) : Right(None());
+    } on AppException catch (e) {
+      return Left(e.toFailure());
+    } catch (e) {
+      return Left(UnexpectedFailure(e.toString()));
+    }
+  }
 }
