@@ -11,7 +11,7 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
   UserLocalDataSourceImpl(this._localStorage);
 
   @override
-  MyUserDto? getUser() {
+  MyUserDto? getUserFromCache() {
     try {
       return _localStorage.getUser();
     } catch (e) {

@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 
 import '../exceptions/app_exceptions.dart';
 
-@singleton
+@lazySingleton
 class FirebaseAuthService {
   Future<AuthCredential> _getGoogleCredential() async {
     final GoogleSignIn signIn = GoogleSignIn.instance;

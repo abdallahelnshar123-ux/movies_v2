@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
+import 'package:movies/core/utils/app_routes.dart';
+import 'package:movies/domain/use_cases/set_onboarding_done_use_case.dart';
 
+@injectable
 class OnboardingViewModel extends ChangeNotifier {
-  // todo : onboarding
-  // final LocalStorage _localStorage;
-  // OnboardingViewModel(this._localStorage);
+  final SetOnboardingDoneUseCase _setOnboardingDoneUseCase;
 
   int currentIndex = 0;
+
+  OnboardingViewModel(this._setOnboardingDoneUseCase);
 
   void changeIndex(int index) {
     if (currentIndex != index) {
@@ -28,10 +32,10 @@ class OnboardingViewModel extends ChangeNotifier {
     }
   }
 
-  // void finishOnboarding(BuildContext context) async {
-  //   await _localStorage.setOnboardingDone();
-  //
-  //   if (!context.mounted) return;
-  //   Navigator.pushReplacementNamed(context, AppRoutes.loginRouteName);
-  // }
+  void finishOnboarding(BuildContext context) {
+    _setOnboardingDoneUseCase.setOnboardingDone();
+
+    if (!context.mounted) return;
+    Navigator.pushReplacementNamed(context, AppRoutes.loginRouteName);
+  }
 }
