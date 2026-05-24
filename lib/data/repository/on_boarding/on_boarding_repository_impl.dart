@@ -22,17 +22,8 @@ class OnBoardingRepositoryImpl implements OnBoardingRepository {
     }
   }
 
-  // @override
-  // Future<Either<Failure, Unit>> setOnboarding() async {
-  //   try {
-  //     await _onBoardingLocalDataSource.setOnboarding();
-  //     return Right(unit);
-  //   } on AppException catch (e) {
-  //     return Left(e.toFailure());
-  //   }
-  // }
   @override
-  void setOnboarding()  {
-     _onBoardingLocalDataSource.setOnboarding();
+  void setOnboarding() {
+    _onBoardingLocalDataSource.setOnboarding();
   }
 }

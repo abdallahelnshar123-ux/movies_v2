@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:injectable/injectable.dart';
@@ -7,28 +6,18 @@ import 'package:movies/core/data_bases/cache/shared_prefs_utils.dart';
 
 import '../../../data/model/response/my_user_dto.dart';
 
-
 @lazySingleton
 class LocalStorage {
-  // LocalStorage._();
   LocalStorage();
-
-  // static final LocalStorage _instance = LocalStorage._();
-
-  // static LocalStorage get instance => _instance;
 
   bool get onboarding =>
       SharedPrefsUtils.getData<bool>(key: SharedPrefsKeys.onBoardingKey) ??
-          true;
+      true;
 
   Future<void> setOnboardingDone() => SharedPrefsUtils.saveData(
     key: SharedPrefsKeys.onBoardingKey,
     value: false,
   );
-
-  // String get appTheme =>
-  //     SharedPrefsUtils.getData<String>(key: SharedPrefsKeys.appThemeKey) ??
-  //         AppThemeProvider.lightThemeKey;
 
   Future<void> setTheme(String value) =>
       SharedPrefsUtils.saveData(key: SharedPrefsKeys.appThemeKey, value: value);

@@ -113,9 +113,7 @@ class _MovieDetailsUIState extends State<MovieDetailsUI> {
                     ),
 
                     CustomElevatedButton(
-                      onPressed: () {
-                        ///todo: Watch Button
-                      },
+                      onPressed: () {},
                       backgroundColor: AppColors.redColor,
                       child: Text(
                         "watch".tr(),

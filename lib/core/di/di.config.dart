@@ -78,7 +78,7 @@ import '../../domain/use_cases/register_with_email_and_password_use_case.dart'
     as _i904;
 import '../../domain/use_cases/reset_password_use_case.dart' as _i638;
 import '../../domain/use_cases/set_onboarding_done_use_case.dart' as _i551;
-import '../../domain/use_cases/signin_with_gogole_use_cases.dart' as _i614;
+import '../../domain/use_cases/sign_in_with_google_use_cases.dart' as _i614;
 import '../../domain/use_cases/update_account_details_use_case.dart' as _i274;
 import '../../features/ui/auth/cubit/auth_view_model.dart' as _i303;
 import '../../features/ui/home_screen/tabs/browse_tab/cubit/browse_view_model.dart'
