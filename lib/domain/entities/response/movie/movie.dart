@@ -1,7 +1,5 @@
-
 import 'package:movies/domain/entities/response/movie/cast.dart';
 import 'package:movies/domain/entities/response/movie/torrents.dart';
-
 
 class Movie {
   Movie({
@@ -27,18 +25,11 @@ class Movie {
     this.smallCoverImage,
     this.mediumCoverImage,
     this.largeCoverImage,
-    this.screenshots ,
-    // this.mediumScreenshotImage1,
-    // this.mediumScreenshotImage2,
-    // this.mediumScreenshotImage3,
-    // this.largeScreenshotImage1,
-    // this.largeScreenshotImage2,
-    // this.largeScreenshotImage3,
+    this.screenshots,
     this.cast,
     this.torrents,
     this.dateUploaded,
     this.dateUploadedUnix,
-
   });
 
   int? id;
@@ -63,13 +54,7 @@ class Movie {
   String? smallCoverImage;
   String? mediumCoverImage;
   String? largeCoverImage;
-List<String?>? screenshots ;
-  // String? mediumScreenshotImage1;
-  // String? mediumScreenshotImage2;
-  // String? mediumScreenshotImage3;
-  // String? largeScreenshotImage1;
-  // String? largeScreenshotImage2;
-  // String? largeScreenshotImage3;
+  List<String?>? screenshots;
   List<Cast>? cast;
   List<Torrents>? torrents;
   String? dateUploaded;

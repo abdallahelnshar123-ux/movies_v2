@@ -27,7 +27,6 @@ class DeleteAccountUseCase {
       reAuthResult = await _authRepository.reAuthenticateWithGoogle();
     }
 
-    // var reAuthResult = await _authRepository.reAuthenticateWithEmailAndPassword(password);
     return reAuthResult.fold((failure) => Left(failure), (uId) async {
       var deleteUserResult = await _userRepository.deleteUser(uId: uId);
       return deleteUserResult.fold((failure) => Left(failure), (unit) async {

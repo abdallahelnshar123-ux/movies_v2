@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:movies/domain/use_cases/delete_account_use_case.dart';
 import 'package:movies/domain/use_cases/login_with_email_and_password_use_case.dart';
 import 'package:movies/domain/use_cases/register_with_email_and_password_use_case.dart';
-import 'package:movies/domain/use_cases/signin_with_gogole_use_cases.dart';
+import 'package:movies/domain/use_cases/sign_in_with_google_use_cases.dart';
 import 'package:movies/domain/use_cases/update_account_details_use_case.dart';
 
 import '../../../../core/utils/app_routes.dart';
@@ -63,7 +63,7 @@ class AuthCubit extends Cubit<AuthState> {
     });
   }
 
-  Future<void> deleteUserAccount({
+  Future<void> deleteAccount({
     required BuildContext context,
     required String password,
   }) async {
@@ -185,9 +185,4 @@ class AuthCubit extends Cubit<AuthState> {
         return AppRoutes.homeRouteName;
     }
   }
-
-  // void startupAuth(MyUser user) {
-  //   currentUser = user;
-  //   emit(AuthAuthenticated(currentUser));
-  // }
 }

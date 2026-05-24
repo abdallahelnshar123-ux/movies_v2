@@ -146,9 +146,12 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure, String>> reAuthenticateWithEmailAndPassword(String password) async {
+  Future<Either<Failure, String>> reAuthenticateWithEmailAndPassword(
+    String password,
+  ) async {
     try {
-      var authUserDto = await _authRemoteDataSource.reAuthenticateWithEmailAndPassword(password);
+      var authUserDto = await _authRemoteDataSource
+          .reAuthenticateWithEmailAndPassword(password);
 
       return Right(authUserDto.id);
     } on AppException catch (e) {
@@ -157,11 +160,12 @@ class AuthRepositoryImpl extends AuthRepository {
       return Left(UnexpectedFailure(e.toString()));
     }
   }
+
   @override
   Future<Either<Failure, String>> reAuthenticateWithGoogle() async {
     try {
-      final authUserDto =
-      await _authRemoteDataSource.reAuthenticateWithGoogle();
+      final authUserDto = await _authRemoteDataSource
+          .reAuthenticateWithGoogle();
 
       return Right(authUserDto.id);
     } on AppException catch (e) {
@@ -170,14 +174,11 @@ class AuthRepositoryImpl extends AuthRepository {
       return Left(UnexpectedFailure(e.toString()));
     }
   }
+
   @override
-  Future<Either<Failure, Unit>> resetPassword({
-    required String email,
-  }) async {
+  Future<Either<Failure, Unit>> resetPassword({required String email}) async {
     try {
-      await _authRemoteDataSource.resetPassword(
-        email: email,
-      );
+      await _authRemoteDataSource.resetPassword(email: email);
 
       return Right(unit);
     } on AppException catch (e) {
@@ -186,5 +187,4 @@ class AuthRepositoryImpl extends AuthRepository {
       return Left(UnexpectedFailure(e.toString()));
     }
   }
-
 }
