@@ -183,14 +183,14 @@ class _MovieDetailsUIState extends State<MovieDetailsUI> {
                   },
                 ),
 
-                TitleWidget(text: "Summary"),
+                TitleWidget(text: "summary".tr()),
                 SummaryWidget(
                   summary:
                       widget.movie.descriptionFull ?? 'no_summary_found'.tr(),
                 ),
                 TitleWidget(text: 'cast'.tr()),
                 CastWidget(castList: widget.movie.cast ?? []),
-                TitleWidget(text: 'Genres'),
+                TitleWidget(text: 'genres'.tr()),
                 GenresWidget(genresList: widget.movie.genres ?? []),
               ],
             ),
