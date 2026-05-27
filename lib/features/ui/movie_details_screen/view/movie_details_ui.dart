@@ -4,18 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/domain/entities/response/movie/movie.dart';
 import 'package:movies/features/ui/movie_details_screen/view/widget/book_mark_widget.dart';
+import 'package:movies/features/ui/movie_details_screen/view/widget/cast_widget.dart';
+import 'package:movies/features/ui/movie_details_screen/view/widget/genres_widget.dart';
 import 'package:movies/features/ui/movie_details_screen/view/widget/movie_suggestions_widget/cubit/movie_suggestions_view_model.dart';
 import 'package:movies/features/ui/movie_details_screen/view/widget/movie_suggestions_widget/movie_suggestions_state.dart';
 import 'package:movies/features/ui/movie_details_screen/view/widget/movie_suggestions_widget/view/movie_suggestions_shimmer_widget.dart';
 import 'package:movies/features/ui/movie_details_screen/view/widget/movie_suggestions_widget/view/movie_suggestions_widget.dart';
 import 'package:movies/features/ui/movie_details_screen/view/widget/rating_widget.dart';
-
-import 'package:movies/features/ui/movie_details_screen/view/widget/cast_widget.dart';
-import 'package:movies/features/ui/movie_details_screen/view/widget/genres_widget.dart';
 import 'package:movies/features/ui/movie_details_screen/view/widget/screen_shots_widget.dart';
 import 'package:movies/features/ui/movie_details_screen/view/widget/summary_widget.dart';
 import 'package:movies/features/ui/movie_details_screen/view/widget/title_widget.dart';
-
 import 'package:movies/widgets/custom_elevated_button.dart';
 import 'package:movies/widgets/main_error_widget.dart';
 

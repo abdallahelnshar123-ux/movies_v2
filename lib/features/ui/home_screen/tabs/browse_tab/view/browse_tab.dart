@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/features/ui/home_screen/tabs/browse_tab/view/widgets/genres_tab_bar.dart';
-import 'package:movies/widgets/movie_list_widget.dart';
 import 'package:movies/widgets/main_error_widget.dart';
+import 'package:movies/widgets/movie_list_widget.dart';
 
 import '../../../../../../core/utils/screen_size.dart';
 import '../../../../../../widgets/movie_list_shimmer_widget.dart';

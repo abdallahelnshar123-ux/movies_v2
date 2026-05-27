@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/core/utils/app_theme.dart';
@@ -16,16 +17,15 @@ import 'package:movies/features/ui/home_screen/tabs/search_tab/cubit/search_view
 import 'package:movies/features/ui/onboarding_screen/provider/onboarding_view_model.dart';
 import 'package:movies/features/ui/onboarding_screen/view/onboarding_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'core/data_bases/cache/shared_prefs_utils.dart';
-import 'features/ui/edit_profile_screen/edit_profile_screen.dart';
-import 'features/ui/home_screen/tabs/profile_tab/cubit/watchlist_view_model.dart';
-import 'firebase_options.dart';
-import 'core/di/di.dart';
 
+import 'core/data_bases/cache/shared_prefs_utils.dart';
+import 'core/di/di.dart';
 import 'core/utils/app_routes.dart';
 import 'features/ui/auth/cubit/auth_view_model.dart';
 import 'features/ui/auth/login_screen/view/login_screen.dart';
+import 'features/ui/edit_profile_screen/edit_profile_screen.dart';
+import 'features/ui/home_screen/tabs/profile_tab/cubit/watchlist_view_model.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,18 +46,8 @@ void main() async {
           create: (context) => getIt<BrowseCubit>()..getBrowseMovies(),
         ),
         BlocProvider(create: (context) => getIt<SearchCubit>()),
-        BlocProvider(
-          lazy: true,
-          create: (context) => getIt<WatchListCubit>()
-            ..loadWatchList(context.read<AuthCubit>().currentUser?.id ?? ''),
-        ),
-        BlocProvider(
-          lazy: true,
-
-          create: (context) =>
-              getIt<HistoryCubit>()
-                ..loadHistory(context.read<AuthCubit>().currentUser?.id ?? ''),
-        ),
+        BlocProvider(create: (context) => getIt<WatchListCubit>()),
+        BlocProvider(create: (context) => getIt<HistoryCubit>()),
       ],
       child: EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('ar')],

@@ -1,4 +1,3 @@
-
 import '../../../domain/entities/response/movie/movie.dart';
 
 class MovieDetailsState {}

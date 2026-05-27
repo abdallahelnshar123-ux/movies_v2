@@ -46,6 +46,7 @@ class WatchListCubit extends Cubit<WatchListState> {
           watchListIds = movies.map((movie) => movie.id ?? 0).toSet();
           if (watchListMovies.isEmpty) {
             emit(WatchListEmptyState());
+            return;
           }
           emit(WatchListSuccessState(movies));
         },

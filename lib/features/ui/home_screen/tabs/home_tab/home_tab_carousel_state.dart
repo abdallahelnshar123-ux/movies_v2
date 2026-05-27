@@ -1,6 +1,7 @@
 abstract class HomeTabCarouselState {}
 
 class HomeCarouselInitState extends HomeTabCarouselState {}
+
 class HomeCarouselLoadingState extends HomeTabCarouselState {}
 
 class HomeCarouselSuccessState extends HomeTabCarouselState {}

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/features/ui/home_screen/tabs/profile_tab/view/widgets/lists_count.dart';
 import 'package:movies/features/ui/home_screen/tabs/profile_tab/view/widgets/profile_button.dart';
 import 'package:movies/features/ui/home_screen/tabs/profile_tab/view/widgets/user_data_widget.dart';
+import 'package:movies/widgets/change_language_item.dart';
 
 import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/app_routes.dart';
@@ -36,9 +37,19 @@ class _ProfileTabState extends State<ProfileTab> {
             children: [
               Row(
                 spacing: context.width * 0.04,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(flex: 2, child: UserDataWidget()),
-                  Expanded(flex: 3, child: ListsCount()),
+                  Expanded(flex: 3, child: UserDataWidget()),
+                  Expanded(flex: 5,
+                    child: Column(
+                      spacing: context.width * 0.13,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        ChangeLanguageItem(),
+                        ListsCount(),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               Row(

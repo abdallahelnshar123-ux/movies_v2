@@ -21,9 +21,9 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
       final userCredential = await _firebaseAuthService.signInWithGoogle();
       return userCredential.toAuthUserDto();
     } on FirebaseAuthException catch (e) {
-      throw ServerException(message: e.message ?? 'Firebase Auth Error');
+      throw ServerException(message: e.message ?? 'server_error');
     } on SocketException {
-      throw NetworkException(message: 'No Internet');
+      throw NetworkException(message: 'no_internet');
     } catch (e) {
       throw UnexpectedException(message: e.toString());
     }
@@ -44,9 +44,9 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
           message: 'the_email_address_is_already_in_use_by_another_account',
         );
       }
-      throw ServerException(message: e.message ?? 'Firebase Auth Error');
+      throw ServerException(message: e.message ?? "Server error");
     } on SocketException {
-      throw NetworkException(message: 'No Internet');
+      throw NetworkException(message: 'no_internet');
     } catch (e) {
       throw UnexpectedException(message: e.toString());
     }
@@ -62,9 +62,9 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
           .loginWithEmailAndPassword(email: email, password: password);
       return userCredential.toAuthUserDto();
     } on FirebaseAuthException catch (e) {
-      throw ServerException(message: e.message ?? 'Firebase Auth Error');
+      throw ServerException(message: e.message ?? 'server_error');
     } on SocketException {
-      throw NetworkException(message: 'No Internet');
+      throw NetworkException(message: 'no_internet');
     } catch (e) {
       throw UnexpectedException(message: e.toString());
     }
@@ -75,9 +75,9 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     try {
       return _firebaseAuthService.logout();
     } on FirebaseAuthException catch (e) {
-      throw ServerException(message: e.message ?? 'Firebase Auth Error');
+      throw ServerException(message: e.message ?? 'server_error');
     } on SocketException {
-      throw NetworkException(message: 'No Internet');
+      throw NetworkException(message: 'no_internet');
     } catch (e) {
       throw UnexpectedException(message: e.toString());
     }
@@ -88,9 +88,9 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     try {
       await _firebaseAuthService.deleteAccount();
     } on FirebaseAuthException catch (e) {
-      throw ServerException(message: e.message ?? 'Firebase Auth Error');
+      throw ServerException(message: e.message ?? 'server_error');
     } on SocketException {
-      throw NetworkException(message: 'No Internet');
+      throw NetworkException(message: 'no_internet');
     } catch (e) {
       throw UnexpectedException(message: e.toString());
     }
@@ -105,9 +105,9 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
           .reAuthenticate(password: password);
       return userCredential.toAuthUserDto();
     } on FirebaseAuthException catch (e) {
-      throw ServerException(message: e.message ?? 'Firebase Auth Error');
+      throw ServerException(message: e.message ?? 'server_error');
     } on SocketException {
-      throw NetworkException(message: 'No Internet');
+      throw NetworkException(message: 'no_internet');
     } catch (e) {
       throw UnexpectedException(message: e.toString());
     }
@@ -121,9 +121,9 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
       return userCredential.toAuthUserDto();
     } on FirebaseAuthException catch (e) {
-      throw ServerException(message: e.message ?? 'Firebase Auth Error');
+      throw ServerException(message: e.message ?? 'server_error');
     } on SocketException {
-      throw NetworkException(message: 'No Internet');
+      throw NetworkException(message: 'no_internet');
     } catch (e) {
       throw UnexpectedException(message: e.toString());
     }
@@ -134,9 +134,9 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     try {
       await _firebaseAuthService.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
-      throw ServerException(message: e.message ?? 'Firebase Auth Error');
+      throw ServerException(message: e.message ?? 'server_error');
     } on SocketException {
-      throw NetworkException(message: 'No Internet');
+      throw NetworkException(message: 'no_internet');
     } catch (e) {
       throw UnexpectedException(message: e.toString());
     }

@@ -5,16 +5,14 @@ import 'package:movies/domain/entities/response/movie/movie.dart';
 import '../core/di/di.dart';
 import '../core/utils/app_styles.dart';
 import '../core/utils/screen_size.dart';
-import 'movie_item.dart';
-import 'shimmer_widget.dart';
 import '../features/ui/movie_details_screen/cubit/movie_details_view_model.dart';
 import '../features/ui/movie_details_screen/view/movie_details_screen.dart';
 import '../features/ui/movie_details_screen/view/widget/movie_suggestions_widget/cubit/movie_suggestions_view_model.dart';
+import 'movie_item.dart';
+import 'shimmer_widget.dart';
 
 class MovieListWidget extends StatelessWidget {
   final ScrollController scrollController;
-
-  // final State state;
 
   final bool isPaginationLoading;
 
@@ -23,7 +21,6 @@ class MovieListWidget extends StatelessWidget {
   const MovieListWidget({
     super.key,
     required this.scrollController,
-    // required this.state,
     required this.moviesList,
     required this.isPaginationLoading,
   });

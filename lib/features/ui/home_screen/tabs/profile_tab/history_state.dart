@@ -3,6 +3,7 @@ import '../../../../../domain/entities/response/movie/movie.dart';
 abstract class HistoryState {}
 
 class HistoryInitState extends HistoryState {}
+
 class HistoryLoadingState extends HistoryState {}
 
 class HistoryEmptyState extends HistoryState {}

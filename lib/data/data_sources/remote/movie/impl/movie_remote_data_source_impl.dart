@@ -44,11 +44,11 @@ class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
         'with_cast': true,
       },
     );
-    return MovieDetailsResponse.fromJson(response).data?.movie ;
+    return MovieDetailsResponse.fromJson(response).data?.movie;
   }
 
   @override
-  Future<List<MovieDto>?> getMovieSuggestions({required int movieId})async {
+  Future<List<MovieDto>?> getMovieSuggestions({required int movieId}) async {
     var response = await _apiConsumer.get<Map<String, dynamic>>(
       EndPoints.movieSuggestionsEndPoint,
       queryParameters: {'movie_id': movieId},
@@ -57,10 +57,13 @@ class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
   }
 
   @override
-  Future<List<MovieDto>?> getMoviesBySearch({required String searchTerm , required int page }) async{
+  Future<List<MovieDto>?> getMoviesBySearch({
+    required String searchTerm,
+    required int page,
+  }) async {
     var response = await _apiConsumer.get<Map<String, dynamic>>(
       EndPoints.movieListEndPoint,
-      queryParameters: {'query_term': searchTerm ,'page': page},
+      queryParameters: {'query_term': searchTerm, 'page': page},
     );
     return AllMoviesResponseDto.fromJson(response).data?.movies;
   }

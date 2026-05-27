@@ -15,9 +15,6 @@ class AddMovieToWatchlistUseCase {
     required Movie movie,
     required String uId,
   }) {
-    return _watchlistRepository.addMovie(
-      movie: movie,
-      uId: uId,
-    );
+    return _watchlistRepository.addMovie(movie: movie, uId: uId);
   }
 }

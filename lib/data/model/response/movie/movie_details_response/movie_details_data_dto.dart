@@ -3,13 +3,14 @@
 library;
 
 import '../movie_dto.dart';
+
 class MovieDetailsDataDto {
-  MovieDetailsDataDto({
-    this.movie,});
+  MovieDetailsDataDto({this.movie});
 
   MovieDetailsDataDto.fromJson(dynamic json) {
     movie = json['movie'] != null ? MovieDto.fromJson(json['movie']) : null;
   }
+
   MovieDto? movie;
 
   Map<String, dynamic> toJson() {
@@ -19,5 +20,4 @@ class MovieDetailsDataDto {
     }
     return map;
   }
-
 }

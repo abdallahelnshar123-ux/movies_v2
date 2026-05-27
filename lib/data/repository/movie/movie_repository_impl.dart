@@ -62,7 +62,10 @@ class MovieRepositoryImpl extends MovieRepository {
   }
 
   @override
-  Future<Either<Failure, Movie>> getMovieDetails({required int movieId , required String uId}) async {
+  Future<Either<Failure, Movie>> getMovieDetails({
+    required int movieId,
+    required String uId,
+  }) async {
     try {
       var movieDto = await _movieRemoteDataSource.getMovieDetails(
         movieId: movieId,
@@ -70,7 +73,10 @@ class MovieRepositoryImpl extends MovieRepository {
       if (movieDto == null) {
         return Left(UnexpectedFailure('Sorry we could not load movies'));
       }
-       await _historyRemoteDataSource.addMovieToHistory(movie: movieDto, uId:uId );
+      await _historyRemoteDataSource.addMovieToHistory(
+        movie: movieDto,
+        uId: uId,
+      );
       return Right(movieDto.toMovie());
     } on AppException catch (e) {
       return Left(e.toFailure());

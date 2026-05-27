@@ -5,11 +5,7 @@
 library;
 
 class CastDto {
-  CastDto({
-    this.name,
-    this.characterName,
-    this.urlSmallImage,
-    this.imdbCode,});
+  CastDto({this.name, this.characterName, this.urlSmallImage, this.imdbCode});
 
   CastDto.fromJson(dynamic json) {
     name = json['name'];
@@ -17,6 +13,7 @@ class CastDto {
     urlSmallImage = json['url_small_image'];
     imdbCode = json['imdb_code'];
   }
+
   String? name;
   String? characterName;
   String? urlSmallImage;
@@ -30,5 +27,4 @@ class CastDto {
     map['imdb_code'] = imdbCode;
     return map;
   }
-
 }

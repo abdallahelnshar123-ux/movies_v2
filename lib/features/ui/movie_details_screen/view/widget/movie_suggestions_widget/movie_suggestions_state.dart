@@ -1,5 +1,3 @@
-
-
 import '../../../../../../domain/entities/response/movie/movie.dart';
 
 class MovieSuggestionsState {}

@@ -3,7 +3,6 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../../../../../core/utils/screen_size.dart';
 
-
 class GenreMoviesShimmerWidget extends StatelessWidget {
   const GenreMoviesShimmerWidget({super.key});
 

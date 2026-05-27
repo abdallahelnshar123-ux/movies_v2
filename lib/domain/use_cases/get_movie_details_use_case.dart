@@ -11,7 +11,10 @@ class GetMovieDetailsUseCase {
 
   GetMovieDetailsUseCase(this._movieRepository);
 
-  Future<Either<Failure, Movie>> invoke({required int movieId , required String uId}) async {
-    return await _movieRepository.getMovieDetails(movieId: movieId ,uId: uId );
+  Future<Either<Failure, Movie>> invoke({
+    required int movieId,
+    required String uId,
+  }) async {
+    return await _movieRepository.getMovieDetails(movieId: movieId, uId: uId);
   }
 }

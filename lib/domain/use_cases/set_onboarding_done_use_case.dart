@@ -7,9 +7,7 @@ class SetOnboardingDoneUseCase {
 
   SetOnboardingDoneUseCase(this._onBoardingRepository);
 
-  void setOnboardingDone(){
+  void setOnboardingDone() {
     _onBoardingRepository.setOnboarding();
-
   }
-
 }

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/core/constants/app_constants.dart';
+import 'package:movies/core/utils/snack_bar_utils.dart';
 import 'package:movies/core/utils/validators.dart';
 import 'package:movies/widgets/custom_elevated_button.dart';
 import 'package:movies/widgets/custom_text_form_field.dart';
@@ -58,23 +59,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       listener: (context, state) {
         if (state is AccountDetailsUpdateSuccess) {
           DialogUtils.hideLoading(context: context);
-          DialogUtils.showMessage(
+          Navigator.pop(context);
+          SnackBarUtils.showSnackBar(
             context: context,
-            title: 'success',
-            message: 'Profile updated successfully!',
-            posActionText: 'Ok',
-            posAction: () {
-              Navigator.pop(context);
-            },
+            message: 'data_was_updated_successfully'.tr(),
           );
         }
         if (state is AccountDetailsUpdateError) {
           DialogUtils.hideLoading(context: context);
           DialogUtils.showMessage(
             context: context,
-            title: 'Error!!!',
+            title: 'error',
             message: state.message,
-            posActionText: 'Ok',
+            posActionText: 'ok',
           );
         }
         if (state is AccountDetailsUpdateLoading) {
@@ -82,198 +79,203 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         }
         if (state is AccountDeleteSuccess) {
           DialogUtils.hideLoading(context: context);
-          DialogUtils.showMessage(
+          SnackBarUtils.showSnackBar(
             context: context,
-            title: 'success',
-            message: 'Account deleted successfully!',
-            posActionText: 'Ok',
-            posAction: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                AppRoutes.loginRouteName,
-                (route) => false,
-              );
-            },
+            message: 'account_was_deleted_successfully',
+          );
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            AppRoutes.loginRouteName,
+            (route) => false,
           );
         }
         if (state is AccountDeleteError) {
           DialogUtils.hideLoading(context: context);
           DialogUtils.showMessage(
             context: context,
-            title: 'Error!!!',
+            title: 'error',
             message: state.message,
-            posActionText: 'Ok',
+            posActionText: 'ok',
           );
         }
         if (state is AccountDeleteLoading) {
           DialogUtils.showLoading(context: context);
         }
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Edit Profile",
-            style: AppStyles.robotoRegular16Yellow(context),
+      child: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              "edit_profile".tr(),
+              style: AppStyles.robotoRegular16Yellow(context),
+            ),
+            centerTitle: true,
           ),
-          centerTitle: true,
-        ),
-        bottomNavigationBar: Padding(
-          padding: EdgeInsets.all(context.width * 0.015),
-          child: Column(
-            spacing: 15,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomElevatedButton(
-                backgroundColor: AppColors.redColor,
-                onPressed: () async {
-                  if (currentUser.provider == AuthProviders.emailPassword) {
-                    String? password = await DialogUtils.showPasswordDialog(
-                      context: context,
-                      message: 'Please Enter Password to delete account',
-                      title: 'confirmation !',
-                    );
-
-                    if (password != null && password.isNotEmpty) {
-                      if (!context.mounted) return;
-                      context.read<AuthCubit>().deleteAccount(
+          bottomNavigationBar: Padding(
+            padding: EdgeInsets.all(context.width * 0.015),
+            child: Column(
+              spacing: 15,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CustomElevatedButton(
+                  backgroundColor: AppColors.redColor,
+                  onPressed: () async {
+                    if (currentUser.provider == AuthProviders.emailPassword) {
+                      String? password = await DialogUtils.showPasswordDialog(
                         context: context,
-                        password: password,
+                        message: 'please_enter_password_to_delete_account',
+                        title: 'confirmation',
                       );
-                    }
-                  } else {
-                    DialogUtils.showMessage(
-                      context: context,
-                      message: 'Are you sure you want to delete the account ?',
-                      title: 'confirmation !',
-                      posAction: () {
+
+                      if (password != null && password.isNotEmpty) {
+                        if (!context.mounted) return;
                         context.read<AuthCubit>().deleteAccount(
                           context: context,
-                          password: "",
+                          password: password,
                         );
-                      },
-                      posActionText: 'yes',
-                      negActionText: 'no',
-                    );
-                  }
-                },
-                child: Text(
-                  'delete_account'.tr(),
-                  style: AppStyles.robotoRegular16White(context),
+                      }
+                    } else {
+                      DialogUtils.showMessage(
+                        context: context,
+                        message: 'are_you_sure_you_want_to_delete_the_account',
+                        title: 'confirmation',
+                        posAction: () {
+                          context.read<AuthCubit>().deleteAccount(
+                            context: context,
+                            password: "",
+                          );
+                        },
+                        posActionText: 'yes',
+                        negActionText: 'no',
+                      );
+                    }
+                  },
+                  child: Text(
+                    'delete_account'.tr(),
+                    style: AppStyles.robotoRegular16White(context),
+                  ),
                 ),
-              ),
-              CustomElevatedButton(
-                backgroundColor: AppColors.yellowColor,
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    DialogUtils.showMessage(
-                      context: context,
-                      title: 'Update Data',
-                      message: 'Are you sure you want to update data?',
-                      posActionText: 'yes',
-                      negActionText: 'Cancel',
-                      posAction: () {
-                        context.read<AuthCubit>().updateAccountDetails(
-                          user: currentUser.copyWith(
-                            avatarIndex: avatarIndex.value,
-                            name: nameController.text,
-                            phone: phoneController.text,
-                          ),
-                        );
-                      },
-                    );
-                  }
-                },
-                child: Text(
-                  'update_account'.tr(),
-                  style: AppStyles.robotoRegular16DarkGray(context),
+                CustomElevatedButton(
+                  backgroundColor: AppColors.yellowColor,
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      DialogUtils.showMessage(
+                        context: context,
+                        title: 'confirmation',
+                        message: 'are_you_sure_you_want_to_update_data',
+                        posActionText: 'yes',
+                        negActionText: 'cancel',
+                        posAction: () {
+                          context.read<AuthCubit>().updateAccountDetails(
+                            user: currentUser.copyWith(
+                              avatarIndex: avatarIndex.value,
+                              name: nameController.text,
+                              phone: phoneController.text,
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  },
+                  child: Text(
+                    'update_account'.tr(),
+                    style: AppStyles.robotoRegular16DarkGray(context),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: context.width * 0.015),
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                spacing: 15,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      showAvatarBottomSheet();
-                    },
-                    child: ValueListenableBuilder<int>(
-                      valueListenable: avatarIndex,
-                      builder: (BuildContext context, value, Widget? child) {
-                        return Container(
-                          width: context.width * 0.3,
-                          height: context.width * 0.3,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage(
-                                value == -1
-                                    ? AppAssets.fallbackUserImage
-                                    : AppConstants.avatarList[value],
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: context.width * 0.015),
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  spacing: 15,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        showAvatarBottomSheet();
+                      },
+                      child: ValueListenableBuilder<int>(
+                        valueListenable: avatarIndex,
+                        builder: (BuildContext context, value, Widget? child) {
+                          return Container(
+                            width: context.width * 0.3,
+                            height: context.width * 0.3,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                  value == -1
+                                      ? AppAssets.fallbackUserImage
+                                      : AppConstants.avatarList[value],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  SizedBox(height: context.height * 0.01),
-                  CustomTextFormField(
-                    prefixIcon: Icon(Icons.person, color: AppColors.whiteColor),
-                    controller: nameController,
-                    hintText: "Enter Your Name",
-                    hintStyle: AppStyles.robotoRegular16White(
-                      context,
-                    ).copyWith(fontSize: 16, fontWeight: FontWeight.w800),
-                    validator: (value) => Validators.required(value),
-                    fillColor: AppColors.darkGrayColor,
-                    filled: true,
-                    keyboardType: TextInputType.name,
-                  ),
-                  CustomTextFormField(
-                    prefixIcon: Icon(Icons.phone, color: AppColors.whiteColor),
-                    controller: phoneController,
-                    hintText: "Enter Your Phone Number",
-                    hintStyle: AppStyles.robotoRegular16White(
-                      context,
-                    ).copyWith(fontSize: 16, fontWeight: FontWeight.w800),
-                    validator: (value) => Validators.phone(value),
-                    fillColor: AppColors.darkGrayColor,
-                    filled: true,
-                    keyboardType: TextInputType.phone,
-                  ),
-                  Visibility(
-                    visible:
-                        currentUser.provider == AuthProviders.emailPassword,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(
-                              context,
-                            ).pushNamed(AppRoutes.resetPasswordRouteName);
-                          },
-                          child: Text(
-                            "Reset Password",
-                            style: AppStyles.robotoRegular16White(context)
-                                .copyWith(
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: AppColors.whiteColor,
-                                ),
-                          ),
-                        ),
-                      ],
+                    SizedBox(height: context.height * 0.01),
+                    CustomTextFormField(
+                      prefixIcon: Icon(
+                        Icons.person,
+                        color: AppColors.whiteColor,
+                      ),
+                      controller: nameController,
+                      hintText: "enter_your_name".tr(),
+                      hintStyle: AppStyles.robotoRegular16White(
+                        context,
+                      ).copyWith(fontSize: 16, fontWeight: FontWeight.w800),
+                      validator: (value) => Validators.required(value),
+                      fillColor: AppColors.darkGrayColor,
+                      filled: true,
+                      keyboardType: TextInputType.name,
                     ),
-                  ),
-                ],
+                    CustomTextFormField(
+                      prefixIcon: Icon(
+                        Icons.phone,
+                        color: AppColors.whiteColor,
+                      ),
+                      controller: phoneController,
+                      hintText: "enter_your_phone_number".tr(),
+                      hintStyle: AppStyles.robotoRegular16White(
+                        context,
+                      ).copyWith(fontSize: 16, fontWeight: FontWeight.w800),
+                      validator: (value) => Validators.phone(value),
+                      fillColor: AppColors.darkGrayColor,
+                      filled: true,
+                      keyboardType: TextInputType.phone,
+                    ),
+                    Visibility(
+                      visible:
+                          currentUser.provider == AuthProviders.emailPassword,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(
+                                context,
+                              ).pushNamed(AppRoutes.resetPasswordRouteName);
+                            },
+                            child: Text(
+                              "reset_password".tr(),
+                              style: AppStyles.robotoRegular16White(context)
+                                  .copyWith(
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: AppColors.whiteColor,
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

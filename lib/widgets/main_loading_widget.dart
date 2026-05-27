@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies/core/utils/app_colors.dart';
 
-
 class MainLoadingWidget extends StatelessWidget {
   const MainLoadingWidget({super.key});
 

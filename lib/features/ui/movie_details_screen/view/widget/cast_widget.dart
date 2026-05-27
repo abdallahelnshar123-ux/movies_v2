@@ -9,7 +9,6 @@ import '../../../../../core/utils/screen_size.dart';
 import '../../../../../domain/entities/response/movie/cast.dart';
 import '../../../../../widgets/main_loading_widget.dart';
 
-
 class CastWidget extends StatelessWidget {
   final List<Cast> castList;
 
@@ -43,7 +42,7 @@ class CastWidget extends StatelessWidget {
                 width: context.width * 0.14,
                 height: context.width * 0.14,
                 child: CachedNetworkImage(
-                  imageUrl:  castList[index].urlSmallImage ??  '',
+                  imageUrl: castList[index].urlSmallImage ?? '',
                   placeholder: (context, url) => MainLoadingWidget(),
                   errorWidget: (context, url, error) =>
                       Image.asset(AppAssets.fallbackUserImage),
@@ -64,8 +63,7 @@ class CastWidget extends StatelessWidget {
                         ),
                         Expanded(
                           child: Text(
-                            castList[index].name ??
-                                'No name',
+                            castList[index].name ?? 'No name',
                             style: AppStyles.robotoRegular14White(context),
                           ),
                         ),
@@ -80,7 +78,7 @@ class CastWidget extends StatelessWidget {
                         ),
                         Expanded(
                           child: Text(
-                                   castList[index].characterName ??
+                            castList[index].characterName ??
                                 'no character name',
                             style: AppStyles.robotoRegular14White(context),
                             maxLines: 3,

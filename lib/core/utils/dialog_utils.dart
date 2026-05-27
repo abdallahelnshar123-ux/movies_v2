@@ -17,10 +17,6 @@ class DialogUtils {
           spacing: 20,
           children: [
             CircularProgressIndicator(color: AppColors.yellowColor),
-            Text(
-              context.tr('loading'),
-              style: AppStyles.robotoRegular14White(context),
-            ),
           ],
         ),
       ),

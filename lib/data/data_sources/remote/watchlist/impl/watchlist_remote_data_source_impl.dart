@@ -25,9 +25,9 @@ class WatchlistRemoteDataSourceImpl implements WatchlistRemoteDataSource {
         uId: uId,
       );
     } on FirebaseException catch (e) {
-      throw ServerException(message: e.message ?? 'Firestore Error');
+      throw ServerException(message: e.message ?? 'server_error');
     } on SocketException {
-      throw NetworkException(message: 'No Internet');
+      throw NetworkException(message: 'no_internet');
     } catch (e) {
       throw UnexpectedException(message: e.toString());
     }
@@ -44,9 +44,9 @@ class WatchlistRemoteDataSourceImpl implements WatchlistRemoteDataSource {
         uId: uId,
       );
     } on FirebaseException catch (e) {
-      throw ServerException(message: e.message ?? 'Firestore Error');
+      throw ServerException(message: e.message ?? 'server_error');
     } on SocketException {
-      throw NetworkException(message: 'No Internet');
+      throw NetworkException(message: 'no_internet');
     } catch (e) {
       throw UnexpectedException(message: e.toString());
     }
@@ -56,9 +56,9 @@ class WatchlistRemoteDataSourceImpl implements WatchlistRemoteDataSource {
   Stream<List<MovieDto>> getWatchListMovies({required String uId}) {
     return _firestoreService.getWatchListMovies(uId: uId).handleError((error) {
       if (error is FirebaseException) {
-        throw ServerException(message: error.message ?? 'Firestore Error');
+        throw ServerException(message: error.message ?? 'server_error');
       } else if (error is SocketException) {
-        throw NetworkException(message: 'No Internet');
+        throw NetworkException(message: 'no_internet');
       } else {
         throw UnexpectedException(message: error.toString());
       }

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:movies/core/utils/app_styles.dart';
 
@@ -15,26 +13,30 @@ class MainErrorWidget extends StatelessWidget {
     super.key,
     required this.errorMessage,
     required this.onPressed,
-    required this.widgetHeight
+    required this.widgetHeight,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      height:widgetHeight ,
+      height: widgetHeight,
       width: double.infinity,
       padding: EdgeInsets.only(top: context.height * 0.02),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         spacing: context.height * 0.03,
         children: [
-          Text(errorMessage, style: AppStyles.robotoBold20White(context) , textAlign: TextAlign.center,),
+          Text(
+            errorMessage,
+            style: AppStyles.robotoBold20White(context),
+            textAlign: TextAlign.center,
+          ),
 
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(vertical: 10 , horizontal: 25),
-              backgroundColor:  AppColors.yellowColor,
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+              backgroundColor: AppColors.yellowColor,
             ),
             onPressed: onPressed,
             child: Text(

@@ -61,6 +61,15 @@ class AppStyles {
     );
   }
 
+  static TextStyle robotoRegular14Black(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium!.copyWith(
+      color: AppColors.blackColor,
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      fontFamily: GoogleFonts.roboto().fontFamily,
+    );
+  }
+
   static TextStyle robotoRegular20DarkGray(BuildContext context) {
     return Theme.of(context).textTheme.bodyMedium!.copyWith(
       color: AppColors.darkGrayColor,

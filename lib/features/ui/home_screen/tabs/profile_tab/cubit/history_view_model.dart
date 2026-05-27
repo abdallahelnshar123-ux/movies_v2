@@ -36,13 +36,15 @@ class HistoryCubit extends Cubit<HistoryState> {
           watchListIds = movies.map((movie) => movie.id ?? 0).toSet();
           if (historyMovies.isEmpty) {
             emit(HistoryEmptyState());
+            return;
           }
           emit(HistorySuccessState(movies));
         },
       );
     });
   }
-  Future<void> clearHistory() async{
+
+  Future<void> clearHistory() async {
     _subscription?.cancel();
 
     historyMovies.clear();
@@ -50,6 +52,7 @@ class HistoryCubit extends Cubit<HistoryState> {
 
     emit(HistoryInitState());
   }
+
   @override
   Future<void> close() {
     _subscription?.cancel();
