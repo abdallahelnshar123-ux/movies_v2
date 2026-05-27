@@ -103,8 +103,24 @@
   "see_more": "شاهد المزيد",
   "no_movies_for_this_search_term": "لا يوجد افلام لهذا المصطلح",
   "edit_Profile": "تعديل الملف الشخصي",
-  "exit": "خروج" ,
-  "update_account" : "تحديث الحساب",
-  "send_reset_password_link" : "أرسل لينك التحقق"
-
+  "exit": "خروج",
+  "update_account": "تحديث الحساب",
+  "send_reset_password_link": "أرسل لينك التحقق",
+  "logged_in_as": "مسجل الدخول ك ",
+  "data_was_updated_successfully": "تم تحديث البيانات بنجاح",
+  "history": "الهيستوري",
+  "watch_list": "قائمة المشاهدة",
+  "account_was_deleted_successfully": "تم حذف الحساب بنجاح",
+  "server_error": "الخادم لا يستجيب",
+  "reset_password_message": "تم ارسال اللينك بنجاح من فضلك افحص الرسائل غير المهمة",
+  "email_sent": "تم ارسال الايميل",
+  "edit_profile": "تعديل البروفايل",
+  "please_enter_password_to_delete_account": "من فضل ادخل كلمه السر لحذف الحساب ",
+  "confirmation": "تأكيد !",
+  "are_you_sure_you_want_to_delete_the_account": "هل انت متأكد انك تريد حذف الحساب ؟",
+  "are_you_sure_you_want_to_update_data": "هل تاكد تحديث البيانات ؟",
+  "cancel": "إلغاء",
+  "enter_your_name": "ادخل اسمك",
+  "enter_your_phone_number": "ادخل رقم الهاتف",
+  "yes" : "نعم"
 }

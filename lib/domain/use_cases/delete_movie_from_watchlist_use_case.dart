@@ -15,9 +15,6 @@ class DeleteMovieFromWatchlistUseCase {
     required Movie movie,
     required String uId,
   }) {
-    return _watchlistRepository.deleteMovie(
-      movie: movie,
-      uId: uId,
-    );
+    return _watchlistRepository.deleteMovie(movie: movie, uId: uId);
   }
 }

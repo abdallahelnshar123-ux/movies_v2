@@ -11,7 +11,10 @@ class GetMoviesByGenreUseCase {
 
   GetMoviesByGenreUseCase(this._movieRepository);
 
-  Future<Either<Failure, List<Movie>>> invoke({required String genre , required int page}) async {
-    return await _movieRepository.getMoviesByGenre(genre: genre , page: page);
+  Future<Either<Failure, List<Movie>>> invoke({
+    required String genre,
+    required int page,
+  }) async {
+    return await _movieRepository.getMoviesByGenre(genre: genre, page: page);
   }
 }

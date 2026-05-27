@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/utils/app_styles.dart';
 
-
 class SummaryWidget extends StatelessWidget {
   final String summary;
 

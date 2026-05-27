@@ -36,6 +36,7 @@ library;
 import 'package:movies/data/model/response/movie/torrents_dto.dart';
 
 import 'movie_details_response/cast_dto.dart';
+
 class MovieDto {
   MovieDto({
     this.id,
@@ -69,7 +70,8 @@ class MovieDto {
     this.cast,
     this.torrents,
     this.dateUploaded,
-    this.dateUploadedUnix,});
+    this.dateUploadedUnix,
+  });
 
   MovieDto.fromJson(dynamic json) {
     id = json['id'];
@@ -115,6 +117,7 @@ class MovieDto {
     dateUploaded = json['date_uploaded'];
     dateUploadedUnix = json['date_uploaded_unix'];
   }
+
   int? id;
   String? url;
   String? imdbCode;
@@ -188,5 +191,4 @@ class MovieDto {
     map['date_uploaded_unix'] = dateUploadedUnix;
     return map;
   }
-
 }

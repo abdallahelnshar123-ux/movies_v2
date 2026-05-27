@@ -19,9 +19,9 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     try {
       return await _firestoreService.getUserFromFireStore(uId);
     } on FirebaseException catch (e) {
-      throw ServerException(message: e.message ?? 'Firestore Error');
+      throw ServerException(message: e.message ?? 'server_error');
     } on SocketException {
-      throw NetworkException(message: 'No Internet');
+      throw NetworkException(message: 'no_internet');
     } catch (e) {
       throw UnexpectedException(message: e.toString());
     }
@@ -32,9 +32,9 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     try {
       return await _firestoreService.addUserToFireStore(user);
     } on FirebaseException catch (e) {
-      throw ServerException(message: e.message ?? 'Firestore Error');
+      throw ServerException(message: e.message ?? 'server_error');
     } on SocketException {
-      throw NetworkException(message: 'No Internet');
+      throw NetworkException(message: 'no_internet');
     } catch (e) {
       throw UnexpectedException(message: e.toString());
     }
@@ -43,11 +43,11 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<void> deleteUser(String uId) async {
     try {
-       await _firestoreService.deleteUserFromFirestore(uId);
+      await _firestoreService.deleteUserFromFirestore(uId);
     } on FirebaseException catch (e) {
-      throw ServerException(message: e.message ?? 'Firestore Error');
+      throw ServerException(message: e.message ?? 'server_error');
     } on SocketException {
-      throw NetworkException(message: 'No Internet');
+      throw NetworkException(message: 'no_internet');
     } catch (e) {
       throw UnexpectedException(message: e.toString());
     }
@@ -58,9 +58,9 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     try {
       await _firestoreService.updateUserDataToFirestore(user);
     } on FirebaseException catch (e) {
-      throw ServerException(message: e.message ?? 'Firestore Error');
+      throw ServerException(message: e.message ?? 'server_error');
     } on SocketException {
-      throw NetworkException(message: 'No Internet');
+      throw NetworkException(message: 'no_internet');
     } catch (e) {
       throw UnexpectedException(message: e.toString());
     }

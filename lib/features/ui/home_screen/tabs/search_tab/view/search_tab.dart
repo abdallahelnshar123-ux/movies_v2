@@ -46,70 +46,73 @@ class _SearchTabState extends State<SearchTab> {
   Widget build(BuildContext context) {
     var cubit = context.read<SearchCubit>();
 
-    return SafeArea(
-      bottom: false,
-      child: Column(
-        spacing: context.width * 0.04,
-        children: [
-          Padding(
-            padding: EdgeInsetsGeometry.only(
-              top: context.width * 0.04,
-              left: context.width * 0.04,
-              right: context.width * 0.04,
-            ),
-            child: CustomTextFormField(
-              controller: cubit.searchController,
-              onChanged: onSearchChanged,
-
-              prefixIcon: SvgPicture.asset(
-                AppAssets.bnbSearchIcon,
-                fit: BoxFit.none,
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: SafeArea(
+        bottom: false,
+        child: Column(
+          spacing: context.width * 0.04,
+          children: [
+            Padding(
+              padding: EdgeInsetsGeometry.only(
+                top: context.width * 0.04,
+                left: context.width * 0.04,
+                right: context.width * 0.04,
               ),
-              hintText: "search".tr(),
-              hintStyle: AppStyles.robotoRegular16White(context),
-              filled: true,
-              fillColor: AppColors.darkGrayColor,
+              child: CustomTextFormField(
+                controller: cubit.searchController,
+                onChanged: onSearchChanged,
+
+                prefixIcon: SvgPicture.asset(
+                  AppAssets.bnbSearchIcon,
+                  fit: BoxFit.none,
+                ),
+                hintText: "search".tr(),
+                hintStyle: AppStyles.robotoRegular16White(context),
+                filled: true,
+                fillColor: AppColors.darkGrayColor,
+              ),
             ),
-          ),
-          Expanded(
-            child: BlocBuilder<SearchCubit, SearchState>(
-              builder: (context, state) {
-                if (state is SearchLoadingState) {
-                  return MovieListShimmerWidget();
-                }
+            Expanded(
+              child: BlocBuilder<SearchCubit, SearchState>(
+                builder: (context, state) {
+                  if (state is SearchLoadingState) {
+                    return MovieListShimmerWidget();
+                  }
 
-                if (state is SearchEmptyState) {
-                  return Center(
-                    child: Text(
-                      'no_movies_for_this_search_term'.tr(),
-                      style: AppStyles.robotoBold20White(context),
-                      textAlign: TextAlign.center,
-                    ),
-                  );
-                }
+                  if (state is SearchEmptyState) {
+                    return Center(
+                      child: Text(
+                        'no_movies_for_this_search_term'.tr(),
+                        style: AppStyles.robotoBold20White(context),
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  }
 
-                if (state is SearchSuccessState) {
-                  return MovieListWidget(
-                    scrollController: scrollController,
-                    isPaginationLoading: state.isPaginationLoading,
-                    moviesList: state.moviesList,
-                  );
-                }
+                  if (state is SearchSuccessState) {
+                    return MovieListWidget(
+                      scrollController: scrollController,
+                      isPaginationLoading: state.isPaginationLoading,
+                      moviesList: state.moviesList,
+                    );
+                  }
 
-                if (state is SearchErrorState) {
-                  return MainErrorWidget(
-                    errorMessage: state.message,
-                    onPressed: () {
-                      context.read<SearchCubit>().getSearchMovies();
-                    },
-                    widgetHeight: context.height,
-                  );
-                }
-                return Center(child: Image.asset(AppAssets.emptyListImage));
-              },
+                  if (state is SearchErrorState) {
+                    return MainErrorWidget(
+                      errorMessage: state.message,
+                      onPressed: () {
+                        context.read<SearchCubit>().getSearchMovies();
+                      },
+                      widgetHeight: context.height,
+                    );
+                  }
+                  return Center(child: Image.asset(AppAssets.emptyListImage));
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

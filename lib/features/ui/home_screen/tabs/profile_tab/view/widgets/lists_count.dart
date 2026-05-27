@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,12 +16,12 @@ class ListsCount extends StatelessWidget {
       children: [
         builtCountWidget(
           context: context,
-          title: 'Watch List',
+          title: 'watch_list'.tr(),
           count: context.watch<WatchListCubit>().watchListMovies.length,
         ),
         builtCountWidget(
           context: context,
-          title: 'History',
+          title: 'history'.tr(),
           count: context.watch<HistoryCubit>().historyMovies.length,
         ),
       ],

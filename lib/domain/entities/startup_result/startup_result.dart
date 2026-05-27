@@ -7,8 +7,4 @@ class StartupResult {
   StartupResult(this.status, this.user);
 }
 
-enum StartupStatus {
-  onboarding,
-  unauthenticated,
-  authenticated,
-}
+enum StartupStatus { onboarding, unauthenticated, authenticated }

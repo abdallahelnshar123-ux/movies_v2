@@ -20,7 +20,7 @@ class ProfileButton extends StatelessWidget {
   ProfileButton.exit({super.key, required this.onPressed}) {
     backgroundColor = AppColors.redColor;
     textColor = AppColors.whiteColor;
-    label = 'exit'.tr();
+    label = 'exit';
     icon = BlocConsumer<AuthCubit, AuthState>(
       builder: (context, state) {
         if (state is AuthLogoutLoading) {
@@ -60,7 +60,7 @@ class ProfileButton extends StatelessWidget {
     textColor = AppColors.blackColor;
     backgroundColor = AppColors.yellowColor;
     icon = null;
-    label = 'edit_Profile'.tr();
+    label = 'edit_Profile';
   }
 
   @override
@@ -73,7 +73,7 @@ class ProfileButton extends StatelessWidget {
         spacing: context.width * 0.01,
         children: [
           Text(
-            label,
+            label.tr(),
             style: AppStyles.robotoRegular16DarkGray(
               context,
             ).copyWith(color: textColor, fontWeight: FontWeight.w600),

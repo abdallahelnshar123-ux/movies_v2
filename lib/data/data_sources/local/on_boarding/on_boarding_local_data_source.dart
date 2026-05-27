@@ -1,6 +1,5 @@
 abstract class OnBoardingLocalDataSource {
+  bool checkOnboarding();
 
- bool checkOnboarding();
- void setOnboarding();
-
+  void setOnboarding();
 }

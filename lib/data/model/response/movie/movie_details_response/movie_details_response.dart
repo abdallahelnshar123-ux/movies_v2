@@ -7,19 +7,19 @@ library;
 
 import '../meta_dto.dart';
 import 'movie_details_data_dto.dart';
+
 class MovieDetailsResponse {
-  MovieDetailsResponse({
-      this.status, 
-      this.statusMessage, 
-      this.data, 
-      this.meta,});
+  MovieDetailsResponse({this.status, this.statusMessage, this.data, this.meta});
 
   MovieDetailsResponse.fromJson(dynamic json) {
     status = json['status'];
     statusMessage = json['status_message'];
-    data = json['data'] != null ? MovieDetailsDataDto.fromJson(json['data']) : null;
+    data = json['data'] != null
+        ? MovieDetailsDataDto.fromJson(json['data'])
+        : null;
     meta = json['@meta'] != null ? MetaDto.fromJson(json['@meta']) : null;
   }
+
   String? status;
   String? statusMessage;
   MovieDetailsDataDto? data;
@@ -37,12 +37,4 @@ class MovieDetailsResponse {
     }
     return map;
   }
-
 }
-
-
-
-
-
-
-

@@ -11,7 +11,9 @@ class UpdateAccountDetailsUseCase {
 
   UpdateAccountDetailsUseCase(this._userRepository);
 
-  Future<Either<Failure, Unit>> updateAccountDetails({required MyUser user}) async {
+  Future<Either<Failure, Unit>> updateAccountDetails({
+    required MyUser user,
+  }) async {
     return await _userRepository.updateUser(user: user);
   }
 }

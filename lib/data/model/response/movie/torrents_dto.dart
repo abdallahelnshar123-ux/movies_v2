@@ -30,7 +30,8 @@ class TorrentsDto {
     this.size,
     this.sizeBytes,
     this.dateUploaded,
-    this.dateUploadedUnix,});
+    this.dateUploadedUnix,
+  });
 
   TorrentsDto.fromJson(dynamic json) {
     url = json['url'];
@@ -48,6 +49,7 @@ class TorrentsDto {
     dateUploaded = json['date_uploaded'];
     dateUploadedUnix = json['date_uploaded_unix'];
   }
+
   String? url;
   String? hash;
   String? quality;
@@ -81,5 +83,4 @@ class TorrentsDto {
     map['date_uploaded_unix'] = dateUploadedUnix;
     return map;
   }
-
 }

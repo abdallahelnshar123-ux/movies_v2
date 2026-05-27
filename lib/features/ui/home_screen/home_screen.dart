@@ -1,7 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:movies/core/utils/snack_bar_utils.dart';
+import 'package:movies/features/ui/auth/cubit/auth_view_model.dart';
 import 'package:movies/features/ui/home_screen/provider/home_screen_view_model.dart';
-import 'package:provider/provider.dart';
+import 'package:movies/features/ui/home_screen/tabs/profile_tab/cubit/history_view_model.dart';
+import 'package:movies/features/ui/home_screen/tabs/profile_tab/cubit/watchlist_view_model.dart';
 
 import '../../../core/utils/app_assets.dart';
 import '../../../core/utils/app_colors.dart';
@@ -14,6 +19,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final currentUser = context.read<AuthCubit>().currentUser;
+      SnackBarUtils.showSnackBar(
+        context: context,
+        message: 'logged_in_as'.tr() + currentUser!.name,
+      );
+      context.read<WatchListCubit>().loadWatchList(currentUser.id);
+      context.read<HistoryCubit>().loadHistory(currentUser.id);
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

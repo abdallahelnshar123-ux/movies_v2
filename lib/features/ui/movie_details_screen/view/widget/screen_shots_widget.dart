@@ -5,7 +5,7 @@ import 'package:movies/core/utils/screen_size.dart';
 import '../../../../../widgets/main_loading_widget.dart';
 
 class ScreenShotsWidget extends StatelessWidget {
-  final List<String ?> screenShotsList;
+  final List<String?> screenShotsList;
 
   const ScreenShotsWidget({super.key, required this.screenShotsList});
 
@@ -19,12 +19,11 @@ class ScreenShotsWidget extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         child: CachedNetworkImage(
           width: context.width,
-          height: context.width /2.5,
+          height: context.width / 2.5,
           fit: BoxFit.cover,
           imageUrl: screenShotsList[index] ?? '',
           placeholder: (context, url) => MainLoadingWidget(),
           errorWidget: (context, url, error) => Icon(Icons.error),
-
         ),
       ),
       separatorBuilder: (context, index) => SizedBox(height: 10),

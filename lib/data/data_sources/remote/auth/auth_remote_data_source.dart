@@ -7,20 +7,19 @@ abstract class AuthRemoteDataSource {
     required String email,
     required String password,
   });
+
   Future<AuthUserDto> registerWithEmailAndPassword({
     required String email,
     required String password,
   });
-
 
   Future<void> logout();
 
   Future<AuthUserDto> reAuthenticateWithEmailAndPassword(String password);
 
   Future<AuthUserDto> reAuthenticateWithGoogle();
-  Future<void> resetPassword({
-    required String email,
-  });
-  Future<void> deleteAccount();
 
+  Future<void> resetPassword({required String email});
+
+  Future<void> deleteAccount();
 }

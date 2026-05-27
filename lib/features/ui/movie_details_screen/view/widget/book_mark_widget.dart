@@ -14,7 +14,7 @@ class BookMarkWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var currentUser = context.watch<AuthCubit>().currentUser;
-    var watchListCubit = context.watch<WatchListCubit>() ;
+    var watchListCubit = context.watch<WatchListCubit>();
     var isBookMarked = watchListCubit.isMovieSaved(movie.id ?? 0);
 
     return IconButton(
@@ -27,15 +27,9 @@ class BookMarkWidget extends StatelessWidget {
         if (currentUser == null) return;
 
         if (isBookMarked) {
-          await watchListCubit.deleteMovie(
-            movie: movie,
-            uId: currentUser.id,
-          );
+          await watchListCubit.deleteMovie(movie: movie, uId: currentUser.id);
         } else {
-          await watchListCubit.addMovie(
-            movie: movie,
-            uId: currentUser.id,
-          );
+          await watchListCubit.addMovie(movie: movie, uId: currentUser.id);
         }
       },
     );

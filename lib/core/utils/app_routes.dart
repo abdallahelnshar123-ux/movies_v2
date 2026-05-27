@@ -7,5 +7,4 @@ class AppRoutes {
   static const String resetPasswordRouteName = 'forget_password_screen';
   static const String homeTabRouteName = 'home_tab';
   static const String movieDetailsScreen = 'movie_details_screen';
-
 }

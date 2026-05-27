@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerWidget extends StatelessWidget {
-  final double? width ;
+  final double? width;
+
   final double? height;
-  const ShimmerWidget({super.key ,this.width , this.height});
+
+  const ShimmerWidget({super.key, this.width, this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +18,8 @@ class ShimmerWidget extends StatelessWidget {
           color: Colors.black38,
           borderRadius: BorderRadius.circular(20),
         ),
-        width: width?? double.infinity,
-        height: height ??double.infinity,
+        width: width ?? double.infinity,
+        height: height ?? double.infinity,
       ),
     );
   }

@@ -4,8 +4,8 @@ import '../core/utils/app_colors.dart';
 import '../core/utils/app_styles.dart';
 import '../core/utils/screen_size.dart';
 
-typedef OnChanged =void Function(String)?;
-typedef OnValidator = String? Function(String?)? ;
+typedef OnChanged = void Function(String)?;
+typedef OnValidator = String? Function(String?)?;
 typedef OnFieldSubmitted = void Function(String)?;
 
 class CustomTextFormField extends StatelessWidget {
@@ -43,8 +43,8 @@ class CustomTextFormField extends StatelessWidget {
     this.controller,
     this.onChanged,
     this.validator,
-    this.obscureText=false,
-    this.obscuringCharacter='.',
+    this.obscureText = false,
+    this.obscuringCharacter = '.',
     this.keyboardType,
     this.errorStyle,
     this.onFieldSubmitted,
@@ -55,15 +55,15 @@ class CustomTextFormField extends StatelessWidget {
     return TextFormField(
       onFieldSubmitted: onFieldSubmitted,
       maxLines: maxLines ?? 1,
-      controller:controller ,
-      onChanged:onChanged ,
-      validator:validator ,
+      controller: controller,
+      onChanged: onChanged,
+      validator: validator,
       obscureText: obscureText,
-      obscuringCharacter:obscuringCharacter ,
-      keyboardType:  keyboardType,
+      obscuringCharacter: obscuringCharacter,
+      keyboardType: keyboardType,
       style: AppStyles.robotoRegular16White(context),
       cursorColor: AppColors.yellowColor,
-      cursorHeight: context.height*0.04,
+      cursorHeight: context.height * 0.04,
       decoration: InputDecoration(
         filled: filled,
         fillColor: fillColor,

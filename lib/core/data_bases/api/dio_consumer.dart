@@ -21,7 +21,7 @@ class DioConsumer implements ApiConsumer {
       queryParameters: queryParameters,
     );
 
-    return response.data  ;
+    return response.data;
   }
 
   @override

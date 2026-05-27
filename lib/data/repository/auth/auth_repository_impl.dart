@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movies/data/data_sources/local/user/user_local_data_source.dart';
 import 'package:movies/data/data_sources/remote/auth/auth_remote_data_source.dart';
@@ -9,7 +10,6 @@ import 'package:movies/data/mapper/my_user_mapper.dart';
 import 'package:movies/domain/entities/response/auth/auth_providers.dart';
 import 'package:movies/domain/entities/response/user/my_user.dart';
 import 'package:movies/domain/repository/auth/auth_repository.dart';
-import 'package:dartz/dartz.dart';
 
 import '../../../domain/failure/failure.dart';
 import '../../model/response/auth_user_dto.dart';
@@ -121,7 +121,6 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<Either<Failure, Unit>> logout() async {
     try {
       await _authRemoteDataSource.logout();
-      // var currentUser = _userLocalDataSource.getUser()!;
       await _userLocalDataSource.deleteUser();
 
       return Right(unit);

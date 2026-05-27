@@ -30,7 +30,8 @@ class HomeTabGenreCubit extends Cubit<HomeTabGenreState> {
     isLoading = true;
 
     if (!isPagination) {
-      randomGenre = AppConstants.genresList[random.nextInt(AppConstants.genresList.length)];
+      randomGenre = AppConstants
+          .genresList[random.nextInt(AppConstants.genresList.length)];
 
       currentPage = 1;
 

@@ -21,11 +21,13 @@ abstract class AuthRepository {
 
   Future<Either<Failure, Unit>> logout();
 
-  Future<Either<Failure, String>> reAuthenticateWithEmailAndPassword(String password);
+  Future<Either<Failure, String>> reAuthenticateWithEmailAndPassword(
+    String password,
+  );
+
   Future<Either<Failure, String>> reAuthenticateWithGoogle();
-  Future<Either<Failure, Unit>> resetPassword({
-    required String email,
-  });
+
+  Future<Either<Failure, Unit>> resetPassword({required String email});
 
   Future<Either<Failure, Unit>> deleteAccount();
 }

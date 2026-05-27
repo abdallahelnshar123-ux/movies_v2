@@ -5,21 +5,21 @@
 
 library;
 
-import 'all_movies_data_dto.dart';
 import '../meta_dto.dart';
+import 'all_movies_data_dto.dart';
+
 class AllMoviesResponseDto {
-  AllMoviesResponseDto({
-      this.status, 
-      this.statusMessage, 
-      this.data, 
-      this.meta,});
+  AllMoviesResponseDto({this.status, this.statusMessage, this.data, this.meta});
 
   AllMoviesResponseDto.fromJson(dynamic json) {
     status = json['status'];
     statusMessage = json['status_message'];
-    data = json['data'] != null ? AllMoviesDataDto.fromJson(json['data']) : null;
+    data = json['data'] != null
+        ? AllMoviesDataDto.fromJson(json['data'])
+        : null;
     meta = json['@meta'] != null ? MetaDto.fromJson(json['@meta']) : null;
   }
+
   String? status;
   String? statusMessage;
   AllMoviesDataDto? data;
@@ -37,12 +37,4 @@ class AllMoviesResponseDto {
     }
     return map;
   }
-
 }
-
-
-
-
-
-
-

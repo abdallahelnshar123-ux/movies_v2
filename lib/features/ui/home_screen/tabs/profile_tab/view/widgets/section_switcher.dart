@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,8 +12,8 @@ import '../../../../../../../core/utils/screen_size.dart';
 import '../../cubit/watchlist_view_model.dart';
 import '../../watchlist_state.dart';
 import 'history_movie_grid.dart';
-import 'watchlist_movie_grid.dart';
 import 'movie_grid_shimmer_widget.dart';
+import 'watchlist_movie_grid.dart';
 
 class SectionSwitcher extends StatelessWidget {
   final ValueNotifier<int> tabIndex = ValueNotifier(0);
@@ -48,7 +49,7 @@ class SectionSwitcher extends StatelessWidget {
                         height: 20,
                         fit: BoxFit.contain,
                       ),
-                      label: 'WatchList',
+                      label: 'watch_list'.tr(),
                       isSelected: value == 0,
                       context: context,
                     );
@@ -64,7 +65,7 @@ class SectionSwitcher extends StatelessWidget {
                         height: 20,
                         fit: BoxFit.contain,
                       ),
-                      label: 'History',
+                      label: 'history'.tr(),
                       isSelected: value == 1,
                       context: context,
                     );

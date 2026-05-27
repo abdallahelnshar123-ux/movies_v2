@@ -6,12 +6,9 @@
 library;
 
 import '../movie_dto.dart';
+
 class AllMoviesDataDto {
-  AllMoviesDataDto({
-    this.movieCount,
-    this.limit,
-    this.pageNumber,
-    this.movies,});
+  AllMoviesDataDto({this.movieCount, this.limit, this.pageNumber, this.movies});
 
   AllMoviesDataDto.fromJson(dynamic json) {
     movieCount = json['movie_count'];
@@ -24,6 +21,7 @@ class AllMoviesDataDto {
       });
     }
   }
+
   int? movieCount;
   int? limit;
   int? pageNumber;
@@ -39,5 +37,4 @@ class AllMoviesDataDto {
     }
     return map;
   }
-
 }

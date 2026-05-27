@@ -51,10 +51,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           DialogUtils.hideLoading(context: context);
           DialogUtils.showMessage(
             context: context,
-            message:
-                "A password reset link has been sent to your email."
-                "\n Please check your inbox or spam.",
-            title: "Email Sent",
+            message: 'reset_password_message',
+            title: "email_sent",
             posActionText: 'ok',
             posAction: () => Navigator.pop(context),
           );
@@ -63,47 +61,50 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           DialogUtils.showLoading(context: context);
         }
       },
-      child: Scaffold(
-        appBar: AppBar(title: Text("reset_password".tr())),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SingleChildScrollView(
-            child: Form(
-              key: formKey,
-              child: Column(
-                spacing: context.height * 0.04,
-                children: [
-                  Image.asset(AppAssets.forgetPasswordImage),
-                  CustomTextFormField(
-                    validator: (value) {
-                      return Validators.email(value);
-                    },
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    hintText: "email".tr(),
-                    hintStyle: AppStyles.robotoRegular16White(context),
-                    prefixIcon: Icon(
-                      Icons.email_rounded,
-                      color: AppColors.whiteColor,
+      child: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
+          appBar: AppBar(title: Text("reset_password".tr())),
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Form(
+                key: formKey,
+                child: Column(
+                  spacing: context.height * 0.04,
+                  children: [
+                    Image.asset(AppAssets.forgetPasswordImage),
+                    CustomTextFormField(
+                      validator: (value) {
+                        return Validators.email(value);
+                      },
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      hintText: "email".tr(),
+                      hintStyle: AppStyles.robotoRegular16White(context),
+                      prefixIcon: Icon(
+                        Icons.email_rounded,
+                        color: AppColors.whiteColor,
+                      ),
+                      filled: true,
+                      fillColor: AppColors.darkGrayColor,
                     ),
-                    filled: true,
-                    fillColor: AppColors.darkGrayColor,
-                  ),
-                  CustomElevatedButton(
-                    backgroundColor: AppColors.yellowColor,
-                    onPressed: () async {
-                      if (formKey.currentState!.validate()) {
-                        await context.read<AuthCubit>().resetPassword(
-                          email: emailController.text.trim(),
-                        );
-                      }
-                    },
-                    child: Text(
-                      'send_reset_password_link'.tr(),
-                      style: AppStyles.robotoRegular16DarkGray(context),
+                    CustomElevatedButton(
+                      backgroundColor: AppColors.yellowColor,
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          await context.read<AuthCubit>().resetPassword(
+                            email: emailController.text.trim(),
+                          );
+                        }
+                      },
+                      child: Text(
+                        'send_reset_password_link'.tr(),
+                        style: AppStyles.robotoRegular16DarkGray(context),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
