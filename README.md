@@ -245,18 +245,6 @@ The app showcases the latest movies in a dynamic slider, provides categorized br
 
 ---
 
-### 🧭 Navigation
-
-* **go_router** — Clean and scalable app navigation.
-
----
-
-### 🌐 Web View
-
-* **webview_flutter** — Open external movie links and trailers.
-
----
-
 ### 🚀 Splash Screen
 
 * **flutter_native_splash** — Customize app launch screen.
