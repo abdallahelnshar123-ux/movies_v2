@@ -202,6 +202,7 @@ The app showcases the latest movies in a dynamic slider, provides categorized br
   </tr>
 <hr/>
 
+
 ## 📦 Packages Used
 
 ### 🎨 UI & Design
