@@ -1,122 +1,95 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies/core/utils/app_theme.dart';
+import 'package:movies/domain/use_cases/set_onboarding_done_use_case.dart';
+import 'package:movies/features/ui/auth/register_screen/view/register_screen.dart';
+import 'package:movies/features/ui/forget_password_screen/reset_password_screen.dart';
+import 'package:movies/features/ui/home_screen/home_screen.dart';
+import 'package:movies/features/ui/home_screen/provider/home_screen_view_model.dart';
+import 'package:movies/features/ui/home_screen/tabs/browse_tab/cubit/browse_view_model.dart';
+import 'package:movies/features/ui/home_screen/tabs/home_tab/cubit/home_tab__carousel_view_model.dart';
+import 'package:movies/features/ui/home_screen/tabs/home_tab/cubit/home_tab_genre_view_model.dart';
+import 'package:movies/features/ui/home_screen/tabs/home_tab/provider/home_tab_provider.dart';
+import 'package:movies/features/ui/home_screen/tabs/profile_tab/cubit/history_view_model.dart';
+import 'package:movies/features/ui/home_screen/tabs/search_tab/cubit/search_view_model.dart';
+import 'package:movies/features/ui/onboarding_screen/provider/onboarding_view_model.dart';
+import 'package:movies/features/ui/onboarding_screen/view/onboarding_screen.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'core/data_bases/cache/shared_prefs_utils.dart';
+import 'core/di/di.dart';
+import 'core/utils/app_routes.dart';
+import 'features/ui/auth/cubit/auth_view_model.dart';
+import 'features/ui/auth/login_screen/view/login_screen.dart';
+import 'features/ui/edit_profile_screen/edit_profile_screen.dart';
+import 'features/ui/home_screen/tabs/profile_tab/cubit/watchlist_view_model.dart';
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await EasyLocalization.ensureInitialized();
+  await SharedPrefsUtils.init();
+  configureDependencies();
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => getIt<AuthCubit>()),
+        BlocProvider(
+          create: (context) =>
+              getIt<HomeTabCarouselCubit>()..getHomeTabMovies(),
+        ),
+        BlocProvider(create: (context) => getIt<HomeTabGenreCubit>()),
+        BlocProvider(
+          create: (context) => getIt<BrowseCubit>()..getBrowseMovies(),
+        ),
+        BlocProvider(create: (context) => getIt<SearchCubit>()),
+        BlocProvider(create: (context) => getIt<WatchListCubit>()),
+        BlocProvider(create: (context) => getIt<HistoryCubit>()),
+      ],
+      child: EasyLocalization(
+        supportedLocales: const [Locale('en'), Locale('ar')],
+        path: 'assets/translations',
+        fallbackLocale: const Locale('en'),
+        child: MyApp(),
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+      debugShowCheckedModeBanner: false,
+      initialRoute: context.read<AuthCubit>().getInitialRoute(),
+      routes: {
+        AppRoutes.onboardingRouteName: (context) => ChangeNotifierProvider(
+          create: (context) =>
+              OnboardingViewModel(getIt<SetOnboardingDoneUseCase>()),
+          child: OnboardingScreen(),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+        AppRoutes.loginRouteName: (context) => LoginScreen(),
+        AppRoutes.editProfileScreen: (context) => EditProfileScreen(),
+        AppRoutes.resetPasswordRouteName: (context) => ResetPasswordScreen(),
+        AppRoutes.registerRouteName: (context) => RegisterScreen(),
+        AppRoutes.homeRouteName: (context) => MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (context) => HomeScreenViewModel()),
+            ChangeNotifierProvider(create: (context) => HomeTabProvider()),
+          ],
+          child: HomeScreen(),
+        ),
+      },
+      themeMode: ThemeMode.dark,
+      darkTheme: AppTheme.darkTheme,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
     );
   }
 }
