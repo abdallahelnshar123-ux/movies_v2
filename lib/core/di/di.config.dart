@@ -9,8 +9,11 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:dio/dio.dart' as _i361;
+import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
+import 'package:google_sign_in/google_sign_in.dart' as _i116;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart' as _i528;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
@@ -51,8 +54,6 @@ import '../../data/repository/on_boarding/on_boarding_repository_impl.dart'
 import '../../data/repository/user/user_repository_impl.dart' as _i1053;
 import '../../data/repository/watchlist/watchlist_repository_impl.dart'
     as _i883;
-import '../../data/services/firebase_auth_service.dart' as _i734;
-import '../../data/services/firestore_service.dart' as _i367;
 import '../../domain/repository/auth/auth_repository.dart' as _i912;
 import '../../domain/repository/history/history_repository.dart' as _i450;
 import '../../domain/repository/movie/movie_repository.dart' as _i128;
@@ -106,6 +107,9 @@ import '../data_bases/api/get_it_module.dart' as _i834;
 import '../data_bases/cache/local_storage.dart' as _i1020;
 import '../data_bases/cache/local_storage_module.dart' as _i2;
 import '../data_bases/cache/shared_prefs_utils.dart' as _i1059;
+import '../services/firebase_services/firebase_auth_service.dart' as _i286;
+import '../services/firebase_services/firebase_module.dart' as _i971;
+import '../services/firebase_services/firestore_service.dart' as _i75;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -116,24 +120,18 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final localStorageModule = _$LocalStorageModule();
     final getItModule = _$GetItModule();
+    final firebaseModule = _$FirebaseModule();
     await gh.factoryAsync<_i460.SharedPreferences>(
       () => localStorageModule.sharedPreferences,
       preResolve: true,
     );
     gh.singleton<_i361.BaseOptions>(() => getItModule.baseOptions);
     gh.singleton<_i528.PrettyDioLogger>(() => getItModule.prettyDioLogger);
-    gh.lazySingleton<_i734.FirebaseAuthService>(
-      () => _i734.FirebaseAuthService(),
-    );
-    gh.lazySingleton<_i367.FirestoreService>(() => _i367.FirestoreService());
-    gh.factory<_i569.WatchlistRemoteDataSource>(
-      () => _i643.WatchlistRemoteDataSourceImpl(gh<_i367.FirestoreService>()),
-    );
-    gh.factory<_i599.HistoryRemoteDataSource>(
-      () => _i244.HistoryRemoteDataSourceImpl(gh<_i367.FirestoreService>()),
-    );
-    gh.factory<_i632.UserRemoteDataSource>(
-      () => _i22.UserRemoteDataSourceImpl(gh<_i367.FirestoreService>()),
+    gh.singleton<_i59.FirebaseAuth>(() => firebaseModule.firebaseAuth);
+    gh.singleton<_i974.FirebaseFirestore>(() => firebaseModule.firestore);
+    gh.singleton<_i116.GoogleSignIn>(() => firebaseModule.googleSignIn);
+    gh.lazySingleton<_i75.FirestoreService>(
+      () => _i75.FirestoreService(gh<_i974.FirebaseFirestore>()),
     );
     gh.singleton<_i361.Dio>(
       () => getItModule.provideDio(
@@ -141,11 +139,23 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i528.PrettyDioLogger>(),
       ),
     );
-    gh.factory<_i202.AuthRemoteDataSource>(
-      () => _i646.AuthRemoteDataSourceImpl(gh<_i734.FirebaseAuthService>()),
+    gh.factory<_i632.UserRemoteDataSource>(
+      () => _i22.UserRemoteDataSourceImpl(gh<_i75.FirestoreService>()),
+    );
+    gh.factory<_i599.HistoryRemoteDataSource>(
+      () => _i244.HistoryRemoteDataSourceImpl(gh<_i75.FirestoreService>()),
+    );
+    gh.factory<_i569.WatchlistRemoteDataSource>(
+      () => _i643.WatchlistRemoteDataSourceImpl(gh<_i75.FirestoreService>()),
     );
     gh.lazySingleton<_i1059.SharedPrefsUtils>(
       () => _i1059.SharedPrefsUtils(gh<_i460.SharedPreferences>()),
+    );
+    gh.lazySingleton<_i286.FirebaseAuthService>(
+      () => _i286.FirebaseAuthService(
+        gh<_i59.FirebaseAuth>(),
+        gh<_i116.GoogleSignIn>(),
+      ),
     );
     gh.factory<_i593.WatchlistRepository>(
       () =>
@@ -155,11 +165,11 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i921.HistoryRepositoryImpl(gh<_i599.HistoryRemoteDataSource>()),
     );
     gh.factory<_i984.ApiConsumer>(() => _i44.DioConsumer(gh<_i361.Dio>()));
-    gh.lazySingleton<_i1020.LocalStorage>(
-      () => _i1020.LocalStorage(gh<_i1059.SharedPrefsUtils>()),
-    );
     gh.factory<_i856.GetHistoryMoviesUseCase>(
       () => _i856.GetHistoryMoviesUseCase(gh<_i450.HistoryRepository>()),
+    );
+    gh.lazySingleton<_i1020.LocalStorage>(
+      () => _i1020.LocalStorage(gh<_i1059.SharedPrefsUtils>()),
     );
     gh.factory<_i981.AddMovieToWatchlistUseCase>(
       () => _i981.AddMovieToWatchlistUseCase(gh<_i593.WatchlistRepository>()),
@@ -171,6 +181,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i448.GetWatchlistMoviesUseCase>(
       () => _i448.GetWatchlistMoviesUseCase(gh<_i593.WatchlistRepository>()),
+    );
+    gh.factory<_i202.AuthRemoteDataSource>(
+      () => _i646.AuthRemoteDataSourceImpl(gh<_i286.FirebaseAuthService>()),
     );
     gh.factory<_i54.OnBoardingLocalDataSource>(
       () => _i434.OnBoardingLocalDataSourceImpl(gh<_i1020.LocalStorage>()),
@@ -302,3 +315,5 @@ extension GetItInjectableX on _i174.GetIt {
 class _$LocalStorageModule extends _i2.LocalStorageModule {}
 
 class _$GetItModule extends _i834.GetItModule {}
+
+class _$FirebaseModule extends _i971.FirebaseModule {}

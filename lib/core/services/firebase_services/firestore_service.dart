@@ -3,12 +3,16 @@ import 'package:injectable/injectable.dart';
 import 'package:movies/core/constants/app_constants.dart';
 import 'package:movies/data/model/response/movie/movie_dto.dart';
 
-import '../model/response/my_user_dto.dart';
+import '../../../data/model/response/my_user_dto.dart';
 
 @lazySingleton
 class FirestoreService {
+  final FirebaseFirestore _firebaseFirestore;
+
+  FirestoreService(this._firebaseFirestore);
+
   CollectionReference<MyUserDto> getUsersCollection() {
-    return FirebaseFirestore.instance
+    return _firebaseFirestore
         .collection(AppConstants.usersCollectionName)
         .withConverter<MyUserDto>(
           fromFirestore: (snapshot, options) =>

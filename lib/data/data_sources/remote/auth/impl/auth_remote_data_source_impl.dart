@@ -4,8 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:movies/data/data_sources/remote/auth/auth_remote_data_source.dart';
 import 'package:movies/data/mapper/auth_user_dto_mapper.dart';
-import 'package:movies/data/services/firebase_auth_service.dart';
 
+import '../../../../../core/services/firebase_services/firebase_auth_service.dart';
 import '../../../../exceptions/app_exceptions.dart';
 import '../../../../model/response/auth_user_dto.dart';
 

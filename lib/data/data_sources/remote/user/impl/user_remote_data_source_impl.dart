@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../../core/services/firebase_services/firestore_service.dart';
 import '../../../../exceptions/app_exceptions.dart';
 import '../../../../model/response/my_user_dto.dart';
-import '../../../../services/firestore_service.dart';
 import '../user_remote_data_source.dart';
 
 @Injectable(as: UserRemoteDataSource)

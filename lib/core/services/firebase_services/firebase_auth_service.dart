@@ -2,19 +2,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 
-import '../exceptions/app_exceptions.dart';
+import '../../../data/exceptions/app_exceptions.dart';
 
 @lazySingleton
 class FirebaseAuthService {
-  Future<AuthCredential> _getGoogleCredential() async {
-    final GoogleSignIn signIn = GoogleSignIn.instance;
+  final FirebaseAuth _firebaseAuth;
+  final GoogleSignIn _googleSignIn;
 
-    await signIn.initialize(
+  FirebaseAuthService(this._firebaseAuth, this._googleSignIn);
+
+  Future<AuthCredential> _getGoogleCredential() async {
+    await _googleSignIn.initialize(
       clientId:
           '503224830946-tm277q3ec3la0j61i5ds6dc222jhn6sf.apps.googleusercontent.com',
     );
 
-    final GoogleSignInAccount googleAccount = await signIn.authenticate();
+    final GoogleSignInAccount googleAccount = await _googleSignIn
+        .authenticate();
 
     final GoogleSignInAuthentication googleAuth = googleAccount.authentication;
 
@@ -25,7 +29,7 @@ class FirebaseAuthService {
     try {
       final credential = await _getGoogleCredential();
 
-      return await FirebaseAuth.instance.signInWithCredential(credential);
+      return await _firebaseAuth.signInWithCredential(credential);
     } on GoogleSignInException catch (e) {
       if (e.code == GoogleSignInExceptionCode.canceled) {
         throw CancelledByUserException();
@@ -39,7 +43,7 @@ class FirebaseAuthService {
     required String email,
     required String password,
   }) async {
-    return await FirebaseAuth.instance.signInWithEmailAndPassword(
+    return await _firebaseAuth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
@@ -49,18 +53,18 @@ class FirebaseAuthService {
     required String email,
     required String password,
   }) async {
-    return await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    return await _firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
   }
 
   Future<void> logout() async {
-    await FirebaseAuth.instance.signOut();
+    await _firebaseAuth.signOut();
   }
 
   Future<UserCredential> reAuthenticate({required String password}) async {
-    final user = FirebaseAuth.instance.currentUser;
+    final user = _firebaseAuth.currentUser;
 
     final credential = EmailAuthProvider.credential(
       email: user!.email!,
@@ -71,12 +75,12 @@ class FirebaseAuthService {
   }
 
   Future<void> deleteAccount() async {
-    await FirebaseAuth.instance.currentUser!.delete();
+    await _firebaseAuth.currentUser!.delete();
   }
 
   Future<UserCredential> reAuthenticateWithGoogle() async {
     try {
-      final user = FirebaseAuth.instance.currentUser;
+      final user = _firebaseAuth.currentUser;
 
       if (user == null) {
         throw UnauthorizedException(message: 'User not authenticated');
@@ -95,6 +99,6 @@ class FirebaseAuthService {
   }
 
   Future<void> sendPasswordResetEmail({required String email}) async {
-    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    await _firebaseAuth.sendPasswordResetEmail(email: email);
   }
 }
