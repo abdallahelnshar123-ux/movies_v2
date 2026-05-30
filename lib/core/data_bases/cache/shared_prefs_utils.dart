@@ -1,41 +1,38 @@
+import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+@lazySingleton
 class SharedPrefsUtils {
-  static late SharedPreferences sharedPreferences;
+  final SharedPreferences _sharedPreferences;
 
-  static Future<SharedPreferences> init() async {
-    return sharedPreferences = await SharedPreferences.getInstance();
-  }
+  SharedPrefsUtils(this._sharedPreferences);
 
-  static Future<bool> saveData({
-    required String key,
-    required dynamic value,
-  }) async {
+  Future<bool> saveData({required String key, required dynamic value}) async {
     switch (value) {
       case int _:
-        return await sharedPreferences.setInt(key, value);
+        return await _sharedPreferences.setInt(key, value);
       case String _:
-        return await sharedPreferences.setString(key, value);
+        return await _sharedPreferences.setString(key, value);
       case double _:
-        return await sharedPreferences.setDouble(key, value);
+        return await _sharedPreferences.setDouble(key, value);
       case List<String> _:
-        return await sharedPreferences.setStringList(key, value);
+        return await _sharedPreferences.setStringList(key, value);
       case bool _:
-        return await sharedPreferences.setBool(key, value);
+        return await _sharedPreferences.setBool(key, value);
       default:
         throw UnsupportedError('Unsupported type ${value.runtimeType}');
     }
   }
 
-  static T? getData<T>({required String key}) {
-    final value = sharedPreferences.get(key);
+  T? getData<T>({required String key}) {
+    final value = _sharedPreferences.get(key);
 
     if (value is T) return value;
 
     return null;
   }
 
-  static Future<bool> removeData({required String key}) async {
-    return await sharedPreferences.remove(key);
+  Future<bool> removeData({required String key}) async {
+    return await _sharedPreferences.remove(key);
   }
 }

@@ -13,6 +13,7 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart' as _i528;
+import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 import '../../data/data_sources/local/on_boarding/impl/on_boarding_local_data_source_impl.dart'
     as _i434;
@@ -78,7 +79,7 @@ import '../../domain/use_cases/register_with_email_and_password_use_case.dart'
     as _i904;
 import '../../domain/use_cases/reset_password_use_case.dart' as _i638;
 import '../../domain/use_cases/set_onboarding_done_use_case.dart' as _i551;
-import '../../domain/use_cases/sign_in_with_google_use_cases.dart' as _i614;
+import '../../domain/use_cases/sign_in_with_google_use_cases.dart' as _i447;
 import '../../domain/use_cases/update_account_details_use_case.dart' as _i274;
 import '../../features/ui/auth/cubit/auth_view_model.dart' as _i303;
 import '../../features/ui/home_screen/tabs/browse_tab/cubit/browse_view_model.dart'
@@ -103,18 +104,24 @@ import '../data_bases/api/api_consumer.dart' as _i984;
 import '../data_bases/api/dio_consumer.dart' as _i44;
 import '../data_bases/api/get_it_module.dart' as _i834;
 import '../data_bases/cache/local_storage.dart' as _i1020;
+import '../data_bases/cache/local_storage_module.dart' as _i2;
+import '../data_bases/cache/shared_prefs_utils.dart' as _i1059;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
-  _i174.GetIt init({
+  Future<_i174.GetIt> init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
-  }) {
+  }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    final localStorageModule = _$LocalStorageModule();
     final getItModule = _$GetItModule();
+    await gh.factoryAsync<_i460.SharedPreferences>(
+      () => localStorageModule.sharedPreferences,
+      preResolve: true,
+    );
     gh.singleton<_i361.BaseOptions>(() => getItModule.baseOptions);
     gh.singleton<_i528.PrettyDioLogger>(() => getItModule.prettyDioLogger);
-    gh.lazySingleton<_i1020.LocalStorage>(() => _i1020.LocalStorage());
     gh.lazySingleton<_i734.FirebaseAuthService>(
       () => _i734.FirebaseAuthService(),
     );
@@ -137,23 +144,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i202.AuthRemoteDataSource>(
       () => _i646.AuthRemoteDataSourceImpl(gh<_i734.FirebaseAuthService>()),
     );
-    gh.factory<_i54.OnBoardingLocalDataSource>(
-      () => _i434.OnBoardingLocalDataSourceImpl(gh<_i1020.LocalStorage>()),
+    gh.lazySingleton<_i1059.SharedPrefsUtils>(
+      () => _i1059.SharedPrefsUtils(gh<_i460.SharedPreferences>()),
     );
     gh.factory<_i593.WatchlistRepository>(
       () =>
           _i883.WatchlistRepositoryImpl(gh<_i569.WatchlistRemoteDataSource>()),
     );
-    gh.factory<_i996.UserLocalDataSource>(
-      () => _i111.UserLocalDataSourceImpl(gh<_i1020.LocalStorage>()),
-    );
     gh.factory<_i450.HistoryRepository>(
       () => _i921.HistoryRepositoryImpl(gh<_i599.HistoryRemoteDataSource>()),
     );
-    gh.factory<_i977.OnBoardingRepository>(
-      () => _i14.OnBoardingRepositoryImpl(gh<_i54.OnBoardingLocalDataSource>()),
-    );
     gh.factory<_i984.ApiConsumer>(() => _i44.DioConsumer(gh<_i361.Dio>()));
+    gh.lazySingleton<_i1020.LocalStorage>(
+      () => _i1020.LocalStorage(gh<_i1059.SharedPrefsUtils>()),
+    );
     gh.factory<_i856.GetHistoryMoviesUseCase>(
       () => _i856.GetHistoryMoviesUseCase(gh<_i450.HistoryRepository>()),
     );
@@ -164,6 +168,37 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i327.DeleteMovieFromWatchlistUseCase(
         gh<_i593.WatchlistRepository>(),
       ),
+    );
+    gh.factory<_i448.GetWatchlistMoviesUseCase>(
+      () => _i448.GetWatchlistMoviesUseCase(gh<_i593.WatchlistRepository>()),
+    );
+    gh.factory<_i54.OnBoardingLocalDataSource>(
+      () => _i434.OnBoardingLocalDataSourceImpl(gh<_i1020.LocalStorage>()),
+    );
+    gh.factory<_i222.WatchListCubit>(
+      () => _i222.WatchListCubit(
+        gh<_i448.GetWatchlistMoviesUseCase>(),
+        gh<_i981.AddMovieToWatchlistUseCase>(),
+        gh<_i327.DeleteMovieFromWatchlistUseCase>(),
+      ),
+    );
+    gh.factory<_i996.UserLocalDataSource>(
+      () => _i111.UserLocalDataSourceImpl(gh<_i1020.LocalStorage>()),
+    );
+    gh.factory<_i525.MovieRemoteDataSource>(
+      () => _i343.MovieRemoteDataSourceImpl(gh<_i984.ApiConsumer>()),
+    );
+    gh.factory<_i128.MovieRepository>(
+      () => _i98.MovieRepositoryImpl(
+        gh<_i525.MovieRemoteDataSource>(),
+        gh<_i599.HistoryRemoteDataSource>(),
+      ),
+    );
+    gh.factory<_i977.OnBoardingRepository>(
+      () => _i14.OnBoardingRepositoryImpl(gh<_i54.OnBoardingLocalDataSource>()),
+    );
+    gh.factory<_i475.HistoryCubit>(
+      () => _i475.HistoryCubit(gh<_i856.GetHistoryMoviesUseCase>()),
     );
     gh.factory<_i912.AuthRepository>(
       () => _i392.AuthRepositoryImpl(
@@ -179,63 +214,8 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i904.RegisterWithEmailAndPasswordUseCase(gh<_i912.AuthRepository>()),
     );
-    gh.factory<_i614.SignInWithGoogleUseCases>(
-      () => _i614.SignInWithGoogleUseCases(gh<_i912.AuthRepository>()),
-    );
-    gh.factory<_i183.UserRepository>(
-      () => _i1053.UserRepositoryImpl(
-        gh<_i632.UserRemoteDataSource>(),
-        gh<_i996.UserLocalDataSource>(),
-      ),
-    );
-    gh.factory<_i448.GetWatchlistMoviesUseCase>(
-      () => _i448.GetWatchlistMoviesUseCase(gh<_i593.WatchlistRepository>()),
-    );
-    gh.factory<_i551.SetOnboardingDoneUseCase>(
-      () => _i551.SetOnboardingDoneUseCase(gh<_i977.OnBoardingRepository>()),
-    );
-    gh.factory<_i543.CheckAppStartupUseCase>(
-      () => _i543.CheckAppStartupUseCase(
-        gh<_i977.OnBoardingRepository>(),
-        gh<_i183.UserRepository>(),
-      ),
-    );
-    gh.factory<_i222.WatchListCubit>(
-      () => _i222.WatchListCubit(
-        gh<_i448.GetWatchlistMoviesUseCase>(),
-        gh<_i981.AddMovieToWatchlistUseCase>(),
-        gh<_i327.DeleteMovieFromWatchlistUseCase>(),
-      ),
-    );
-    gh.factory<_i525.MovieRemoteDataSource>(
-      () => _i343.MovieRemoteDataSourceImpl(gh<_i984.ApiConsumer>()),
-    );
-    gh.factory<_i128.MovieRepository>(
-      () => _i98.MovieRepositoryImpl(
-        gh<_i525.MovieRemoteDataSource>(),
-        gh<_i599.HistoryRemoteDataSource>(),
-      ),
-    );
-    gh.factory<_i475.HistoryCubit>(
-      () => _i475.HistoryCubit(gh<_i856.GetHistoryMoviesUseCase>()),
-    );
-    gh.factory<_i785.OnboardingViewModel>(
-      () => _i785.OnboardingViewModel(gh<_i551.SetOnboardingDoneUseCase>()),
-    );
-    gh.factory<_i1008.DeleteAccountUseCase>(
-      () => _i1008.DeleteAccountUseCase(
-        gh<_i183.UserRepository>(),
-        gh<_i912.AuthRepository>(),
-      ),
-    );
-    gh.factory<_i638.ResetPasswordUseCase>(
-      () => _i638.ResetPasswordUseCase(gh<_i912.AuthRepository>()),
-    );
-    gh.factory<_i250.LogoutUseCase>(
-      () => _i250.LogoutUseCase(gh<_i912.AuthRepository>()),
-    );
-    gh.factory<_i274.UpdateAccountDetailsUseCase>(
-      () => _i274.UpdateAccountDetailsUseCase(gh<_i183.UserRepository>()),
+    gh.factory<_i447.SignInWithGoogleUseCases>(
+      () => _i447.SignInWithGoogleUseCases(gh<_i912.AuthRepository>()),
     );
     gh.factory<_i766.GetHomeMoviesUseCase>(
       () => _i766.GetHomeMoviesUseCase(gh<_i128.MovieRepository>()),
@@ -252,6 +232,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i23.GetMoviesBySearchUseCase>(
       () => _i23.GetMoviesBySearchUseCase(gh<_i128.MovieRepository>()),
     );
+    gh.factory<_i183.UserRepository>(
+      () => _i1053.UserRepositoryImpl(
+        gh<_i632.UserRemoteDataSource>(),
+        gh<_i996.UserLocalDataSource>(),
+      ),
+    );
     gh.factory<_i882.BrowseCubit>(
       () => _i882.BrowseCubit(gh<_i452.GetMoviesByGenreUseCase>()),
     );
@@ -261,12 +247,45 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i365.MovieDetailsCubit>(
       () => _i365.MovieDetailsCubit(gh<_i368.GetMovieDetailsUseCase>()),
     );
+    gh.factory<_i551.SetOnboardingDoneUseCase>(
+      () => _i551.SetOnboardingDoneUseCase(gh<_i977.OnBoardingRepository>()),
+    );
+    gh.factory<_i543.CheckAppStartupUseCase>(
+      () => _i543.CheckAppStartupUseCase(
+        gh<_i977.OnBoardingRepository>(),
+        gh<_i183.UserRepository>(),
+      ),
+    );
     gh.factory<_i44.HomeTabCarouselCubit>(
       () => _i44.HomeTabCarouselCubit(gh<_i766.GetHomeMoviesUseCase>()),
     );
+    gh.factory<_i785.OnboardingViewModel>(
+      () => _i785.OnboardingViewModel(gh<_i551.SetOnboardingDoneUseCase>()),
+    );
+    gh.factory<_i1008.DeleteAccountUseCase>(
+      () => _i1008.DeleteAccountUseCase(
+        gh<_i183.UserRepository>(),
+        gh<_i912.AuthRepository>(),
+      ),
+    );
+    gh.factory<_i638.ResetPasswordUseCase>(
+      () => _i638.ResetPasswordUseCase(gh<_i912.AuthRepository>()),
+    );
+    gh.factory<_i250.LogoutUseCase>(
+      () => _i250.LogoutUseCase(gh<_i912.AuthRepository>()),
+    );
+    gh.factory<_i866.MovieSuggestionsCubit>(
+      () => _i866.MovieSuggestionsCubit(gh<_i35.GetMovieSuggestionsUseCase>()),
+    );
+    gh.factory<_i301.SearchCubit>(
+      () => _i301.SearchCubit(gh<_i23.GetMoviesBySearchUseCase>()),
+    );
+    gh.factory<_i274.UpdateAccountDetailsUseCase>(
+      () => _i274.UpdateAccountDetailsUseCase(gh<_i183.UserRepository>()),
+    );
     gh.lazySingleton<_i303.AuthCubit>(
       () => _i303.AuthCubit(
-        gh<_i614.SignInWithGoogleUseCases>(),
+        gh<_i447.SignInWithGoogleUseCases>(),
         gh<_i904.RegisterWithEmailAndPasswordUseCase>(),
         gh<_i1065.LoginWithEmailAndPasswordUseCase>(),
         gh<_i250.LogoutUseCase>(),
@@ -276,14 +295,10 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i543.CheckAppStartupUseCase>(),
       ),
     );
-    gh.factory<_i866.MovieSuggestionsCubit>(
-      () => _i866.MovieSuggestionsCubit(gh<_i35.GetMovieSuggestionsUseCase>()),
-    );
-    gh.factory<_i301.SearchCubit>(
-      () => _i301.SearchCubit(gh<_i23.GetMoviesBySearchUseCase>()),
-    );
     return this;
   }
 }
+
+class _$LocalStorageModule extends _i2.LocalStorageModule {}
 
 class _$GetItModule extends _i834.GetItModule {}

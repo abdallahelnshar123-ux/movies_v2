@@ -8,42 +8,41 @@ import '../../../data/model/response/my_user_dto.dart';
 
 @lazySingleton
 class LocalStorage {
-  LocalStorage();
+  final SharedPrefsUtils _sharedPrefs;
+
+  LocalStorage(this._sharedPrefs);
 
   bool get onboarding =>
-      SharedPrefsUtils.getData<bool>(key: SharedPrefsKeys.onBoardingKey) ??
-      true;
+      _sharedPrefs.getData<bool>(key: SharedPrefsKeys.onBoardingKey) ?? true;
 
-  Future<void> setOnboardingDone() => SharedPrefsUtils.saveData(
-    key: SharedPrefsKeys.onBoardingKey,
-    value: false,
-  );
+  Future<void> setOnboardingDone() =>
+      _sharedPrefs.saveData(key: SharedPrefsKeys.onBoardingKey, value: false);
 
   Future<void> setTheme(String value) =>
-      SharedPrefsUtils.saveData(key: SharedPrefsKeys.appThemeKey, value: value);
+      _sharedPrefs.saveData(key: SharedPrefsKeys.appThemeKey, value: value);
 
   String? get token =>
-      SharedPrefsUtils.getData<String>(key: SharedPrefsKeys.tokenKey);
+      _sharedPrefs.getData<String>(key: SharedPrefsKeys.tokenKey);
 
   Future<void> saveToken(String token) =>
-      SharedPrefsUtils.saveData(key: SharedPrefsKeys.tokenKey, value: token);
+      _sharedPrefs.saveData(key: SharedPrefsKeys.tokenKey, value: token);
 
   Future<void> clearToken() =>
-      SharedPrefsUtils.removeData(key: SharedPrefsKeys.tokenKey);
+      _sharedPrefs.removeData(key: SharedPrefsKeys.tokenKey);
 
   Future<void> saveUser(MyUserDto user) async {
-    await SharedPrefsUtils.saveData(
+    await _sharedPrefs.saveData(
       key: SharedPrefsKeys.userKey,
       value: jsonEncode(user.toFireStore()),
     );
   }
 
   MyUserDto? getUser() {
-    final data = SharedPrefsUtils.getData<String>(key: SharedPrefsKeys.userKey);
+    final data = _sharedPrefs.getData<String>(key: SharedPrefsKeys.userKey);
     if (data == null) return null;
-    return MyUserDto.fromFireStore(jsonDecode(data.toString()));
+    return MyUserDto.fromFireStore(jsonDecode(data));
   }
 
   Future<void> clearUser() =>
-      SharedPrefsUtils.removeData(key: SharedPrefsKeys.userKey);
+      _sharedPrefs.removeData(key: SharedPrefsKeys.userKey);
 }

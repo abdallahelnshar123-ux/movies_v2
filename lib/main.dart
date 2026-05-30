@@ -18,7 +18,6 @@ import 'package:movies/features/ui/onboarding_screen/provider/onboarding_view_mo
 import 'package:movies/features/ui/onboarding_screen/view/onboarding_screen.dart';
 import 'package:provider/provider.dart';
 
-import 'core/data_bases/cache/shared_prefs_utils.dart';
 import 'core/di/di.dart';
 import 'core/utils/app_routes.dart';
 import 'features/ui/auth/cubit/auth_view_model.dart';
@@ -31,7 +30,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await EasyLocalization.ensureInitialized();
-  await SharedPrefsUtils.init();
   configureDependencies();
   runApp(
     MultiBlocProvider(
