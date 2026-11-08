@@ -6,7 +6,7 @@ import 'dio_interceptors.dart';
 import 'end_points.dart';
 
 @module
-abstract class GetItModule {
+abstract class ApiModule {
   @singleton
   BaseOptions get baseOptions => BaseOptions(
     baseUrl: EndPoints.baseUrl,

@@ -103,7 +103,7 @@ import '../../features/ui/onboarding_screen/provider/onboarding_view_model.dart'
     as _i785;
 import '../data_bases/api/api_consumer.dart' as _i984;
 import '../data_bases/api/dio_consumer.dart' as _i44;
-import '../data_bases/api/get_it_module.dart' as _i834;
+import '../data_bases/api/api_module.dart' as _i834;
 import '../data_bases/cache/local_storage.dart' as _i1020;
 import '../data_bases/cache/local_storage_module.dart' as _i2;
 import '../data_bases/cache/shared_prefs_utils.dart' as _i1059;
@@ -314,6 +314,6 @@ extension GetItInjectableX on _i174.GetIt {
 
 class _$LocalStorageModule extends _i2.LocalStorageModule {}
 
-class _$GetItModule extends _i834.GetItModule {}
+class _$GetItModule extends _i834.ApiModule {}
 
 class _$FirebaseModule extends _i971.FirebaseModule {}
